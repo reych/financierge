@@ -36,7 +36,7 @@ if($fileType != "csv"){
 if($uploadOK == 0){
     echo '<script language="javascript">';
     echo 'alert("You did not provide a CSV file");';
-    echo 'window.location.assign("mainpage.php");';
+    echo 'window.location.assign("index.php");';
     echo '</script>';
     exit();
 }
@@ -63,11 +63,11 @@ else{
 
         echo '<script language="javascript">';
         echo 'alert("Error");';
-        echo 'window.location.assign("homepage.html");';
+        echo 'window.location.assign("index.html");';
         echo '</script>';
     }
 }
 //delete file from temporary directory to avoid conflicts with future uploads
 unlink($target_file);
-header("Location:haha/homepage.html");
+header("Location:index.html");
 ?>
