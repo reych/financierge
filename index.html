@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HalFund</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="graph.js"></script>
+  <link rel = "stylesheet" type="text/css" href = "style.css">
+</head>
+<body>
+
+<div class="container-fluid">
+  <h1>Calculate Your Networth</h1>
+  <div class="row">
+    <div class="col-sm-4">
+		<h3>Upload Accounts</h3>
+		<div class = "upload module">
+			<form id="CSVForm" enctype="multipart/form-data" method="post" action="upload.php">
+				 <input type="file" name="fileToUpload" id="fileToUpload" style = "margin-left: 33%;">
+				 <label for="fileToUpload"></label>
+				 <br>
+				 <input type="submit" id="importCSV"  name="submit" alt="Import CSV" value="Import CSV File">
+			</form>
+		</div>
+		<h3>Account List</h3>
+		<div class = "account-list module" id = "account-list">
+		</div>
+	</div>
+    <div class="col-sm-8">
+		<h3>Graph</h3>
+		<div class = "graph module">
+			<form>
+			Start Date:
+			<input type="date" name="start-date">
+			End Date:
+			<input type="date" name="end-date">
+		</form>
+			<div id = "chartdiv"></div>
+		</div>
+		<h3>Transaction History</h3>
+		<div class = "transactions module" id = "transactions">
+		</div>
+	</div>
+  </div>
+</div>
+
+</body>
+</html>
