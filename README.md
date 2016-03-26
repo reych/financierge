@@ -2,7 +2,7 @@
 Financierge
 ---------------------------------------------
 "The paynless way to balance your halfunds"
----------------------------------------------
+
 For CSCI310 project 2
 By Team H
 Developers:
