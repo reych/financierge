@@ -13,6 +13,10 @@ if (session_status() == PHP_SESSION_NONE) {
 	ParseClient::initialize('9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0', '6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia', 'IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq');
 }
 
+$test = ParseObject::create("Test");
+$test->set("foo", "bar");
+$test->save();
+
 // //get current user from Parse for further query
 // $currentUser = ParseUser::getCurrentUser();
 // if (!$currentUser) {
