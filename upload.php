@@ -1,17 +1,18 @@
 <?php
+include 'vendor/autoload.php';
+use Parse\ParseClient;
+use Parse\ParseObject;
+use Parse\ParseQuery;
+use Parse\ParseException;
+use Parse\ParseUser;
 
-// //initialize access to database
-// include 'vendor/autoload.php';
-// use Parse\ParseClient;
-// use Parse\ParseQuery;
-// use Parse\ParseException;
-// use Parse\ParseUser;
-// date_default_timezone_set('America/New_York');
-// if (session_status() == PHP_SESSION_NONE) {
-//     session_start();
-//     ParseClient::initialize('W78hSNsME23VkGSZOD0JXn2XoM5Nf6GO41BgMqxE', 'H3EgW9gCr6wyP8MfL3Eobz1mWJMwydyp6N2prcVF', 'mRppu4ciMuqhNsTXHoeh329Za4ShOOc1F1NN0skD');
-// }
-//
+date_default_timezone_set('America/Los_Angeles');
+
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+	ParseClient::initialize('9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0', '6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia', 'IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq');
+}
+
 // //get current user from Parse for further query
 // $currentUser = ParseUser::getCurrentUser();
 // if (!$currentUser) {
