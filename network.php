@@ -56,7 +56,7 @@ class Network {
 		// return array
 	}
 
-	function getTransactionsForAccountBetweenDates($startDate, $endDate, $account) {
+	function getTransactionsForAccountWithinDates($startDate, $endDate, $account) {
 		// return array (inclusive)
 	}
 }
