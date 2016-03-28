@@ -1,5 +1,5 @@
 <?php
-include 'vendor/autoload.php';
+include '../../vendor/autoload.php';
 use Parse\ParseClient;
 use Parse\ParseObject;
 use Parse\ParseQuery;
@@ -73,5 +73,5 @@ else{
 }
 //delete file from temporary directory to avoid conflicts with future uploads
 unlink($target_file);
-header("Location:index.html");
+// header("Location:index.html");
 ?>
