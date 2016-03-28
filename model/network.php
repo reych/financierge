@@ -39,13 +39,14 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 class Network {
 
 	static function signupUser($username, $password) {
-		$user = new ParseUser();
-		$user->set("username", $username);
-		$user->set("password", $password);
 		try {
+			$user = new ParseUser();
+			$user->set("username", $username);
+			$user->set("password", $password);
 			$user->signUp();
 			return true;
 		} catch (ParseException $error) {
+			echo $error->getMessage();
 			return false;
 		}
 	}
@@ -55,6 +56,7 @@ class Network {
 			$user = ParseUser::logIn($username, $password);
 			return $user;
 		} catch (ParseException $error) { 
+			echo $error->getMessage();
 			return NULL;
 		}
 	}
@@ -68,14 +70,40 @@ class Network {
 	}
 
 	static function addAccount($name, $isAsset) {
-		// return true or false
+		try {
+			// create account
+			$account = new ParseObject("Account");
+			$account->set("name", $name);
+			$account->set("isAsset", $isAsset);
+			$account->save();
+			// add account to current user accounts
+			$currentUser = ParseUser::getCurrentUser();
+			$accounts = $currentUser->get("accounts");
+			$accounts[] = $account->getObjectId(); // try to save the object itself
+			$currentUser->setArray("accounts", $accounts);
+			$currentUser->save();
+			return true;
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+			return false;
+		}
 	}
 
 	static function deleteAccount($id) {
-		// return true or false
+		try {
+			// fetch account
+			$accountQuery = new ParseQuery("Account");
+			$account = $accountQuery->get($id);
+			$account->destroy();
+			return true;
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+			return false;
+		}
 	}
 
 	static function addTransactionToAccount($date, $principle, $amount, $category, $id) {
+
 		// return true or false 
 	}
 
@@ -87,5 +115,4 @@ class Network {
 		// return array (inclusive)
 	}
 }
-
 ?>
