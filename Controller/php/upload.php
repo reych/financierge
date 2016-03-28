@@ -5,7 +5,6 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseException;
 use Parse\ParseUser;
-
 date_default_timezone_set('America/Los_Angeles');
 
 if (session_status() == PHP_SESSION_NONE) {

@@ -49,16 +49,14 @@ function uploadCSV(){
 	        //while
 	        while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
 	            foreach ($filedata as $data) {
-					if(count($data) == 4){
+					if(count($data) == 3){
 					//account
 						$accountName = $data[0];
-						$dateEst = $data[1];
-						$balance = $data[2];
-						$type = $data[3];
+						$balance = $data[1];
+						$type = $data[2];
 
-						$added = $userModel.addAccount($name, $dateEst, $balance, $type);
-
-						if(!$added){
+						// if the account was not successfully added
+						if(!$userModel.addAccount($name, $balance, $type)){
 							//add to an array of all the transactions not uploaded
 						}
 
