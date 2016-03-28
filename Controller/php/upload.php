@@ -16,15 +16,15 @@ $test = ParseObject::create("Test");
 $test->set("foo", "bar");
 $test->save();
 
-// //get current user from Parse for further query
-// $currentUser = ParseUser::getCurrentUser();
-// if (!$currentUser) {
-//     echo '<script language="javascript">';
-//     echo 'alert("Error getting current user or not logged in!");';
-//     echo 'window.location.assign("mainpage.php");';
-//     echo '</script>';
-//     exit();
-// }
+//get current user from Parse for further query
+$currentUser = ParseUser::getCurrentUser();
+if (!$currentUser) {
+    echo '<script language="javascript">';
+    echo 'alert("Error getting current user or not logged in!");';
+    echo 'window.location.assign("mainpage.php");';
+    echo '</script>';
+    exit();
+}
 //get file from temporary direcory where it is stored
 $target_dir = sys_get_temp_dir();
 //complete file path
@@ -58,8 +58,26 @@ else{
     if (($file = fopen($target_file, "r")) !== FALSE) {
         //while
         while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-            foreach ($filedata as $singleData) {
-                echo $singleData . "\n";
+            foreach ($filedata as $data) {
+				if(count($data) == 4){
+				//account
+					$name = $data[0];
+					$dateEst = $data[1];
+					$balance = $data[2];
+					$type = $data[3];
+
+
+
+				} else {
+				//transaction
+					$name = $data[0];
+					$date = $data[1];
+					$principle = $data[2];
+					$amount = $data[3];
+					$category = $data[5];
+
+				}
+
             }
         }
 
