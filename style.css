@@ -30,4 +30,14 @@ h1,h3{
 
 .upload{
 	text-align: center; 
-}															
+}	
+
+.login-module {
+	position: absolute;
+	left: 35%;
+	top: 35%;
+	margin: auto; 
+	padding-right: 2%; 
+	padding-left: 2%; 
+	padding-bottom: 2%; 
+}														
