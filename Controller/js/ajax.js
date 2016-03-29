@@ -13,7 +13,7 @@ $("#upload-button").on("click", function() {
 function phpRequest(funcName, formData) {
     $.ajax({
         type:'post',
-        url: '../Controller/php/ajaxTest.php?funcToCall=' + funcName,
+        url: '../Controller/php/userController.php?funcToCall=' + funcName,
         data: formData,
         // THIS MUST BE DONE FOR FILE UPLOADING
         contentType: false,
