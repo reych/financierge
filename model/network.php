@@ -5,6 +5,8 @@
 NETWORK CLASS API
 -----------------
 
+DISCLAIMER: All functions have only been tested on a basic level, so there might still be issues I was unable to see during implementation. 
+
 Network::signupUser(username, password) -> true if signup was successful, false if otherwise
 
 Network::loginUser(username, password) -> user object if login was successful, NULL if otherwise
@@ -214,6 +216,7 @@ class Network {
 		return NULL;
 	}
 }
+// test for fetching transactions within certain dates
 //Network::loginUser("christdv@usc.edu", "christdv");
 //$start = new DateTime("03/28/2016");
 //$end = new DateTime("03/30/2016");
