@@ -9,7 +9,7 @@ $("#upload-button").on("click", function() {
     phpRequest('uploadCSV', form_data);
 });
 
-
+// ajax func to handel all call to php
 function phpRequest(funcName, formData) {
     $.ajax({
         type:'post',
