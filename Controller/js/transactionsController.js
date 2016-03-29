@@ -8,7 +8,7 @@ function displayTransactions(containerID, transactions_list) {
     var transactionsArray = transactions_list.split('\n');
     //create table
     var table = document.createElement('TABLE');
-    createTableHeaders(table, 'Date_Category_Amount_Principle');
+    createTableHeaders(table, 'Date_Principle_Amount_Category');
 
     //insert transaction data into table
     for(i=0; i<transactionsArray.length; i++) {
