@@ -1,10 +1,15 @@
 <?php
 
-include 'model/network.php';
+include '../../model/network.php';
 
 $network = null;
 $userModel = null;
 
+// Use get method to determine which function to call
+$funcName = $_GET['funcToCall'];
+if ($funcName == "uploadCSV") {
+    uploadCSV();
+}
 
 function login($username, $password){
 	//call parse class login function
@@ -32,19 +37,6 @@ function uploadCSV(){
 	$target_dir = sys_get_temp_dir();
 	//complete file path
 	$target_file = $target_dir . "/" . basename($_FILES["file"]["name"]);
-	// $uploadOK = 1;
-	// $fileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	// if($fileType != "csv"){
-	// $uploadOK = 0;
-	// }
-	// if($uploadOK == 0){
-	//     echo '<script language="javascript">';
-	//     echo 'alert("You did not provide a CSV file");';
-	//     echo 'window.location.assign("../../index.php");';
-	//     echo '</script>';
-	//     exit();
-	// }
-	// else{
 	//move file to the temporary directory to process
 	move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
 	//open file
