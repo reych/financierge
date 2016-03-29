@@ -17,15 +17,16 @@
 		<h3>Upload Accounts</h3>
 		<div class = "upload module">
 			<form id="CSVForm" enctype="multipart/form-data" method="post" action="../Controller/php/upload.php">
-				 <input type="file" name="fileToUpload" id="fileToUpload" style = "margin-left: 33%;">
+				 <input type="file" name="fileToUpload" id="fileToUpload" accept="text/csv" style = "margin-left: 33%;">
 				 <label for="fileToUpload"></label>
 				 <br>
-				 <input type="submit" id="importCSV"  name="submit" alt="Import CSV" value="Import CSV File">
+				 <!-- <input type="submit" id="importCSV"  name="submit" alt="Import CSV" value="Import CSV File"> -->
+                 <button type="submit" id="upload-button">Upload</button>
 			</form>
 		</div>
 		<h3>Account List</h3>
 		<div class = "account-list module" id = "account-list">
-			<button onclick="phpRequest('testFunc');">Ajax Test!</button>
+			<button onclick="phpRequest('testFunc2');">Ajax Test!</button>
 		</div>
 	</div>
     <div class="col-sm-8">
