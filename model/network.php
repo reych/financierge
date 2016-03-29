@@ -21,7 +21,7 @@ Network::addTransactionToAccount(date, principle, amount, category, name) -> tru
 
 Network::getTransactionsForAccount(name) -> array of transactions if fetch was successful, NULL if otherwise
 
-Network::getTransactionsForAccountWithinDates(startDate, endDate, name) -> array of transactions if fetch was successful, NULL if otherwise
+Network::getTransactionsForAccountWithinDates(start, end, name) -> array of transactions if fetch was successful, NULL if otherwise
 
 */
 
@@ -38,7 +38,6 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 
 class Network {
 
-	// tested
 	static function signupUser($username, $password) {
 		try {
 			$user = new ParseUser();
@@ -52,7 +51,6 @@ class Network {
 		return false;
 	}
 
-	// tested 
 	static function loginUser($username, $password) {
 		try {
 			$user = ParseUser::logIn($username, $password);
@@ -63,17 +61,14 @@ class Network {
 		return NULL;
 	}
 
-	// tested 
 	static function getCurrentUser() {
 		return ParseUser::getCurrentUser();
 	}
 
-	// tested 
 	static function logoutUser() {
 		ParseUser::logOut();
 	}
 
-	// tested 
 	static function addAccount($name, $isAsset) {
 		try {
 			// create account and save it in Account table
@@ -96,7 +91,6 @@ class Network {
 		return false;
 	}
 
-	// tested 
 	static function getAccounts() {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
@@ -114,7 +108,6 @@ class Network {
 		return NULL;
 	}
 
-	// tested
 	static function deleteAccount($name) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
@@ -137,21 +130,31 @@ class Network {
 		return false;
 	}
 
-	// not tested
 	static function addTransactionToAccount($date, $principle, $amount, $category, $name) {
 		try {
+			// create transaction and save it in Transaction table
 			$transaction = new ParseObject("Transaction");
 			$transaction->set("date", $date);
 			$transaction->set("principle", $principle);
 			$transaction->set("amount", $amount);
 			$transaction->set("category", $category);
 			$transaction->save();
-			$accountQuery = new ParseQuery("Account");
-			$account = $accountQuery->get($accountID);
-			$transactions = $account->get("transactions");
-			$transactions[] = $transaction->getObjectId();
-			$account->setArray("transactions", $transactions);
-			$account->save();
+			// add transaction to specified account in accounts array for current user and save it in User table
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$accounts = $currentUser->get("accounts");
+				for ($i = 0; $i < count($accounts); $i++) {
+					$accounts[$i]->fetch();
+					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
+						$transactions = $accounts[$i]->get("transactions");
+						$transactions[] = $transaction;
+						$accounts[$i]->setArray("transactions", $transactions);
+						$currentUser->setArray("accounts", $accounts);
+						$currentUser->save();
+						return true;
+					}
+				}
+			}
 			return true;
 		} catch (ParseException $error) {
 			echo $error->getMessage();
@@ -159,34 +162,60 @@ class Network {
 		return false;
 	}
 
-	// not tested
 	static function getTransactionsForAccount($name) {
 		try {
-			$accountQuery = new ParseQuery("Account");
-			$account = $accountQuery->get($id);
-			$transactionIDs = $account->get("transactions");
-			$transactions = [];
-			foreach ($transactionIDs as $transactionID) {
-				$transactionQuery = new ParseQuery("Transaction");
-				$transaction = $transactionQuery->get($transactionID);
-				$transactions[] = $transaction;
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$accounts = $currentUser->get("accounts");
+				for ($i = 0; $i < count($accounts); $i++) {
+					$accounts[$i]->fetch();
+					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
+						$transactions = $accounts[$i]->get("transactions");
+						for ($k = 0; $k < count($transactions); $k++) {
+							$transactions[$i]->fetch();
+							echo $transactions[$i]->get("principle") . "\n"; // used for testing purposes only
+						}
+						return $transactions;
+					}
+				}
 			}
-			return $transactions;
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
 		return NULL;
 	}
 
-	// not tested
-	static function getTransactionsForAccountWithinDates($startDate, $endDate, $name) {
+	static function getTransactionsForAccountWithinDates($start, $end, $name) {
 		try {
-		
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$accounts = $currentUser->get("accounts");
+				for ($i = 0; $i < count($accounts); $i++) {
+					$accounts[$i]->fetch();
+					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
+						$transactions = $accounts[$i]->get("transactions");
+						$transactionIDs = [];
+						for ($k = 0; $k < count($transactions); $k++) {
+							$transactionIDs[] = $transactions[$k]->getObjectId();
+						}
+						$transactionQuery = new ParseQuery("Transaction");
+						$transactionQuery->greaterThanOrEqualTo("createdAt", $start); // change createdAt to date: DateTime
+						$transactionQuery->lessThanOrEqualTo("createdAt", $end); // change createdAt to date: DateTime
+						$transactionQuery->containedIn("objectId", $transactionIDs);
+						$transactionQuery->ascending("createdAt"); // change createdAt to date: DateTime
+						$transactions = $transactionQuery->find();
+						return $transactions;
+					}
+				}
+			}
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
 		return NULL;
 	}
 }
-
+//Network::loginUser("christdv@usc.edu", "christdv");
+//$start = new DateTime("03/28/2016");
+//$end = new DateTime("03/30/2016");
+//Network::getTransactionsForAccountWithinDates($start, $end, "Christian's Checking Acct");
 ?>
