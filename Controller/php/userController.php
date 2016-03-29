@@ -1,25 +1,28 @@
 <?php
 
-include 'Network.php';
+include 'model/network.php';
 
-$network;
-$userModel;
+$network = null;
+$userModel = null;
 
 
 function login($username, $password){
-	/*
 	//call parse class login function
 	//get the model
 	$network = new Network();
 	$userModel = $network->login($username, $password);
 
 	if($userModel){
-		//echo error message
+		echo '<script language="javascript">';
+	    echo 'window.location.assign("../../index.html");';
+	    echo '</script>';
 	}
 	else {
-		//echo login successfull and go to main page
+		echo '<script language="javascript">';
+	    echo 'alert("Login unsuccesful! Please provide right credentials.");';
+	    echo 'window.location.assign("../../login.html");';
+	    echo '</script>';
 	}
-	*/
 }
 
 
@@ -37,7 +40,7 @@ function uploadCSV(){
 	if($uploadOK == 0){
 	    echo '<script language="javascript">';
 	    echo 'alert("You did not provide a CSV file");';
-	    echo 'window.location.assign("index.php");';
+	    echo 'window.location.assign("../../index.php");';
 	    echo '</script>';
 	    exit();
 	}
@@ -82,7 +85,7 @@ function uploadCSV(){
 	    } else {
 	        echo '<script language="javascript">';
 	        echo 'alert("Error");';
-	        echo 'window.location.assign("index.html");';
+	        echo 'window.location.assign("../../index.html");';
 	        echo '</script>';
 	    }
 	}
@@ -92,12 +95,6 @@ function uploadCSV(){
 }
 
 function formatTransactions(){
-
-
-
-}
-
-function prepareForGraph(){
 
 
 
