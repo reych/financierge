@@ -11,8 +11,6 @@ function uploadCSV(){
     $target_dir = sys_get_temp_dir();
     //complete file path
     $target_file = $target_dir . "/" . basename($_FILES["file"]["name"]);
-    echo $target_file;
-    echo "test!!!!";
     //move file to the temporary directory to process
     move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
     //open file
@@ -26,7 +24,8 @@ function uploadCSV(){
                     // echo $data . "\n";
                     $result .= $data . '_';
                 }
-                $result .= '\n';
+                $result .= PHP_EOL;
+                // $result = '';
             }
             $count++;
         }
