@@ -1,26 +1,26 @@
-body { 
-	background-color: #333333; 
-	color: black; 
+body {
+	background-color: #333333;
+	color: black;
 }
 
-.module { 
-	background-color: #efefef; 
+.module {
+	background-color: #efefef;
 	min-height: 100px;
-	padding: 1%; 
+	padding: 1%;
 	margin-top: 10px;
-	margin-bottom: 20px; 
+	margin-bottom: 20px;
 }
 
 .transactions{
-	overflow: scroll;	
+	overflow: scroll;
 }
 
 .account-list{
-	overflow: scroll; 
+	overflow: scroll;
 }
 
 h1,h3{
-	color: #efefef; 
+	color: #efefef;
 }
 
 #chartdiv {
@@ -29,8 +29,8 @@ h1,h3{
 }
 
 .upload{
-	text-align: center; 
-}	
+	text-align: center;
+}
 
 .login-container {
 	padding: 10%;
@@ -48,14 +48,26 @@ h1,h3{
 .login-module input {
 	background-color: #efefef;
 }
+
+#transactions {
+	max-height: 20em;
+	overflow: scroll;
+}
+#transactions table {
+	width: 100%;
+}
+#transactions td, th {
+	padding-left: 1em;
+	min-width: 5em;
+}
 /*
 .login-module {
 	position: absolute;
 	left: 35%;
 	top: 35%;
-	margin: auto; 
-	padding-right: 2%; 
-	padding-left: 2%; 
-	padding-bottom: 2%; 
+	margin: auto;
+	padding-right: 2%;
+	padding-left: 2%;
+	padding-bottom: 2%;
 }
-*/														
+*/

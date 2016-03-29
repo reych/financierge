@@ -8,12 +8,16 @@ function displayTransactions(containerID, transactions_list) {
     var transactionsArray = transactions_list.split('\n');
     //create table
     var table = document.createElement('TABLE');
-    createTableHeaders(table, 'Date_Category_Amount_Principle');
+    createTableHeaders(table, 'Date_Principle_Amount_Category');
 
     //insert transaction data into table
     for(i=0; i<transactionsArray.length; i++) {
         var transactionDataArray = transactionsArray[i].split('_');
         var tableRow = document.createElement('TR');
+        //every odd row color darker
+        if(i%2 != 0){
+            tableRow.setAttributeNode('style', 'background-color: #C0C0C0;')
+        }
 
         for(j=0; j<transactionDataArray.length; j++) {
             var tableData = document.createElement('TD');
