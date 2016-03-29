@@ -14,6 +14,10 @@ function displayTransactions(containerID, transactions_list) {
     for(i=0; i<transactionsArray.length; i++) {
         var transactionDataArray = transactionsArray[i].split('_');
         var tableRow = document.createElement('TR');
+        //every odd row color darker
+        if(i%2 != 0){
+            tableRow.setAttributeNode('style', 'background-color: #C0C0C0;')
+        }
 
         for(j=0; j<transactionDataArray.length; j++) {
             var tableData = document.createElement('TD');
