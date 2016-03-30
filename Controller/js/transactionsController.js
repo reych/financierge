@@ -1,4 +1,5 @@
 /* Write transactions code here */
+var currAccount = '';
 
 /* */
 function createTab(phpResponse) {
@@ -10,21 +11,32 @@ function createTab(phpResponse) {
     var array = phpResponse.split('\n');
     var accountName = array[0];
     var transactions_list = phpResponse.substring(accountName.length);
-
+    currAccount = accountName;
     //set content id
-     //var contentID = 'content-'+accountName;
-    //var contentID = 'view3';
+     var contentID = 'content-'+accountName;
+
+     var tabs = tabContainer.childNodes;
+     for(i=0; i<tabs.length; i++) {
+         if(tabs[i].id == "tab-"+accountName){
+             return;
+         }
+     }
+
 
     //create tab
     var tab = document.createElement('LI');
     tab.id="tab-"+accountName;
+
+    tab.setAttribute("onclick", 'displayData(this);');
+
+
     var link = document.createElement('A');
-    //link.setAttribute('href', '#'+contentID);
-    // tab.className = 'selected';
     var labelName = document.createTextNode(accountName);
     link.appendChild(labelName);
     tab.appendChild(link);
     tabContainer.appendChild(tab); //append to tabContainer
+
+
 
     //create content
     var content = document.createElement('DIV');
@@ -34,9 +46,9 @@ function createTab(phpResponse) {
     contentContainer.appendChild(content);
     var stuff = document.createTextNode("Stuff");
     content.appendChild(stuff);
-    //displayTransactions(contentID, transactions_list);
+    displayTransactions(contentID, transactions_list);
 
-
+    displayData(tab);
 }
 
 /* Display the list of transactions in the container with containerID
