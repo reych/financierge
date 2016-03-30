@@ -132,7 +132,7 @@ class Network {
 		return false;
 	}
 
-	static function addTransactionToAccount($date, $principle, $amount, $category, $name) {
+	static function addTransactionToAccount($name, $date, $principle, $amount, $category) {
 		try {
 			// create transaction and save it in Transaction table
 			$transaction = new ParseObject("Transaction");
