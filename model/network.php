@@ -214,7 +214,7 @@ For $sort
 						$transactionQuery->lessThanOrEqualTo("createdAt", $end); // change createdAt to date: DateTime
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						if ($sort == 1) {
-							$transactionQuery->ascending("createdAt"); // change createdAt to date: DateTime
+							$transactionQuery->ascending("date");
 						} else if($sort == 2) {
 							$transactionQuery->ascending("amount");
 						} else if($sort == 3) {
