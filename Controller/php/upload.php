@@ -7,7 +7,8 @@ if ($funcName == "uploadCSV") {
     uploadCSV();
 } elseif ($funcName == "getTrans") {
     if ($accountName == "checking") {
-        echo "2016-03-29_Subway_-6.65_1_
+        echo "Checking
+        2016-03-29_Subway_-6.65_1_
         2016-03-28_Venmo_-1.00_2_
         2016-03-23_ATM Deposit_40.00_4_
         2016-03-22_Venmo_-10.54_9_
@@ -24,7 +25,8 @@ if ($funcName == "uploadCSV") {
         2016-03-04_AT&T _-3.00_1_
         ";
     } elseif ($accountName == "credit_card") {
-        echo "2016-03-03_JACK IN THE BOX_-7.29_1_
+        echo "Credit Card
+        2016-03-03_JACK IN THE BOX_-7.29_1_
         2016-03-02_USC Fee_-10.75_8_
         2016-03-01_Deposited Check #1234_500.00_4_
         2016-02-28_COCA COLA LOS ANGELES_-5.00_3_
@@ -51,7 +53,8 @@ if ($funcName == "uploadCSV") {
         2016-02-04_USC Bookstores_-59.99_9_
         ";
     } elseif ($accountName == "loan") {
-        echo "2016-02-03_Unicef _-50.00_2_
+        echo "Loan
+        2016-02-03_Unicef _-50.00_2_
         2016-02-02_RALPHS #0249_-55.23_1_
         2016-02-01_COCA COLA LOS ANGELES_-5.00_3_
         2016-01-31_USC Fee_-20.00_8_
