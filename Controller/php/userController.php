@@ -137,21 +137,21 @@ function getTransactionsForList(){
 	$endDate = $_GET["endDate"];
 
 
-	echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
+	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
 
 	if ($startDate == NULL) {
 		//$date = date('m/d/Y h:i:s a', time());
 		$startDate = date('Y-m-d');
-		echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
+		//echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
 	}
 
-	echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
+	//echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
 
 	if ($endDate == NULL) {
 
 		$endDate = date('Y-m-d', strtotime("-3 months", strtotime($startDate)));
-		echo ("<script>console.log('endDate became: ".$endDate."'); </script>");
+		//echo ("<script>console.log('endDate became: ".$endDate."'); </script>");
 	}
 
 	//change code here to not use start and end date for sprint 1
