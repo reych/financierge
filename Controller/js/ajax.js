@@ -11,14 +11,14 @@ $("#upload-button").on("click", function() {
 
 // ajax func to handel all call to php
 function phpRequest(funcName, formData) {
-    var accountName = "";
+    var arguments = "";
     if (formData instanceof HTMLElement) {
-        accountName = formData.id;
+        arguments = '&accName=' + formData.id;
     }
     $.ajax({
         type:'post',
-        // url: '../Controller/php/userController.php?funcToCall=' + funcName,
-        url: '../Controller/php/upload.php?funcToCall=' + funcName + '&accName=' + accountName,
+        url: '../Controller/php/userController.php?funcToCall=' + funcName + arguemtns,
+        // url: '../Controller/php/upload.php?funcToCall=' + funcName + '&accName=' + accountName,
         data: formData,
         // THIS MUST BE DONE FOR FILE UPLOADING
         contentType: false,
