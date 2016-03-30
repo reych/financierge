@@ -11,10 +11,14 @@ $("#upload-button").on("click", function() {
 
 // ajax func to handel all call to php
 function phpRequest(funcName, formData) {
+    var accountName = "";
+    if (formData instanceof HTMLElement) {
+        accountName = formData.id;
+    }
     $.ajax({
         type:'post',
         // url: '../Controller/php/userController.php?funcToCall=' + funcName,
-        url: '../Controller/php/upload.php?funcToCall=' + funcName,
+        url: '../Controller/php/upload.php?funcToCall=' + funcName + '&accName=' + accountName,
         data: formData,
         // THIS MUST BE DONE FOR FILE UPLOADING
         contentType: false,
@@ -23,6 +27,7 @@ function phpRequest(funcName, formData) {
             //TODO add if statements to determine which js to call(ex, pupolate
             //  account list or populate transactions or graph)
             displayTransactions('transactions',phpResponse);
+            // alert(phpResponse);
         }
     });
 }

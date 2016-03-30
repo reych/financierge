@@ -1,60 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Financierge | The paynless way to balance your halfunds</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Financierge | The paynless way to balance your halfunds</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel = "stylesheet" type="text/css" href = "style.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel = "stylesheet" type="text/css" href = "style.css">
 </head>
 <body>
 
-<div class="container-fluid">
-  <h1>Financierge</h1>
-  <div class="row">
-    <div class="col-sm-4">
-		<h3>Upload Accounts</h3>
-		<div class = "upload module">
-			<form id="CSVForm" enctype="multipart/form-data" method="post" action="../Controller/php/upload.php">
-				 <input type="file" name="fileToUpload" id="fileToUpload" accept="text/csv" style = "margin-left: 33%;">
-				 <label for="fileToUpload"></label>
-				 <br>
-				 <!-- <input type="submit" id="importCSV"  name="submit" alt="Import CSV" value="Import CSV File"> -->
-                 <button type="submit" id="upload-button">Upload</button>
-			</form>
-		</div>
-		<h3>Account List</h3>
-		<div class = "account-list module" id = "account-list">
-			<button onclick="phpRequest('testFunc2');">Ajax Test!</button>
-            
-		</div>
-	</div>
-    <div class="col-sm-8">
-		<h3>Graph</h3>
-		<div class = "graph module">
-			<form>
-			Start Date:
-			<input type="date" name="start-date">
-			End Date:
-			<input type="date" name="end-date">
-		</form>
-			<div id = "chartdiv"></div>
-		</div>
-		<h3>Transaction History</h3>
-		<div class = "transactions module" id = "transactions">
-		</div>
-	</div>
-  </div>
-</div>
+    <div class="container-fluid">
+        <h1>Financierge</h1>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Upload Accounts</h3>
+                <div class = "upload module">
+                    <form id="CSVForm" enctype="multipart/form-data" method="post" action="../Controller/php/upload.php">
+                        <input type="file" name="fileToUpload" id="fileToUpload" accept="text/csv" style = "margin-left: 33%;">
+                        <label for="fileToUpload"></label>
+                        <br>
+                        <!-- <input type="submit" id="importCSV"  name="submit" alt="Import CSV" value="Import CSV File"> -->
+                        <button type="submit" id="upload-button">Upload</button>
+                    </form>
+                </div>
+                <h3>Account List</h3>
+                <div class = "account-list module" id = "account-list">
+                    <button onclick="phpRequest('testFunc2');">Ajax Test!</button>
+                    <table width="200" border="1">
+                        <tbody>
+                            <tr>
+                                <td id = "checking" onclick = "phpRequest('getTrans', this);">Checking</td>
+                            </tr>
+                            <tr>
+                                <td id = "credit_card" onclick = "phpRequest('getTrans', this);">Credit Card</td>
+                            </tr>
+                            <tr>
+                                <td id = "loan" onclick = "phpRequest('getTrans', this);">Loan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <h3>Graph</h3>
+                <div class = "graph module">
+                    <form>
+                        Start Date:
+                        <input type="date" name="start-date">
+                        End Date:
+                        <input type="date" name="end-date">
+                    </form>
+                    <div id = "chartdiv"></div>
+                </div>
+                <h3>Transaction History</h3>
+                <div class = "transactions module" id = "transactions">
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-	<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-	<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="Controller/js/graph.js"></script>
-	<script src="Controller/js/ajax.js"></script>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="Controller/js/graph.js"></script>
+    <script src="Controller/js/ajax.js"></script>
     <script src="Controller/js/transactionsController.js"></script>
 
 </body>

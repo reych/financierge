@@ -4,6 +4,8 @@
  * transaction_list: date_category_amount_principle
  */
 function displayTransactions(containerID, transactions_list) {
+    var container = document.getElementById(containerID);
+    clearChildren(container);
     //split data
     var transactionsArray = transactions_list.split('\n');
     //create table
@@ -16,7 +18,7 @@ function displayTransactions(containerID, transactions_list) {
         var tableRow = document.createElement('TR');
         //every odd row color darker
         if(i%2 != 0){
-            tableRow.setAttributeNode('style', 'background-color: #C0C0C0;')
+            tableRow.setAttribute('style', 'background-color: #C0C0C0;');
         }
 
         for(j=0; j<transactionDataArray.length; j++) {
@@ -30,7 +32,6 @@ function displayTransactions(containerID, transactions_list) {
     }
 
     //add table to container
-    var container = document.getElementById(containerID);
     container.appendChild(table);
 
 }

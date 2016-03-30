@@ -56,6 +56,10 @@ h1,h3{
 #transactions table {
 	width: 100%;
 }
+#transactions thead {
+	background-color: #C0C0C0;
+	width: 100%;
+}
 #transactions td, th {
 	padding-left: 1em;
 	min-width: 5em;
