@@ -1,5 +1,10 @@
 /* Write transactions code here */
 
+/* */
+function createTab(phpResponse) {
+    
+}
+
 /* Display the list of transactions in the container with containerID
  * transaction_list: date_category_amount_principle
  */
