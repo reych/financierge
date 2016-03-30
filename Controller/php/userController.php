@@ -83,7 +83,7 @@ function uploadCSV(){
 
 					if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
 						//add to an array of all the transactions not uploaded
-					]
+					}
 				}
 			}
 
