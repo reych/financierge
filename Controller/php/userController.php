@@ -1,11 +1,16 @@
 <?php
 
-include '../../model/network.php';
+include("../../model/network.php");
+include("vendor/autoload.php");
+use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;
+use Parse\ParseQuery;
+use Parse\ParseUser;
 
-$network = null;
-$userModel = null;
+session_start();
+date_default_timezone_set("America/Los_Angeles");
+ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 // Use get method to determine which function to call
 $funcName = $_GET['funcToCall'];
@@ -16,10 +21,9 @@ if ($funcName == "uploadCSV") {
 function login($username, $password){
 	//call parse class login function
 	//get the model
-	$network = new Network();
-	$userModel = $network->login($username, $password);
+	$user = Network::login($username, $password);
 
-	if($userModel){
+	if($user){
 		echo '<script language="javascript">';
 		echo 'window.location.assign("../../index.html");';
 		echo '</script>';
@@ -52,7 +56,7 @@ function uploadCSV(){
 					$isAsset = $data[1];
 
 					// if the account was not successfully added
-					if(!$userModel.addAccount($name, $isAsset)){
+					if(!Network::addAccount($name, $isAsset)){
 					}
 
 				} else {
@@ -63,7 +67,7 @@ function uploadCSV(){
 					$amount = $data[3];
 					$category = $data[4];
 
-					$added = $userModel.addTransactionToAccount($accountName, $date, $principle, $amount, $category);
+					$added = Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category);
 
 					if(!$added){
 						//add to an array of all the transactions not uploaded
@@ -108,7 +112,7 @@ For $sort
 function getAccountNamesForList(){
 
 	$result = "";
-	$accounts = $userModel->getAccounts();
+	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
 
 	foreach ($accounts as $key => $account) {
@@ -125,7 +129,7 @@ function getAccountNamesForList(){
 
 function getTransactionsForList($accountName, $sort, $startDate, $endDate){
 
-	$rawTransactions = $model.getTransactionsForAccountWithinDates($startDate, $endDate, $accountName, $sort);
+	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, $sort);
 	$result = "";
 
 	foreach ($rawTransactions as $key => $rawTrans) {

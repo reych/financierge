@@ -187,15 +187,6 @@ class Network {
 		return NULL;
 	}
 
-
-/*
-For $sort
-1: Sort by date
-2: Sort by amount
-3: Sort by category
-4: Sort by alphabetical ordey by principle
-*/
-
 	static function getTransactionsForAccountWithinDates($name, $start, $end, $sort) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
@@ -210,18 +201,10 @@ For $sort
 							$transactionIDs[] = $transactions[$k]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("createdAt", $start); // change createdAt to date: DateTime
-						$transactionQuery->lessThanOrEqualTo("createdAt", $end); // change createdAt to date: DateTime
+						$transactionQuery->greaterThanOrEqualTo("date", $start); 
+						$transactionQuery->lessThanOrEqualTo("date", $end); 
 						$transactionQuery->containedIn("objectId", $transactionIDs);
-						if ($sort == 1) {
-							$transactionQuery->ascending("date");
-						} else if($sort == 2) {
-							$transactionQuery->ascending("amount");
-						} else if($sort == 3) {
-							$transactionQuery->ascending("category");
-						} else {
-							$transactionQuery->ascending("principle");
-						}
+						$transactionQuery->ascending($sort);
 						$transactions = $transactionQuery->find();
 						return $transactions;
 					}
@@ -235,7 +218,7 @@ For $sort
 }
 // test for fetching transactions within certain dates
 //Network::loginUser("christdv@usc.edu", "christdv");
-//$start = new DateTime("03/28/2016");
-//$end = new DateTime("03/30/2016");
+//$start = new DateTime("2016-03-28");
+//$end = new DateTime("2016-03-30");
 //Network::getTransactionsForAccountWithinDates($start, $end, "Christian's Checking Acct");
 ?>
