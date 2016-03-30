@@ -187,7 +187,16 @@ class Network {
 		return NULL;
 	}
 
-	static function getTransactionsForAccountWithinDates($name, $start, $end) {
+
+/*
+For $sort
+1: Sort by date
+2: Sort by amount
+3: Sort by category
+4: Sort by alphabetical ordey by principle
+*/
+
+	static function getTransactionsForAccountWithinDates($name, $start, $end, $sort) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
@@ -204,7 +213,15 @@ class Network {
 						$transactionQuery->greaterThanOrEqualTo("createdAt", $start); // change createdAt to date: DateTime
 						$transactionQuery->lessThanOrEqualTo("createdAt", $end); // change createdAt to date: DateTime
 						$transactionQuery->containedIn("objectId", $transactionIDs);
-						$transactionQuery->ascending("createdAt"); // change createdAt to date: DateTime
+						if ($sort == 1) {
+							$transactionQuery->ascending("createdAt"); // change createdAt to date: DateTime
+						} else if($sort == 2) {
+							$transactionQuery->ascending("amount");
+						} else if($sort == 3) {
+							$transactionQuery->ascending("category");
+						} else {
+							$transactionQuery->ascending("principle");
+						}
 						$transactions = $transactionQuery->find();
 						return $transactions;
 					}
