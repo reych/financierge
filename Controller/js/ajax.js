@@ -26,7 +26,8 @@ function phpRequest(funcName, formData) {
         success: function(phpResponse){
             //TODO add if statements to determine which js to call(ex, pupolate
             //  account list or populate transactions or graph)
-            displayTransactions('transactions',phpResponse);
+            // createTab(phpResponse);
+            displayTransactions('transactions', phpResponse);
             // alert(phpResponse);
         }
     });

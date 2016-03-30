@@ -2,7 +2,41 @@
 
 /* */
 function createTab(phpResponse) {
-    
+    var tabContainer = document.getElementById('transaction-tabs');
+
+    var contentContainer = document.getElementById('transaction-tabcontents');
+
+    //parse response
+    var array = phpResponse.split('\n');
+    var accountName = array[0];
+    var transactions_list = phpResponse.substring(accountName.length);
+
+    //set content id
+     var contentID = 'content-'+accountName;
+    //var contentID = 'view3';
+
+    //create tab
+    var tab = document.createElement('LI');
+    tab.id="checking-id";
+    var link = document.createElement('A');
+    link.setAttribute('href', '#'+contentID);
+    // tab.className = 'selected';
+    var labelName = document.createTextNode(accountName);
+    link.appendChild(labelName);
+    tab.appendChild(link);
+    tabContainer.appendChild(tab); //append to tabContainer
+
+    //create content
+    var content = document.createElement('DIV');
+    content.id = contentID;
+    //content.id = 'view3';
+    content.setAttribute('style', 'display: block;');
+    contentContainer.appendChild(content);
+    var stuff = document.createTextNode("Stuff");
+    content.appendChild(stuff);
+    //displayTransactions(contentID, transactions_list);
+
+
 }
 
 /* Display the list of transactions in the container with containerID
@@ -68,4 +102,13 @@ function createTableHeaders(table, headers_string){
 	//add row to watchlist content
 	tHead.appendChild(tableRow);
 	table.appendChild(tHead);
+}
+
+document.getElementById('checking-id').tabs.addEventListener("click", displayData);
+function displayData(){
+    var contents = document.getElementById('transaction-tabcontents');
+    for(i=0; i<contents.length; i++){
+        contents[i].hide();
+    }
+    document.getElementById('content-Checking').show();
 }
