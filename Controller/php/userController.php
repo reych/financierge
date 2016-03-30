@@ -16,11 +16,20 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
     uploadCSV();
+} else if($funcName == "getAccountNamesForList") {
+	getAccountNamesForList();
+} else if($funcName == "getTransactionsForList") {
+	getTransactionsForList();
+} else if($funcName == "login"){
+	login();
 }
 
-function login($username, $password){
+function login(){
+
+	$username = $_GET["username"];
+	$password = $_GET["password"];
 	//call parse class login function
-	//get the model
+	//login returns a user object or null
 	$user = Network::login($username, $password);
 
 	if($user){
@@ -53,7 +62,12 @@ function uploadCSV(){
 				if(count($data) == 2){
 					//account
 					$accountName = $data[0];
-					$isAsset = $data[1];
+					$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
+					// if(strcmp($data[1], "true") == 0){
+					// 	$isAsset = true;
+					// } else {
+					// 	$isAsset = false;
+					// }
 
 					// if the account was not successfully added
 					if(!Network::addAccount($name, $isAsset)){
@@ -62,16 +76,13 @@ function uploadCSV(){
 				} else {
 					//transaction
 					$accountName = $data[0];
-					$date = $data[1] . "T00:00:00Z"; //added time to match parse format
+					$date = new DateTime($data[1]); //added time to match parse format
 					$principle = $data[2];
 					$amount = $data[3];
 					$category = $data[4];
 
-					$added = Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category);
-
-					if(!$added){
+					if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
 						//add to an array of all the transactions not uploaded
-					
 					]
 				}
 			}
@@ -96,18 +107,8 @@ function uploadCSV(){
 }
 
 function formatTransactions(){
-
-
-
+	//TODO
 }
-
-/*
-For $sort
-1: Sort by date
-2: Sort by amount
-3: Sort by category
-4: Sort by alphabetical ordey by principle
-*/
 
 function getAccountNamesForList(){
 
@@ -116,7 +117,7 @@ function getAccountNamesForList(){
 	//$accounts should be an array of strings
 
 	foreach ($accounts as $key => $account) {
-		$result .= $account->get("name") . '\n';
+		$result .= $account->get("name") . PHP_EOL;
 	}
 	echo $result;
 	/* 
@@ -127,24 +128,33 @@ function getAccountNamesForList(){
 	*/
 }
 
-function getTransactionsForList($accountName, $sort, $startDate, $endDate){
+function getTransactionsForList(){
+
+	//get all account names as such
+	$accountName = $_GET["accName"];
+	$sort = $_GET["sortType"];
+	$startDate = $_GET["startDate"];
+	$endDate = $_GET["endDate"];
+
+	//change code here to not use start and end date for sprint 1
 
 	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, $sort);
+	if($rawTransactions == NULL){
+		echo 'No transactions for this account!';
+		return;
+	}
 	$result = "";
 
-	foreach ($rawTransactions as $key => $rawTrans) {
+	foreach ($rawTransactions as $key => $rawTrans){
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
 		$amount = $rawTrans->get("amount");
 		$category = $rawTrans->get("category");
 
-		$result .= $date . "_" . $principle . "_" . $amount . "_" . $category . "\n";
+		$result .= $date . "_" . $principle . "_" . $amount . "_" . $category . PHP_EOL;
 	}
 
 	echo $result;
-
 }
-
-
 
 ?>
