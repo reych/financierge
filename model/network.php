@@ -100,7 +100,7 @@ class Network {
 				$accounts = $currentUser->get("accounts");
 				for ($i = 0; $i < count($accounts); $i++) {
 					$accounts[$i]->fetch();
-					echo $accounts[$i]->get("name") . "\n"; // used for testing purposes only
+					//echo $accounts[$i]->get("name") . "\n"; // used for testing purposes only
 				}
 				return $accounts;
 			}
@@ -175,7 +175,7 @@ class Network {
 						$transactions = $accounts[$i]->get("transactions");
 						for ($k = 0; $k < count($transactions); $k++) {
 							$transactions[$i]->fetch();
-							echo $transactions[$i]->get("principle") . "\n"; // used for testing purposes only
+							//echo $transactions[$i]->get("principle") . "\n"; // used for testing purposes only
 						}
 						return $transactions;
 					}
