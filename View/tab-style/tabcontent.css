@@ -8,14 +8,14 @@ ul.tabs
     list-style-type: none;
     text-align: left; /*set to left, center, or right to align the tabs as desired*/
 }
-        
+
 ul.tabs li
 {
     display: inline;
     margin: 0;
     margin-right:3px; /*distance between tabs*/
 }
-        
+
 ul.tabs li a
 {
     font: normal 12px Verdana;
@@ -29,18 +29,19 @@ ul.tabs li a
     border-radius: 3px 3px 0 0;
     outline:none;
 }
-        
+
 ul.tabs li a:visited
 {
     color: #000;
 }
-        
+
 ul.tabs li a:hover
 {
     border: 1px solid #B7B7B7;
     background:#F0F0F0 url(tabbg.gif) 0 -36px repeat-x;
+    cursor: pointer;
 }
-        
+
 ul.tabs li.selected a, ul.tabs li.selected a:hover
 {
     position: relative;
@@ -50,17 +51,23 @@ ul.tabs li.selected a, ul.tabs li.selected a:hover
     border: 1px solid #B7B7B7;
     border-bottom-color: white;
 }
-        
-        
+
+
 ul.tabs li.selected a:hover
 {
     text-decoration: none;
 }
-     
+
 
 div.tabcontents
 {
     border: 1px solid #B7B7B7; padding: 30px;
     background-color:#FFF;
     border-radius: 0 3px 3px 3px;
+}
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
 }

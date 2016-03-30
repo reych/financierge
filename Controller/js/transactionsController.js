@@ -12,14 +12,14 @@ function createTab(phpResponse) {
     var transactions_list = phpResponse.substring(accountName.length);
 
     //set content id
-     var contentID = 'content-'+accountName;
+     //var contentID = 'content-'+accountName;
     //var contentID = 'view3';
 
     //create tab
     var tab = document.createElement('LI');
-    tab.id="checking-id";
+    tab.id="tab-"+accountName;
     var link = document.createElement('A');
-    link.setAttribute('href', '#'+contentID);
+    //link.setAttribute('href', '#'+contentID);
     // tab.className = 'selected';
     var labelName = document.createTextNode(accountName);
     link.appendChild(labelName);
@@ -28,7 +28,7 @@ function createTab(phpResponse) {
 
     //create content
     var content = document.createElement('DIV');
-    content.id = contentID;
+    content.id = 'content-'+accountName;
     //content.id = 'view3';
     content.setAttribute('style', 'display: block;');
     contentContainer.appendChild(content);
@@ -102,13 +102,4 @@ function createTableHeaders(table, headers_string){
 	//add row to watchlist content
 	tHead.appendChild(tableRow);
 	table.appendChild(tHead);
-}
-
-document.getElementById('checking-id').tabs.addEventListener("click", displayData);
-function displayData(){
-    var contents = document.getElementById('transaction-tabcontents');
-    for(i=0; i<contents.length; i++){
-        contents[i].hide();
-    }
-    document.getElementById('content-Checking').show();
 }

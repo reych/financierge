@@ -56,14 +56,16 @@
                 </div>
                 <h3>Transaction History</h3>
                 <div class = "transactions module" id = "transactions">
-                    <!-- <ul id="transaction-tabs" class="tabs">
-                        <li class="selected"><a>Checking</a></li>
-                        <li><a href="#view2">Checking 2</a></li>
+                    <!--
+                     <ul id="transaction-tabs" class="tabs">
+                        <li id="tab-Checking"class="selected" onclick="displayData(this);"><a>Checking</a></li>
+                        <li id="tab-Loans" onclick="displayData(this)"><a>Loan</a></li>
                     </ul>
                     <div id="transaction-tabcontents" class="tabcontents">
-                        <div id="view1">Checking account data</div>
-                        <div id="view2">Checking account 2 data</div>
-                    </div> -->
+                        <div id="content-Checking" class="hidden">Checking account data</div>
+                        <div id="content-Loans" class="hidden">Loan data</div>
+                    </div>
+                -->
                 </div>
             </div>
         </div>
@@ -78,6 +80,7 @@
     <script src="Controller/js/graph.js"></script>
     <script src="Controller/js/ajax.js"></script>
     <script src="Controller/js/transactionsController.js"></script>
+    <script src="Controller/js/tabfunction.js"></script>
     <!--<script src="Controller/js/tabcontent.js" type="text/javascript"></script>-->
 
 </body>
