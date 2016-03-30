@@ -32,7 +32,6 @@ function login($username, $password){
 	}
 }
 
-
 function uploadCSV(){
 
 	//get file from temporary direcory where it is stored
@@ -54,13 +53,12 @@ function uploadCSV(){
 
 					// if the account was not successfully added
 					if(!$userModel.addAccount($name, $isAsset)){
-						//add to an array of all the transactions not uploaded
 					}
 
 				} else {
 					//transaction
 					$accountName = $data[0];
-					$date = $data[1];
+					$date = $data[1] . "T00:00:00Z"; //added time to match parse format
 					$principle = $data[2];
 					$amount = $data[3];
 					$category = $data[4];
@@ -127,8 +125,9 @@ function getAccountNamesForList(){
 
 function getTransactionsForList($accountName, $sort, $startDate, $endDate){
 
-	$rawTransactions = $model.getTransactionsForAccountWithinDates($startDate, $endDate, $accountName);
+	$rawTransactions = $model.getTransactionsForAccountWithinDates($startDate, $endDate, $accountName, $sort);
 	$result = "";
+
 	foreach ($rawTransactions as $key => $rawTrans) {
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
@@ -139,12 +138,9 @@ function getTransactionsForList($accountName, $sort, $startDate, $endDate){
 	}
 
 	echo $result;
-}
-
-function sortTransactions(){
-
 
 }
+
 
 
 ?>
