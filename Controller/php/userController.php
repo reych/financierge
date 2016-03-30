@@ -1,6 +1,8 @@
 <?php
 
 include '../../model/network.php';
+use Parse\ParseException;
+use Parse\ParseObject;
 
 $network = null;
 $userModel = null;
@@ -42,16 +44,16 @@ function uploadCSV(){
 	//open file
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
+
 		while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
 			foreach ($filedata as $data) {
-				if(count($data) == 3){
+				if(count($data) == 2){
 					//account
 					$accountName = $data[0];
-					$balance = $data[1];
-					$type = $data[2];
+					$isAsset = $data[1];
 
 					// if the account was not successfully added
-					if(!$userModel.addAccount($name, $balance, $type)){
+					if(!$userModel.addAccount($name, $isAsset)){
 						//add to an array of all the transactions not uploaded
 					}
 
@@ -63,16 +65,26 @@ function uploadCSV(){
 					$amount = $data[3];
 					$category = $data[4];
 
-					$added = $userModel.addTransaction($accountName, $date, $principle, $amount, $category);
+					$added = $userModel.addTransactionToAccount($accountName, $date, $principle, $amount, $category);
 
 					if(!$added){
 						//add to an array of all the transactions not uploaded
-					}
+					
+					]
 				}
 			}
 
 			//check if array is emtpy, if not, echo all the transactions not uploaded, with a small message
 		}
+
+
+		/***
+		echo indication to javascript to request several pieces of info:
+			- list of accounts
+			- all data necessary for initial graph look
+			- probably something else, tbd
+			- NOT info for transactions (requested upon clicking list of accounts)
+		***/
 
 	} else {
 		echo "Error: Cannot open file!";
@@ -95,15 +107,38 @@ For $sort
 4: Sort by alphabetical ordey by principle
 */
 
+function getAccountNamesForList(){
+
+	$result = "";
+	$accounts = $userModel->getAccounts();
+	//$accounts should be an array of strings
+
+	foreach ($accounts as $key => $account) {
+		$result .= $account->get("name") . '\n';
+	}
+	echo $result;
+	/* 
+	returning a string in the format
+	account1Name
+	account2Name
+	...
+	*/
+}
+
 function getTransactionsForList($accountName, $sort, $startDate, $endDate){
 
-	// all transactions
-	$transactions = $userModel.getTransactionsWithinDates();
+	$rawTransactions = $model.getTransactionsForAccountWithinDates($startDate, $endDate, $accountName);
+	$result = "";
+	foreach ($rawTransactions as $key => $rawTrans) {
+		$date = $rawTrans->get("date");
+		$principle = $rawTrans->get("principle");
+		$amount = $rawTrans->get("amount");
+		$category = $rawTrans->get("category");
 
-	// sorted transactions
+		$result .= $date . "_" . $principle . "_" . $amount . "_" . $category . "\n";
+	}
 
-
-
+	echo $result;
 }
 
 function sortTransactions(){
