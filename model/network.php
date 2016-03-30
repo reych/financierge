@@ -187,7 +187,7 @@ class Network {
 		return NULL;
 	}
 
-	static function getTransactionsForAccountWithinDates($start, $end, $name) {
+	static function getTransactionsForAccountWithinDates($name, $start, $end) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
