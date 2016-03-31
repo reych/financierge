@@ -71,6 +71,14 @@ function uploadCSV(){
 
 				// if the account was not successfully added
 				if(!Network::addAccount($accountName, $isAsset)){
+					// indicate account could not be added? will this screw up the frontend protocol?
+				}
+			} else if (count($data) == 3) {
+				$accountName = $data[1];
+
+				// if the account was not successfully added
+				if(!Network::deleteAccount($accountName)){
+					// indicate account could not be deleted? will this screw up the frontend protocol?
 				}
 			} else {
 				//transaction
@@ -175,4 +183,11 @@ Network::loginUser("christdv@usc.edu", "christdv");
 	echo $result;
 }
 
+
+function userLoggedIn() {
+	if(Network::getCurrentUser()) {
+		return true;
+	}
+	return false;
+}
 ?>
