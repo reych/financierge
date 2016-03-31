@@ -36,6 +36,22 @@ When(/^user enters incorrect password$/) do
   driver.find_element(:id, "login-password").send_keys(badPassword)
 end
 
+# For bad password 4 times
+When(/^user stays on login page after entering wrong password$/) do
+  loginURL = driver.current_url
+  driver.find_element(:id, "login-submit").click
+  currentURL = driver.current_url
+  expect(currentURL).to eq(loginURL)
+end
+
+# Good password after 1 minute wait
+When(/^user logs in with right password after 1 minute$/) do
+  driver.find_element(:id, "login-username").send_keys(@userCredentials['username'])
+  driver.find_element(:id, "login-password").send_keys(@userCredentials['password'])
+  #wait longer for timeout 65 sections
+  driver.manage.timeouts.implicit_wait = 65
+end
+
 Then(/^the page should stay on login$/) do
   loginURL = driver.current_url
   driver.find_element(:id, "login-submit").click
