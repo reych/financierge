@@ -113,7 +113,7 @@ function getAccountNamesForList(){
 	sort($accountNameArray);
 
 	for ($i= 0; $i < count($accountNameArray); $i++){
-		$result .= $accountNameArray[$i] . PHP_EOL;
+		$result .= $accountNameArray()[$i] . PHP_EOL;
 	}
 	echo $result;
 	/*
