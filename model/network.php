@@ -76,6 +76,7 @@ class Network {
 			// create account and save it in Account table
 			$account = new ParseObject("Account");
 			$account->set("name", $name);
+			$account->set("balance", 0);
 			$account->set("isAsset", $isAsset);
 			$account->save();
 			// add account to accounts array for current user and save it in User table

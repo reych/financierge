@@ -1,6 +1,28 @@
 /* Write transactions code here */
 var currAccount = '';
 
+function closeTab(close_element){
+    var tabContainer = document.getElementById('transaction-tabs');
+    var contentContainer = document.getElementById('transaction-tabcontents');
+    var tab = close_element.parentNode;
+    var accountName = tab.id.substring(3);
+    var contentID = "content"+accountName;
+    var contentDiv = document.getElementById(contentID);
+
+    tabContainer.removeChild(tab);
+    contentContainer.removeChild(contentDiv);
+
+    //display next tab if exists
+    // var nextTabs = tabContainer.childNodes;
+    // var str = "";
+    // if(nextTabs.length > 5){
+    //     displayData(nextTabs[5]);
+    //     // alert(nextTabs[5].id);
+    // }
+    // for(i=0; i<nextTabs.length; i++){
+    //     str+=nextTabs[i].id + "\n";
+    // }
+}
 /* */
 function createTab(phpResponse) {
     var tabContainer = document.getElementById('transaction-tabs');
@@ -35,7 +57,18 @@ function createTab(phpResponse) {
     var link = document.createElement('A');
     var labelName = document.createTextNode(accountName);
     link.appendChild(labelName);
+
+    var linkClose = document.createElement('A');
+    var labelCloseName = document.createTextNode('x');
+    linkClose.appendChild(labelCloseName);
+    linkClose.setAttribute('style', 'border-left: none; border-top-right-radius: 3px; border-top-left-radius: 0;');
+    linkClose.setAttribute('onclick','closeTab(this);');
+
+    // link.appendChild(linkClose);
+
     tab.appendChild(link);
+    tab.appendChild(linkClose);
+
     tabContainer.appendChild(tab); //append to tabContainer
 
 

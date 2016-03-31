@@ -3,6 +3,7 @@
 // Use get method to determine which function to call
 $funcName = $_GET['funcToCall'];
 $accountName = $_GET['accName'];
+
 if ($funcName == "uploadCSV") {
     uploadCSV();
 } elseif ($funcName == "getTrans") {
@@ -78,7 +79,7 @@ if ($funcName == "uploadCSV") {
 
 
 } else {
-    echo "1984-01-01_Apple_-49.99_5_";
+    echo "no such account";
 }
 
 function uploadCSV(){
