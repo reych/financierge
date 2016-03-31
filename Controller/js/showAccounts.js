@@ -12,8 +12,9 @@ function displayAccounts(account_list) {
         var tableRow = document.createElement('TR');
         var tableData = document.createElement('TD');
         tableData.setAttribute('onclick', 'transactionsController(this);');
-        tableData.id = value;
         var value = document.createTextNode(accountsArray[i]);
+
+        tableData.id = accountsArray[i].trim();
 
         tableData.appendChild(value);
         tableRow.appendChild(tableData);
