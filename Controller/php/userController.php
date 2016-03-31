@@ -104,11 +104,11 @@ function getAccountNamesForList(){
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
 
-	foreach ($accounts as $key => $account) {
+	foreach ($accounts as $account) {
 		$result .= $account->get("name") . PHP_EOL;
 	}
 	echo $result;
-	/* 
+	/*
 	returning a string in the format
 	account1Name
 	account2Name

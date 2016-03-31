@@ -1,3 +1,5 @@
+alert("show accounts loaded");
+
 function displayAccounts(account_list) {
     var container = document.getElementById('account-list');
     clearChildren(container);
@@ -21,4 +23,8 @@ function displayAccounts(account_list) {
     //add table to container
     container.appendChild(table);
 
+}
+
+function displayTest() {
+    alert("displayTest");
 }
