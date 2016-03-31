@@ -78,8 +78,12 @@ if ($funcName == "uploadCSV") {
     }
 
 
-} else {
-    echo "no such account";
+} else if ($funcName == 'getAccountNamesForList'){
+    echo "saving
+    credit_card
+    checking
+    loan
+    ";
 }
 
 function uploadCSV(){

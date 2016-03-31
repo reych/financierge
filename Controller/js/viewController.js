@@ -18,12 +18,12 @@ function accountListController() {
 
 function uploadController() {
     event.preventDefault();
-
+    alert('uploading');
     // get the file from input file tag
     var file_data = $("#fileToUpload").prop("files")[0];
     var form_data = new FormData();
     form_data.append("file", file_data)
-    var result = phpRequest('uploadCSV', form_data);
+    phpRequest('uploadCSV', form_data);
     // alert(result);
     accountListController();
 }
@@ -46,7 +46,7 @@ function phpRequest(funcName, data) {
     // alert(funcName);
     return $.ajax({
         type:'post',
-        // url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
+        // url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
         url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
         data: data,
         // THIS MUST BE DONE FOR FILE UPLOADING
