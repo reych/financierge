@@ -1,7 +1,7 @@
 <?php
 
 include("../../model/network.php");
-include("vendor/autoload.php");
+include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;
@@ -57,39 +57,30 @@ function uploadCSV(){
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
 
-		while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-			foreach ($filedata as $data) {
-				if(count($data) == 2){
-					//account
-					$accountName = $data[0];
-					$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
-					// if(strcmp($data[1], "true") == 0){
-					// 	$isAsset = true;
-					// } else {
-					// 	$isAsset = false;
-					// }
+		Network::loginUser("christdv@usc.edu", "christdv");
+		while (!feof($file)) {
+			$line = fgets($file);
+			$data = explode(",", $line);
+			if (count($data) == 2) {
+				$accountName = $data[0];
+				$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
 
-					// if the account was not successfully added
-					if(!Network::addAccount($name, $isAsset)){
-					}
+				// if the account was not successfully added
+				if(!Network::addAccount($accountName, $isAsset)){
+				}
+			} else {
+				//transaction
+				$accountName = $data[0];
+				$date = new DateTime($data[1]); //added time to match parse format
+				$principle = $data[2];
+				$amount = floatval($data[3]);
+				$category = $data[4];
 
-				} else {
-					//transaction
-					$accountName = $data[0];
-					$date = new DateTime($data[1]); //added time to match parse format
-					$principle = $data[2];
-					$amount = $data[3];
-					$category = $data[4];
-
-					if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
-						//add to an array of all the transactions not uploaded
-					}
+				if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
+					//add to an array of all the transactions not uploaded
 				}
 			}
-
-			//check if array is emtpy, if not, echo all the transactions not uploaded, with a small message
 		}
-
 
 		/***
 		echo indication to javascript to request several pieces of info:

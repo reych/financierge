@@ -20,8 +20,8 @@ function phpRequest(funcName, formData) {
     }
     $.ajax({
         type:'post',
-        // url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
-        url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
+        url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
+        //url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
         data: formData,
         // THIS MUST BE DONE FOR FILE UPLOADING
         contentType: false,
