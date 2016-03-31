@@ -8,4 +8,4 @@ Feature: Load transactions
   Scenario: User clicks a second account
     Given there is already an account displayed in the transactions widget
     When User clicks <account2>
-    Then...
+    Then <account2> transaction info is displayed
