@@ -18,6 +18,8 @@ function createTab(phpResponse) {
      var tabs = tabContainer.childNodes;
      for(i=0; i<tabs.length; i++) {
          if(tabs[i].id == "tab-"+accountName){
+             var tempTab = document.getElementById(tabs[i].id);
+             displayData(tempTab);
              return;
          }
      }
@@ -68,7 +70,7 @@ function displayTransactions(containerID, transactions_list) {
         var transactionDataArray = transactionsArray[i].split('_');
         var tableRow = document.createElement('TR');
         //every odd row color darker
-        if(i%2 != 0){
+        if(i%2 == 0){
             tableRow.setAttribute('style', 'background-color: #C0C0C0;');
         }
 
