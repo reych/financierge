@@ -112,7 +112,7 @@ function getAccountNamesForList(){
 	// sort the array
 	sort($accountNameArray);
 
-	for ($int i = 0; $i < count($accountNameArray); $i++){
+	for ($i= 0; $i < count($accountNameArray); $i++){
 		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
 	echo $result;
@@ -163,7 +163,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 	$result = $accountName . PHP_EOL;
 
 	foreach ($rawTransactions as $key => $rawTrans){
-		
+
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
 		$amount = $rawTrans->get("amount");
