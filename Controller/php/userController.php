@@ -160,9 +160,10 @@ Network::loginUser("christdv@usc.edu", "christdv");
 		echo 'No transactions for this account!';
 		return;
 	}
-	$result = "";
+	$result = $accountName . PHP_EOL;
 
 	foreach ($rawTransactions as $key => $rawTrans){
+		
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
 		$amount = $rawTrans->get("amount");
