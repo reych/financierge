@@ -13,8 +13,7 @@ accountListController();
 function accountListController() {
     var result = phpRequest('getAccountNamesForList','');
     // alert(result);
-    // displayAccounts(result);
-    displayTest();
+    displayAccounts(result);
 }
 
 function uploadController() {
@@ -32,7 +31,7 @@ function uploadController() {
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date';
     var result = phpRequest('getTrans', arguments);
-    // alert(result);
+    alert(result);
     createTab(result);
 }
 

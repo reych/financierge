@@ -1,5 +1,3 @@
-alert("show accounts loaded");
-
 function displayAccounts(account_list) {
     var container = document.getElementById('account-list');
     clearChildren(container);
@@ -13,7 +11,9 @@ function displayAccounts(account_list) {
     for(i=0; i<accountsArray.length; i++) {
         var tableRow = document.createElement('TR');
         var tableData = document.createElement('TD');
-        var value = document.createTextNode(accountsArray[j]);
+        tableData.setAttribute('onclick', 'transactionsController(this);');
+        tableData.id = value;
+        var value = document.createTextNode(accountsArray[i]);
 
         tableData.appendChild(value);
         tableRow.appendChild(tableData);
@@ -25,6 +25,6 @@ function displayAccounts(account_list) {
 
 }
 
-function displayTest() {
+function displayTestaaaa() {
     alert("displayTest");
 }

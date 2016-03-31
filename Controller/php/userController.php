@@ -123,7 +123,7 @@ function getTransactionsForList(){
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
-
+Network::loginUser("christdv@usc.edu", "christdv");
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
 	if ($startDate == NULL || $startDate == "") {
