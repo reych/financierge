@@ -127,9 +127,7 @@ function getTransactionsForList(){
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
 
-
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
-
 
 	if ($startDate == NULL || $startDate == "") {
 		//$date = date('m/d/Y h:i:s a', time());
