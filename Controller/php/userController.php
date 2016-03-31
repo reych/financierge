@@ -1,7 +1,7 @@
 <?php
 
 include("../../model/network.php");
-include("vendor/autoload.php");
+include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;
@@ -45,6 +45,10 @@ function login(){
 	}
 }
 
+function logout(){
+	Network::logoutUser();
+}
+
 function uploadCSV(){
 
 	//get file from temporary direcory where it is stored
@@ -57,50 +61,34 @@ function uploadCSV(){
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
 
-		while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-			foreach ($filedata as $data) {
-				if(count($data) == 2){
-					//account
-					$accountName = $data[0];
-					$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
-					// if(strcmp($data[1], "true") == 0){
-					// 	$isAsset = true;
-					// } else {
-					// 	$isAsset = false;
-					// }
+		Network::loginUser("christdv@usc.edu", "christdv");
+		while (!feof($file)) {
+			$line = fgets($file);
+			$data = explode(",", $line);
+			if (count($data) == 2) {
+				$accountName = $data[0];
+				$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
 
-					// if the account was not successfully added
-					if(!Network::addAccount($name, $isAsset)){
-					}
+				// if the account was not successfully added
+				if(!Network::addAccount($accountName, $isAsset)){
+				}
+			} else {
+				//transaction
+				$accountName = $data[0];
+				$date = new DateTime($data[1]); //added time to match parse format
+				$principle = $data[2];
+				$amount = floatval($data[3]);
+				$category = $data[4];
 
-				} else {
-					//transaction
-					$accountName = $data[0];
-					$date = new DateTime($data[1]); //added time to match parse format
-					$principle = $data[2];
-					$amount = $data[3];
-					$category = $data[4];
-
-					if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
-						//add to an array of all the transactions not uploaded
-					}
+				if(!Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category)){
+					//add to an array of all the transactions not uploaded
 				}
 			}
-
-			//check if array is emtpy, if not, echo all the transactions not uploaded, with a small message
 		}
-
-
-		/***
-		echo indication to javascript to request several pieces of info:
-			- list of accounts
-			- all data necessary for initial graph look
-			- probably something else, tbd
-			- NOT info for transactions (requested upon clicking list of accounts)
-		***/
+		echo "Success";
 
 	} else {
-		echo "Error: Cannot open file!";
+		echo "Error";
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
@@ -116,11 +104,19 @@ function getAccountNamesForList(){
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
 
-	foreach ($accounts as $key => $account) {
-		$result .= $account->get("name") . PHP_EOL;
+	$accountNameArray = array();
+	foreach ($accounts as $account) {
+		array_push($accountNameArray, $account->get("name"));
+	}
+
+	// sort the array
+	sort($accountNameArray);
+
+	for ($i= 0; $i < count($accountNameArray); $i++){
+		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
 	echo $result;
-	/* 
+	/*
 	returning a string in the format
 	account1Name
 	account2Name
@@ -135,23 +131,26 @@ function getTransactionsForList(){
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
-
-
+Network::loginUser("christdv@usc.edu", "christdv");
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
-
-	if ($startDate == NULL) {
+	if ($startDate == NULL || $startDate == "") {
 		//$date = date('m/d/Y h:i:s a', time());
-		$startDate = date('Y-m-d');
+		$startDate = new DateTime('Y-m-d');
 		//echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
+	} else {
+		$startDate = new DateTime($startDate);
 	}
 
 	//echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
 
-	if ($endDate == NULL) {
+	if ($endDate == NULL || $startDate == "") {
 
-		$endDate = date('Y-m-d', strtotime("-3 months", strtotime($startDate)));
+		$endDate = clone $startDate;
+		$endDate->modify("-3 months");
 		//echo ("<script>console.log('endDate became: ".$endDate."'); </script>");
+	} else {
+		$endDate = new DateTime($endDate);
 	}
 
 	//change code here to not use start and end date for sprint 1
@@ -161,9 +160,10 @@ function getTransactionsForList(){
 		echo 'No transactions for this account!';
 		return;
 	}
-	$result = "";
+	$result = $accountName . PHP_EOL;
 
 	foreach ($rawTransactions as $key => $rawTrans){
+
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
 		$amount = $rawTrans->get("amount");
