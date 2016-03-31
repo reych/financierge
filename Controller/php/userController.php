@@ -104,8 +104,16 @@ function getAccountNamesForList(){
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
 
+	$accountNameArray = array();
 	foreach ($accounts as $account) {
-		$result .= $account->get("name") . PHP_EOL;
+		array_push($accountNameArray, $account->get("name"));
+	}
+
+	// sort the array
+	sort($accountNameArray);
+
+	for ($int i = 0; $i < count($accountNameArray); $i++){
+		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
 	echo $result;
 	/*
