@@ -76,6 +76,7 @@ class Network {
 			// create account and save it in Account table
 			$account = new ParseObject("Account");
 			$account->set("name", $name);
+			$account->set("balance", 0);
 			$account->set("isAsset", $isAsset);
 			$account->save();
 			// add account to accounts array for current user and save it in User table
@@ -206,6 +207,9 @@ class Network {
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->ascending($sort);
 						$transactions = $transactionQuery->find();
+						// for ($k = 0; $k < count($transactions); $k++) { // used for testing purposes only
+						// 	echo $transactions[$k]->get("principle") . "--\n";
+						// }
 						return $transactions;
 					}
 				}
@@ -217,8 +221,11 @@ class Network {
 	}
 }
 // test for fetching transactions within certain dates
-//Network::loginUser("christdv@usc.edu", "christdv");
-//$start = new DateTime("2016-03-28");
-//$end = new DateTime("2016-03-30");
-//Network::getTransactionsForAccountWithinDates($start, $end, "Christian's Checking Acct");
+// Network::loginUser("christdv@usc.edu", "christdv");
+// $date = new DateTime("2016-03-15");
+// Network::addTransactionToAccount("Christian's Checking Acct", $date, "USC", 1024.95, "Food");
+// $start = new DateTime("2016-03-18");
+// $end = new DateTime("2016-03-27");
+// Network::getTransactionsForAccountWithinDates("Christian's Checking Acct", $start, $end, "name");
+// Network::logoutUser();
 ?>
