@@ -45,6 +45,10 @@ function login(){
 	}
 }
 
+function logout(){
+	Network::logoutUser();
+}
+
 function uploadCSV(){
 
 	//get file from temporary direcory where it is stored
@@ -81,17 +85,10 @@ function uploadCSV(){
 				}
 			}
 		}
-
-		/***
-		echo indication to javascript to request several pieces of info:
-			- list of accounts
-			- all data necessary for initial graph look
-			- probably something else, tbd
-			- NOT info for transactions (requested upon clicking list of accounts)
-		***/
+		echo "Success";
 
 	} else {
-		echo "Error: Cannot open file!";
+		echo "Error";
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
@@ -127,22 +124,25 @@ function getTransactionsForList(){
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
 
-
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
-
-	if ($startDate == NULL) {
+	if ($startDate == NULL || $startDate == "") {
 		//$date = date('m/d/Y h:i:s a', time());
-		$startDate = date('Y-m-d');
+		$startDate = new DateTime('Y-m-d');
 		//echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
+	} else {
+		$startDate = new DateTime($startDate);
 	}
 
 	//echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
 
-	if ($endDate == NULL) {
+	if ($endDate == NULL || $startDate == "") {
 
-		$endDate = date('Y-m-d', strtotime("-3 months", strtotime($startDate)));
+		$endDate = clone $startDate;
+		$endDate->modify("-3 months");
 		//echo ("<script>console.log('endDate became: ".$endDate."'); </script>");
+	} else {
+		$endDate = new DateTime($endDate);
 	}
 
 	//change code here to not use start and end date for sprint 1
