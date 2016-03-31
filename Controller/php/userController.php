@@ -186,8 +186,8 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 function userLoggedIn() {
 	if(Network::getCurrentUser()) {
-		return true;
+		echo "TRUE";
 	}
-	return false;
+	echo "FALSE";
 }
 ?>
