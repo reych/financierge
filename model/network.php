@@ -212,7 +212,7 @@ class Network {
 						$transactionQuery->ascending($sort);
 						$transactions = $transactionQuery->find();
 						// for ($k = 0; $k < count($transactions); $k++) { // used for testing purposes only
-						// 	echo $transactions[$k]->get("principle") . "--\n";
+						// 	echo $transactions[$k]->get("principle") . " -- " . $transactions[$k]->getObjectId() . "\n";
 						// }
 						return $transactions;
 					}
@@ -225,16 +225,12 @@ class Network {
 	}
 }
 
-Network::loginUser("christdv@usc.edu", "christdv");
-Network::getTransactionsForAccount("Checking");
-Network::logoutUser();
-
 // test for fetching transactions within certain dates
 // Network::loginUser("christdv@usc.edu", "christdv");
-// $date = new DateTime("2016-03-15");
-// Network::addTransactionToAccount("Christian's Checking Acct", $date, "USC", 1024.95, "Food");
-// $start = new DateTime("2016-03-18");
-// $end = new DateTime("2016-03-27");
-// Network::getTransactionsForAccountWithinDates("Christian's Checking Acct", $start, $end, "name");
+// // $date = new DateTime("2016-03-15");
+// // Network::addTransactionToAccount("Christian's Checking Acct", $date, "USC", 1024.95, "Food");
+// $start = new DateTime("2016-03-10");
+// $end = new DateTime("2016-03-23");
+// Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
 // Network::logoutUser();
 ?>
