@@ -10,11 +10,11 @@
 // });
 // alert(window.location.href);
 
-var loggedIn = phpRequest('userLoggedIn','');
-if (loggedIn == 'TRUE') {
+// var loggedIn = phpRequest('userLoggedIn','');
+// if (loggedIn == 'TRUE') {
     accountListController();
     // logInController();
-}
+// }
 // else {
 //     if (window.location.href != "http://localhost/login.html") {
 //         window.location = "login.html";
@@ -83,7 +83,8 @@ function uploadController() {
 
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date';
-    var result = phpRequest('getTrans', arguments);
+    alert(arguments);
+    var result = phpRequest('getTransactionsForList', arguments);
     alert(result);
     createTab(result);
 }
@@ -94,11 +95,11 @@ function sortTransactions(sortType){
         var accountName = selectedTabs[0].id.substring(4);
         if(isValidSortType(sortType)){
             var arguments = '&accName=' + accountName + '&sortType=' + sortType;
-            var result = phpRequest('getTrans', arguments);
+            var result = phpRequest('getTransactionsForList', arguments);
             createTab(result);
         }
     }
-     
+
 }
 
 //helper function to check if sort type is valid
