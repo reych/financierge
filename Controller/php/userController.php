@@ -167,7 +167,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 	if ($startDate == NULL || $startDate == "") {
 		//$date = date('m/d/Y h:i:s a', time());
-		$startDate = new DateTime('Y-m-d');
+		$startDate = new DateTime();
 		//echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
 	} else {
 		$startDate = new DateTime($startDate);
@@ -175,7 +175,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 	//echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
 
-	if ($endDate == NULL || $startDate == "") {
+	if ($endDate == NULL || $endDate == "") {
 
 		$endDate = clone $startDate;
 		$endDate->modify("-3 months");
