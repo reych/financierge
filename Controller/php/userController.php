@@ -67,7 +67,7 @@ function uploadCSV(){
 			$data = explode(",", $line);
 			if (count($data) == 2) {
 				$accountName = $data[0];
-				$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
+				$isAsset = (strcmp($data[1], "true") == 0);
 
 				// check to see if account already exists for this user
 				$AccountAlreadyExists = false;

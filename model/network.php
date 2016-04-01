@@ -119,6 +119,10 @@ class Network {
 				for ($i = 0; $i < count($accounts); $i++) {
 					$accounts[$i]->fetch();
 					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
+						$transactions = $accounts[$i]->get("transactions");
+						foreach ($transactions as $transaction) {
+							$transaction->destroy();
+						}
 						$accounts[$i]->destroy();
 						unset($accounts[$i]);
 						$currentUser->setArray("accounts", $accounts);
