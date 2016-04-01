@@ -20,11 +20,13 @@
             <div class="col-sm-4">
                 <h3>Upload Accounts</h3>
                 <div class = "upload module">
-                    <form id="CSVForm" enctype="multipart/form-data" method="post" action="../Controller/php/userController.php">
+                    <!-- <form id="CSVForm" enctype="multipart/form-data" method="post" action="Controller/php/upload.php?funcToCall=uploadCSV"> -->
+                    <form id="CSVForm" enctype="multipart/form-data" method="post" action="Controller/php/userController.php?funcToCall=uploadCSV">
                         <input type="file" name="fileToUpload" id="fileToUpload" accept="text/csv" style = "margin-left: 33%;">
                         <label for="fileToUpload"></label>
                         <br>
-                        <button type="submit" id="upload-button" onclick="uploadController();">Upload</button>
+                        <button type="submit" id="upload-button">Upload</button>
+                        <!-- <button type="submit" id="upload-button" onclick="uploadController();">Upload</button> -->
                     </form>
                 </div>
                 <h3>Account List</h3>
