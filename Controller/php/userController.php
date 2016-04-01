@@ -69,8 +69,17 @@ function uploadCSV(){
 				$accountName = $data[0];
 				$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
 
+				// check to see if account already exists for this user
+				$AccountAlreadyExists = false;
+				$accounts = Network::getAccounts();
+				foreach ($accounts as $account) {
+					if (strcmp($account->get("name"), $accountName) == 0) {
+						$AccountAlreadyExists = true;
+					}
+				}
+
 				// if the account was not successfully added
-				if(!Network::addAccount($accountName, $isAsset)){
+				if(!$AccountAlreadyExists && !Network::addAccount($accountName, $isAsset)){
 					// indicate account could not be added? will this screw up the frontend protocol?
 				}
 			} else if (count($data) == 3) {
