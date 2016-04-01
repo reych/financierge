@@ -54,9 +54,9 @@ function uploadCSV(){
 	//get file from temporary direcory where it is stored
 	$target_dir = sys_get_temp_dir();
 	//complete file path
-	$target_file = $target_dir . "/" . basename($_FILES["file"]["name"]);
+	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
 	//move file to the temporary directory to process
-	move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
+	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 	//open file
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
@@ -82,7 +82,7 @@ function uploadCSV(){
 				if(!$AccountAlreadyExists && !Network::addAccount($accountName, $isAsset)){
 					// indicate account could not be added? will this screw up the frontend protocol?
 				}
-				
+
 			// if it's a three item line (delete or modify account)
 			} else if (count($data) == 3) {
 				if (strcmp(strtolower($data[0]), "delete") == 0) {					$accountName = $data[1];
