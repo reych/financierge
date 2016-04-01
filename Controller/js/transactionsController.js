@@ -102,6 +102,7 @@ function displayTransactions(containerID, transactions_list) {
     var tRow = tHead.firstChild;
     var headers = tRow.childNodes;
     headers[0].setAttribute('onclick', 'sortTransactions(\'date\')');
+    headers[1].setAttribute('onclick', 'sortTransactions(\'principle\')');
     headers[2].setAttribute('onclick', 'sortTransactions(\'amount\')');
     headers[3].setAttribute('onclick', 'sortTransactions(\'category\')');
     //add styles
