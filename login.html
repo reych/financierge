@@ -4,20 +4,18 @@
   <title>HalFund</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
 
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="graph.js"></script>
-  <link rel = "stylesheet" type="text/css" href = "style.css">
+  <script src="Controller/js/viewController.js"></script>
+
+  <link rel = "stylesheet" type="text/css" href = "View/style.css">
 </head>
 <body>
 <div class="container-fluid">
 	<h1>Financierge</h1>
-		<div class = "login-outer"> 
+		<div class = "login-outer">
 			<div class = "login-module module">
 				<form id = "userLoginForm">
 				  <div class = "form-label">Username:</div>
@@ -25,9 +23,12 @@
 				  <br>
 				  <div class = "form-label">Password:</div>
 				  <input id = "login password" type="password" name="password">
+                  <br>
+                  <br>
+                  <button type="button" class="btn btn-primary" id = "login-submit" onclick="logInController();">Login</button>
 				</form>
 				<br>
-				<button type="button" class="btn btn-primary" id = "login-submit">Login</button>
+
 			</div>
 		</div>
 </div>

@@ -54,9 +54,9 @@ function uploadCSV(){
 	//get file from temporary direcory where it is stored
 	$target_dir = sys_get_temp_dir();
 	//complete file path
-	$target_file = $target_dir . "/" . basename($_FILES["file"]["name"]);
+	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
 	//move file to the temporary directory to process
-	move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
+	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
 	//open file
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
@@ -69,8 +69,28 @@ function uploadCSV(){
 				$accountName = $data[0];
 				$isAsset = (strcmp($data[1], "true") == 0) ? true : false;
 
+				// check to see if account already exists for this user
+				$AccountAlreadyExists = false;
+				$accounts = Network::getAccounts();
+				foreach ($accounts as $account) {
+					if (strcmp($account->get("name"), $accountName) == 0) {
+						$AccountAlreadyExists = true;
+					}
+				}
+
 				// if the account was not successfully added
-				if(!Network::addAccount($accountName, $isAsset)){
+				if(!$AccountAlreadyExists && !Network::addAccount($accountName, $isAsset)){
+					// indicate account could not be added? will this screw up the frontend protocol?
+				}
+
+			// if it's a three item line (delete or modify account)
+			} else if (count($data) == 3) {
+				if (strcmp(strtolower($data[0]), "delete") == 0) {					$accountName = $data[1];
+
+					// if the account was not successfully deleted
+					if(!Network::deleteAccount($accountName)){
+						// indicate account could not be deleted? will this screw up the frontend protocol?
+					}
 				}
 			} else {
 				//transaction
@@ -155,7 +175,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 	//change code here to not use start and end date for sprint 1
 
-	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, $sort);
+	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, strtolower($sort));
 	if($rawTransactions == NULL){
 		echo 'No transactions for this account!';
 		return;
@@ -175,4 +195,11 @@ Network::loginUser("christdv@usc.edu", "christdv");
 	echo $result;
 }
 
+
+function userLoggedIn() {
+	if(Network::getCurrentUser()) {
+		echo "TRUE";
+	}
+	echo "FALSE";
+}
 ?>
