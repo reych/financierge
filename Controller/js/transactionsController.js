@@ -96,7 +96,7 @@ function displayTransactions(containerID, transactions_list) {
     var transactionsArray = transactions_list.split('\n');
     //create table
     var table = document.createElement('TABLE');
-    createTableHeaders(table, 'Date_Principle_Amount_Category');
+    createTableHeaders(table, 'Date_Principle_Amount_Category_');
     //add onclick listeners to headers
     var tHead = table.firstChild;
     var tRow = tHead.firstChild;

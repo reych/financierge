@@ -123,6 +123,7 @@ function uploadCSV(){
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
+    Network::logoutUser();
 }
 
 function formatTransactions(){
@@ -153,11 +154,12 @@ Network::loginUser("christdv@usc.edu", "christdv");
 	account2Name
 	...
 	*/
+    Network::logoutUser();
 }
 
 function getTransactionsForList(){
     Network::loginUser("christdv@usc.edu", "christdv");
-    
+
 	//get all account names as such
 	$accountName = $_GET["accName"];
 	$sort = $_GET["sortType"];
@@ -186,6 +188,9 @@ function getTransactionsForList(){
 
 	//change code here to not use start and end date for sprint 1
 
+    // echo $accountName;
+
+    echo userLoggedIn();
 	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, strtolower($sort));
 	if($rawTransactions == NULL){
 		echo 'No transactions for this account!';
@@ -204,13 +209,13 @@ function getTransactionsForList(){
 	}
 
 	echo $result;
+    Network::logoutUser();
 }
 
 
 function userLoggedIn() {
 	if(Network::getCurrentUser()) {
 		echo "TRUE";
-	}
-	echo "FALSE";
+	} else {echo "FALSE";}
 }
 ?>

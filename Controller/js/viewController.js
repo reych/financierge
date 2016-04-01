@@ -121,8 +121,8 @@ function phpRequest(funcName, data, usrName, passWrd) {
     // alert(funcName);
     return jQuery.ajax({
         type:'post',
-        url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
-        // url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
+        // url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
+        url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
         data: {username: usrName, password: passWrd},
         // THIS MUST BE DONE FOR FILE UPLOADING
         // contentType: false,
