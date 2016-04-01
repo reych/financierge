@@ -82,12 +82,15 @@ function uploadCSV(){
 				if(!$AccountAlreadyExists && !Network::addAccount($accountName, $isAsset)){
 					// indicate account could not be added? will this screw up the frontend protocol?
 				}
+				
+			// if it's a three item line (delete or modify account)
 			} else if (count($data) == 3) {
-				$accountName = $data[1];
+				if (strcmp(strtolower($data[0]), "delete") == 0) {					$accountName = $data[1];
 
-				// if the account was not successfully added
-				if(!Network::deleteAccount($accountName)){
-					// indicate account could not be deleted? will this screw up the frontend protocol?
+					// if the account was not successfully deleted
+					if(!Network::deleteAccount($accountName)){
+						// indicate account could not be deleted? will this screw up the frontend protocol?
+					}
 				}
 			} else {
 				//transaction
@@ -130,7 +133,7 @@ function getAccountNamesForList(){
 	sort($accountNameArray);
 
 	for ($i= 0; $i < count($accountNameArray); $i++){
-		$result .= $accountNameArray()[$i] . PHP_EOL;
+		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
 	echo $result;
 	/*
