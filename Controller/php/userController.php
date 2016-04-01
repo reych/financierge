@@ -12,6 +12,8 @@ session_start();
 date_default_timezone_set("America/Los_Angeles");
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
+
+
 // Use get method to determine which function to call
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
@@ -130,6 +132,7 @@ function formatTransactions(){
 }
 
 function getAccountNamesForList(){
+    Network::loginUser("christdv@usc.edu", "christdv");
 
 	$result = "";
 	$accounts = Network::getAccounts();
@@ -156,18 +159,19 @@ function getAccountNamesForList(){
 }
 
 function getTransactionsForList(){
+    Network::loginUser("christdv@usc.edu", "christdv");
 
 	//get all account names as such
 	$accountName = $_GET["accName"];
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
-Network::loginUser("christdv@usc.edu", "christdv");
+
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
 	if ($startDate == NULL || $startDate == "") {
 		//$date = date('m/d/Y h:i:s a', time());
-		$startDate = new DateTime('Y-m-d');
+		$startDate = new DateTime();
 		//echo ("<script>console.log('startDate became: ".$startDate."'); </script>");
 	} else {
 		$startDate = new DateTime($startDate);
@@ -175,7 +179,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 	//echo ("<script>console.log('endDate is initially: ".$endDate."'); </script>");
 
-	if ($endDate == NULL || $startDate == "") {
+	if ($endDate == NULL || $endDate == "") {
 
 		$endDate = clone $startDate;
 		$endDate->modify("-3 months");

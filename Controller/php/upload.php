@@ -6,7 +6,7 @@ $accountName = $_GET['accName'];
 
 if ($funcName == "uploadCSV") {
     uploadCSV();
-} elseif ($funcName == "getTrans") {
+} elseif ($funcName == "getTransactionsForList") {
     if ($accountName == "checking") {
         echo "Checking
         2016-03-29_Subway_-6.65_1_

@@ -5,7 +5,7 @@
 NETWORK CLASS API
 -----------------
 
-DISCLAIMER: All functions have only been tested on a basic level, so there might still be issues I was unable to see during implementation. 
+DISCLAIMER: All functions have only been tested on a basic level, so there might still be issues I was unable to see during implementation.
 
 Network::signupUser(username, password) -> true if signup was successful, false if otherwise
 
@@ -34,7 +34,7 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
 
-session_start();
+// session_start();
 date_default_timezone_set("America/Los_Angeles");
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
@@ -57,7 +57,7 @@ class Network {
 		try {
 			$user = ParseUser::logIn($username, $password);
 			return $user;
-		} catch (ParseException $error) { 
+		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
 		return NULL;
@@ -206,8 +206,8 @@ class Network {
 							$transactionIDs[] = $transactions[$k]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $start); 
-						$transactionQuery->lessThanOrEqualTo("date", $end); 
+						$transactionQuery->greaterThanOrEqualTo("date", $start);
+						$transactionQuery->lessThanOrEqualTo("date", $end);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->ascending($sort);
 						$transactions = $transactionQuery->find();
