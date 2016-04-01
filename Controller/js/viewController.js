@@ -35,6 +35,27 @@ function transactionsController(accountClicked) {
     createTab(result);
 }
 
+function sortTransactions(sortType){
+    var selectedTabs = document.getElementsByClassName('selected');
+    if(selectedTabs[0] !== undefined && selectedTabs[0] != undefined) {
+        var accountName = selectedTabs[0].id.substring(4);
+        if(isValidSortType(sortType)){
+            var arguments = '&accName=' + accountName + '&sortType=' + sortType;
+            var result = phpRequest('getTrans', arguments);
+            createTab(result);
+        }
+    }
+     
+}
+
+//helper function to check if sort type is valid
+function isValidSortType(sortType) {
+    if(sortType === 'date' || sortType === 'category' || sortType === 'amount') {
+        return true;
+    }
+    return false;
+}
+
 // ajax func to handel all call to php
 function phpRequest(funcName, data) {
     var arguments = "";

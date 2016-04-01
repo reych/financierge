@@ -97,6 +97,18 @@ function displayTransactions(containerID, transactions_list) {
     //create table
     var table = document.createElement('TABLE');
     createTableHeaders(table, 'Date_Principle_Amount_Category');
+    //add onclick listeners to headers
+    var tHead = table.firstChild;
+    var tRow = tHead.firstChild;
+    var headers = tRow.childNodes;
+    headers[0].setAttribute('onclick', sortTransactions('date'));
+    headers[2].setAttribute('onclick', sortTransactions('amount'));
+    headers[3].setAttribute('onclick', sortTransactions('category'));
+    //add styles
+    for(i=0; i<4; i++) {
+    	headers[i].className = 'clickable';
+    }
+
 
     //insert transaction data into table
     for(i=0; i<transactionsArray.length; i++) {
@@ -138,13 +150,13 @@ function createTableHeaders(table, headers_string){
     var tableHeaders = headers_string.split('_')
 	//create table header elements and content
 	for(i = 0; i < tableHeaders.length; i++){
-		var ticker = document.createElement("TH");
+		var header = document.createElement("TH");
 		var content = document.createTextNode(tableHeaders[i]);
-		ticker.appendChild(content);
+		header.appendChild(content);
 		var alignAttr = document.createAttribute("align");
 		alignAttr.value = "left";
-		ticker.setAttributeNode(alignAttr);
-		tableRow.appendChild(ticker);
+		header.setAttributeNode(alignAttr);
+		tableRow.appendChild(header);
 	}
 	//add row to watchlist content
 	tHead.appendChild(tableRow);

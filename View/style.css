@@ -64,6 +64,11 @@ h1,h3{
 	padding-left: 1em;
 	min-width: 5em;
 }
+
+.clickable:hover, .clickable:active{
+	background-color: #F0F0F0;
+	cursor: pointer;
+}
 /*
 .login-module {
 	position: absolute;
