@@ -30,7 +30,7 @@ function login(){
 	$password = $_POST["password"];
 	//call parse class login function
 	//login returns a user object or null
-	$user = Network::login($username, $password);
+	$user = Network::loginUser($username, $password);
 
 	if($user){
 		// echo '<script language="javascript">';

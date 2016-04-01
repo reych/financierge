@@ -10,16 +10,15 @@
 // });
 // alert(window.location.href);
 
-// var loggedIn = phpRequest('userLoggedIn','');
-// if (loggedIn == 'TRUE') {
+var loggedIn = phpRequest('userLoggedIn','');
+if (loggedIn == 'TRUE') {
     accountListController();
     // logInController();
-// }
+}
 // else {
-//     if (window.location.href != "http://localhost/login.html") {
-//         window.location = "login.html";
-//     }
-//
+    // if (window.location.href != "http://localhost/login.html") {
+        // window.location = "login.html";
+    // }
 // }
 
 var loginCounter = 0;
@@ -37,29 +36,45 @@ function logInController() {
 
 
 
-    // if (loginCounter == 4) {
-    //     if (checkIfOneMinHadPassed()) {
-    //         loginCounter = 0;
-    //     } else {
-    //         alert('Please wait at least 1 minute beofre next try!');
-    //         return;
-    //     }
-    // }
 
-    var username = document.getElementById('login-username');
-    var password = document.getElementById('login-password');
-    var result = phpRequest('login', '', username, password);
+
+
+    if (loginCounter == 4) {
+        if (checkIfOneMinHadPassed()) {
+            loginCounter = 0;
+        } else {
+            alert('Please wait at least 1 minute beofre next try!');
+            return;
+        }
+    }
+
+    var usrName = document.getElementById('login-username').value;
+    var passWrd = document.getElementById('login-password').value;
+
+
+    // $.post( "../Controller/php/userController.php?funcToCall=login", { username: usrName, password: passWrd })
+    //   .done(function( data ) {
+    //     // alert( "Data Loaded: " + data );
+    //     if (data == 'SUCCESS') {
+    //         window.location = "index.html";
+    //     } else {
+    //         alert('login failed');
+    //     }
+    //   });
+
+    var result = phpRequest('login', '', usrName, passWrd);
     // var result = phpRequest('login', '', 'christdv@usc.edu', 'christdv');
     // alert(result);
     if (result == 'SUCCESS') {
         window.location = "index.html";
         // alert("login success");
     } else {
-        // loginCounter++;
-        // if (loginCounter == 4) {
-        //     past = new Date(yourTimeString).getTime();
-        // }
-        alert('login failed!');
+        loginCounter++;
+        if (loginCounter == 4) {
+            alert('setting past time')
+            past = new Date().getTime();
+        }
+        alert('login failed!' + loginCounter);
     }
 }
 
