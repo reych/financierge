@@ -41,6 +41,7 @@ function login(){
 		// echo 'window.location.assign("../../index.html");';
 		// echo '</script>';
         echo "SUCCESS";
+        return "SUCCESS";
 	}
 	else {
 		// echo '<script language="javascript">';
@@ -48,6 +49,7 @@ function login(){
 		// echo 'window.location.assign("../../login.html");';
 		// echo '</script>';
         echo "FAIL";
+        return "FAIL";
 	}
 }
 
@@ -121,7 +123,8 @@ function uploadCSV(){
         echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
-        exit();
+
+        return "SUCCESS";
 
 	} else {
 		// echo "Error";
@@ -129,6 +132,7 @@ function uploadCSV(){
         echo 'alert("Upload failed!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
+        return "FAIL";
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
@@ -141,7 +145,7 @@ function formatTransactions(){
 
 function getAccountNamesForList(){
 //Network::loginUser("christdv@usc.edu", "christdv");
-	$result = "";
+	$result = NULL;
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
 
@@ -157,6 +161,12 @@ function getAccountNamesForList(){
 		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
 	echo $result;
+
+	if($result){
+		return "SUCCESS";
+	} else {
+		return "FAIL";
+	}
 	/*
 	returning a string in the format
 	account1Name
