@@ -206,8 +206,8 @@ class Network {
 							$transactionIDs[] = $transactions[$k]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $start);
-						$transactionQuery->lessThanOrEqualTo("date", $end);
+						//$transactionQuery->greaterThanOrEqualTo("date", $start);
+						//$transactionQuery->lessThanOrEqualTo("date", $end);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->ascending($sort);
 						$transactions = $transactionQuery->find();
