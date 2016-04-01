@@ -32,6 +32,11 @@ function checkIfOneMinHadPassed() {
     return isPast;
 }
 
+function logoutController() {
+    phpRequest('logout', '');
+    window.location = "login.html";
+}
+
 function logInController() {
 
 
