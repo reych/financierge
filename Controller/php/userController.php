@@ -24,7 +24,9 @@ if ($funcName == "uploadCSV") {
 	login();
 } else if($funcName == "userLoggedIn"){
 	userLoggedIn();
-} 
+} else if($funcName == 'logout') {
+    logout();
+}
 
 function login(){
 
@@ -64,7 +66,7 @@ function uploadCSV(){
 	//open file
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
-		
+
 		//Network::loginUser("christdv@usc.edu", "christdv");
 		while (!feof($file)) {
 			$line = fgets($file);
@@ -112,7 +114,7 @@ function uploadCSV(){
 				}
 			}
 		}
-		
+
 		//echo $tempStr;
 		//echo $bool_val ? 'isAsset: true' : 'isAsset: false';//"Success";
         echo '<script language="javascript">';

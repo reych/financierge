@@ -34,8 +34,9 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
 
-session_start();
 date_default_timezone_set("America/Los_Angeles");
+session_start();
+
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 class Network {

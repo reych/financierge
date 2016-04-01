@@ -11,15 +11,15 @@
 // alert(window.location.href);
 
 var loggedIn = phpRequest('userLoggedIn','');
+// alert(loggedIn);
 if (loggedIn == 'TRUE') {
     accountListController();
     // logInController();
+} else {
+    if (window.location.href != "http://localhost/login.html") {
+        window.location = "login.html";
+    }
 }
-// else {
-    // if (window.location.href != "http://localhost/login.html") {
-        // window.location = "login.html";
-    // }
-// }
 
 var loginCounter = 0;
 var past;
@@ -79,7 +79,7 @@ function logInController() {
             alert('setting past time')
             past = new Date().getTime();
         }
-        alert('login failed!' + loginCounter);
+        alert('Wrong username or password!');
     }
 }
 
@@ -91,21 +91,21 @@ function accountListController() {
 
 function uploadController() {
     event.preventDefault();
-    alert('uploading');
+    // alert('uploading');
     // get the file from input file tag
     var file_data = $("#fileToUpload").prop("files")[0];
     var form_data = new FormData();
     form_data.append("file", file_data)
     var result = phpRequest('uploadCSV', form_data);
-    alert(result);
+    // alert(result);
     accountListController();
 }
 
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
-    alert(arguments);
+    // alert(arguments);
     var result = phpRequest('getTransactionsForList', arguments);
-    alert(result);
+    // alert(result);
     createTab(result);
 }
 
