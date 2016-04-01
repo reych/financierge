@@ -128,7 +128,7 @@ function uploadCSV(){
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
-    Network::logoutUser();
+    //Network::logoutUser();
 }
 
 function formatTransactions(){
@@ -136,7 +136,7 @@ function formatTransactions(){
 }
 
 function getAccountNamesForList(){
-Network::loginUser("christdv@usc.edu", "christdv");
+//Network::loginUser("christdv@usc.edu", "christdv");
 	$result = "";
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
@@ -159,11 +159,11 @@ Network::loginUser("christdv@usc.edu", "christdv");
 	account2Name
 	...
 	*/
-    Network::logoutUser();
+    //Network::logoutUser();
 }
 
 function getTransactionsForList(){
-    Network::loginUser("christdv@usc.edu", "christdv");
+    //Network::loginUser("christdv@usc.edu", "christdv");
 
 	//get all account names as such
 	$accountName = $_GET["accName"];
@@ -214,7 +214,7 @@ function getTransactionsForList(){
 	}
 
 	echo $result;
-    Network::logoutUser();
+    //Network::logoutUser();
 }
 
 
