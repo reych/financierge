@@ -21,5 +21,5 @@ Feature: Add accounts
     Given user is logged in
       |username|zhongyag@usc.edu|
       |password|zg|
-    When user uploads the CSV with accounts
+    When user uploads the CSV with accounts for alphabetical order
     Then the account list should be in abc order
