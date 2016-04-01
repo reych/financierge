@@ -172,7 +172,7 @@ Network::loginUser("christdv@usc.edu", "christdv");
 
 	//change code here to not use start and end date for sprint 1
 
-	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, $sort);
+	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, strtolower($sort));
 	if($rawTransactions == NULL){
 		echo 'No transactions for this account!';
 		return;
