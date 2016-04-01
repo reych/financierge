@@ -26,22 +26,24 @@ if ($funcName == "uploadCSV") {
 
 function login(){
 
-	$username = $_GET["username"];
-	$password = $_GET["password"];
+	$username = $_POST["username"];
+	$password = $_POST["password"];
 	//call parse class login function
 	//login returns a user object or null
 	$user = Network::login($username, $password);
 
 	if($user){
-		echo '<script language="javascript">';
-		echo 'window.location.assign("../../index.html");';
-		echo '</script>';
+		// echo '<script language="javascript">';
+		// echo 'window.location.assign("../../index.html");';
+		// echo '</script>';
+        echo "SUCCESS";
 	}
 	else {
-		echo '<script language="javascript">';
-		echo 'alert("Login unsuccesful! Please provide right credentials.");';
-		echo 'window.location.assign("../../login.html");';
-		echo '</script>';
+		// echo '<script language="javascript">';
+		// echo 'alert("Login unsuccesful! Please provide right credentials.");';
+		// echo 'window.location.assign("../../login.html");';
+		// echo '</script>';
+        echo "FAIL";
 	}
 }
 

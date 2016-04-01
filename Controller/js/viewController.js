@@ -8,18 +8,59 @@
 //     form_data.append("file", file_data)
 //     phpRequest('uploadCSV', form_data);
 // });
+// alert(window.location.href);
 
-// var loggedIn = phpRequest('userLoggedIn','');
-// if (loggedIn == 'TRUE') {
-//     accountListController();
-// } else {
-//     window.location = "login.html";
+var loggedIn = phpRequest('userLoggedIn','');
+if (loggedIn == 'TRUE') {
+    accountListController();
+    // logInController();
+}
+// else {
+//     if (window.location.href != "http://localhost/login.html") {
+//         window.location = "login.html";
+//     }
+//
 // }
 
-// var loginCounter = 0;
+var loginCounter = 0;
+var past;
+var oneMin = 1000 * 60;
+
+function checkIfOneMinHadPassed() {
+
+
+    var isPast = (new Date().getTime() - past < oneMin)?false:true;
+    return isPast;
+}
 
 function logInController() {
 
+
+
+    // if (loginCounter == 4) {
+    //     if (checkIfOneMinHadPassed()) {
+    //         loginCounter = 0;
+    //     } else {
+    //         alert('Please wait at least 1 minute beofre next try!');
+    //         return;
+    //     }
+    // }
+
+    var username = document.getElementById('login-username');
+    var password = document.getElementById('login-password');
+    var result = phpRequest('login', '', username, password);
+    // var result = phpRequest('login', '', 'christdv@usc.edu', 'christdv');
+    // alert(result);
+    if (result == 'SUCCESS') {
+        window.location = "index.html";
+        // alert("login success");
+    } else {
+        // loginCounter++;
+        // if (loginCounter == 4) {
+        //     past = new Date(yourTimeString).getTime();
+        // }
+        alert('login failed!');
+    }
 }
 
 function accountListController() {
@@ -69,7 +110,7 @@ function isValidSortType(sortType) {
 }
 
 // ajax func to handel all call to php
-function phpRequest(funcName, data) {
+function phpRequest(funcName, data, usrName, passWrd) {
     var arguments = "";
     if (typeof data == 'string' ) {
         arguments = data;
@@ -77,14 +118,14 @@ function phpRequest(funcName, data) {
     }
     var result;
     // alert(funcName);
-    return $.ajax({
+    return jQuery.ajax({
         type:'post',
         // url: '../Controller/php/upload.php?funcToCall=' + funcName + arguments,
         url: '../Controller/php/userController.php?funcToCall=' + funcName + arguments,
-        data: data,
+        data: {username: usrName, password: passWrd},
         // THIS MUST BE DONE FOR FILE UPLOADING
-        contentType: false,
-        processData: false,
+        // contentType: false,
+        // processData: false,
         async: false,
         success: function(phpResponse){
             //TODO add if statements to determine which js to call(ex, pupolate

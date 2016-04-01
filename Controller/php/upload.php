@@ -82,6 +82,8 @@ if ($funcName == "uploadCSV") {
     echo "
     loan
     ";
+} else if ($funcName == 'login') {
+    echo 'SUCCESS';
 }
 
 function uploadCSV(){
