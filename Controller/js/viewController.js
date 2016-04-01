@@ -8,7 +8,19 @@
 //     form_data.append("file", file_data)
 //     phpRequest('uploadCSV', form_data);
 // });
-accountListController();
+
+// var loggedIn = phpRequest('userLoggedIn','');
+// if (loggedIn == 'TRUE') {
+//     accountListController();
+// } else {
+//     window.location = "login.html";
+// }
+
+// var loginCounter = 0;
+
+function logInController() {
+
+}
 
 function accountListController() {
     var result = phpRequest('getAccountNamesForList','');
@@ -23,8 +35,8 @@ function uploadController() {
     var file_data = $("#fileToUpload").prop("files")[0];
     var form_data = new FormData();
     form_data.append("file", file_data)
-    phpRequest('uploadCSV', form_data);
-    // alert(result);
+    var result = phpRequest('uploadCSV', form_data);
+    alert(result);
     accountListController();
 }
 

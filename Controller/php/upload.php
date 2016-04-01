@@ -79,9 +79,7 @@ if ($funcName == "uploadCSV") {
 
 
 } else if ($funcName == 'getAccountNamesForList'){
-    echo "saving
-    credit_card
-    checking
+    echo "
     loan
     ";
 }
@@ -90,9 +88,9 @@ function uploadCSV(){
     //get file from temporary direcory where it is stored
     $target_dir = sys_get_temp_dir();
     //complete file path
-    $target_file = $target_dir . "/" . basename($_FILES["file"]["name"]);
+    $target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
     //move file to the temporary directory to process
-    move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
     //open file
     if (($file = fopen($target_file, "r")) !== FALSE) {
         //while
