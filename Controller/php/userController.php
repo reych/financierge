@@ -30,7 +30,7 @@ function login(){
 	$password = $_POST["password"];
 	//call parse class login function
 	//login returns a user object or null
-	$user = Network::login($username, $password);
+	$user = Network::loginUser($username, $password);
 
 	if($user){
 		// echo '<script language="javascript">';
@@ -62,14 +62,16 @@ function uploadCSV(){
 	//open file
 	if (($file = fopen($target_file, "r")) !== FALSE) {
 		//while
-
-		Network::loginUser("christdv@usc.edu", "christdv");
+		
+		//Network::loginUser("christdv@usc.edu", "christdv");
 		while (!feof($file)) {
 			$line = fgets($file);
 			$data = explode(",", $line);
 			if (count($data) == 2) {
 				$accountName = $data[0];
-				$isAsset = (strcmp($data[1], "true") == 0);
+
+				$length = strlen("true");
+    			$isAsset = (substr($data[1], 0, $length) === "true");
 
 				// check to see if account already exists for this user
 				$AccountAlreadyExists = false;
@@ -87,7 +89,8 @@ function uploadCSV(){
 
 			// if it's a three item line (delete or modify account)
 			} else if (count($data) == 3) {
-				if (strcmp(strtolower($data[0]), "delete") == 0) {					$accountName = $data[1];
+				if (strcmp(strtolower($data[0]), "delete") == 0) {
+					$accountName = $data[1];
 
 					// if the account was not successfully deleted
 					if(!Network::deleteAccount($accountName)){
@@ -107,7 +110,9 @@ function uploadCSV(){
 				}
 			}
 		}
-		// echo "Success";
+		
+		//echo $tempStr;
+		//echo $bool_val ? 'isAsset: true' : 'isAsset: false';//"Success";
         echo '<script language="javascript">';
         echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';
@@ -190,7 +195,7 @@ function getTransactionsForList(){
 
     // echo $accountName;
 
-    echo userLoggedIn();
+    //echo userLoggedIn();
 	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, strtolower($sort));
 	if($rawTransactions == NULL){
 		echo 'No transactions for this account!';
@@ -205,7 +210,7 @@ function getTransactionsForList(){
 		$amount = $rawTrans->get("amount");
 		$category = $rawTrans->get("category");
 
-		$result .= $date . "_" . $principle . "_" . $amount . "_" . $category . PHP_EOL;
+		$result .= $date->format('Y-m-d') . "_" . $principle . "_" . $amount . "_" . $category . PHP_EOL;
 	}
 
 	echo $result;
