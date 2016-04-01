@@ -22,7 +22,9 @@ if ($funcName == "uploadCSV") {
 	getTransactionsForList();
 } else if($funcName == "login"){
 	login();
-}
+} else if($funcName == "userLoggedIn"){
+	userLoggedIn();
+} 
 
 function login(){
 

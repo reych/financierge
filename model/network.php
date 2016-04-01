@@ -34,7 +34,7 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
 
-// session_start();
+session_start();
 date_default_timezone_set("America/Los_Angeles");
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
@@ -209,7 +209,15 @@ class Network {
 						$transactionQuery->greaterThanOrEqualTo("date", $end);
 						$transactionQuery->lessThanOrEqualTo("date", $start);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
-						$transactionQuery->ascending($sort);
+
+						$amt = strlen("amount");
+						$dt = strlen("date");
+    					if ((substr($sort, 0, $amt) === "amount") || (substr($sort, 0, $dt) === "date")) {
+    						$transactionQuery->descending($sort);
+    					} else {
+							$transactionQuery->ascending($sort);
+						}
+
 						$transactions = $transactionQuery->find();
 						// for ($k = 0; $k < count($transactions); $k++) { // used for testing purposes only
 						// 	echo $transactions[$k]->get("principle") . " -- " . $transactions[$k]->getObjectId() . "\n";

@@ -97,7 +97,7 @@ function uploadController() {
 }
 
 function transactionsController(accountClicked) {
-    var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date';
+    var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
     alert(arguments);
     var result = phpRequest('getTransactionsForList', arguments);
     alert(result);
