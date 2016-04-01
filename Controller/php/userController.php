@@ -105,10 +105,19 @@ function uploadCSV(){
 				}
 			}
 		}
-		echo "Success";
+		// echo "Success";
+        echo '<script language="javascript">';
+        echo 'alert("Upload succeded!");';
+        echo 'window.location.assign("../../index.html");';
+        echo '</script>';
+        exit();
 
 	} else {
-		echo "Error";
+		// echo "Error";
+        echo '<script language="javascript">';
+        echo 'alert("Upload failed!");';
+        echo 'window.location.assign("../../index.html");';
+        echo '</script>';
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
