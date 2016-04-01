@@ -12,8 +12,6 @@ session_start();
 date_default_timezone_set("America/Los_Angeles");
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
-
-
 // Use get method to determine which function to call
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
@@ -132,8 +130,7 @@ function formatTransactions(){
 }
 
 function getAccountNamesForList(){
-    Network::loginUser("christdv@usc.edu", "christdv");
-
+Network::loginUser("christdv@usc.edu", "christdv");
 	$result = "";
 	$accounts = Network::getAccounts();
 	//$accounts should be an array of strings
@@ -160,13 +157,12 @@ function getAccountNamesForList(){
 
 function getTransactionsForList(){
     Network::loginUser("christdv@usc.edu", "christdv");
-
+    
 	//get all account names as such
 	$accountName = $_GET["accName"];
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
-
 	//echo ("<script>console.log('startDate is initially: ".$startDate."'); </script>");
 
 	if ($startDate == NULL || $startDate == "") {
