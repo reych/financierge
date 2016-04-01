@@ -179,8 +179,8 @@ class Network {
 					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
 						$transactions = $accounts[$i]->get("transactions");
 						for ($k = 0; $k < count($transactions); $k++) {
-							$transactions[$i]->fetch();
-							//echo $transactions[$i]->get("principle") . "\n"; // used for testing purposes only
+							$transactions[$k]->fetch();
+							// echo $transactions[$k]->get("principle") . " -- " . $transactions[$k]->getObjectId() . "\n"; // used for testing purposes only
 						}
 						return $transactions;
 					}
@@ -224,6 +224,11 @@ class Network {
 		return NULL;
 	}
 }
+
+Network::loginUser("christdv@usc.edu", "christdv");
+Network::getTransactionsForAccount("Checking");
+Network::logoutUser();
+
 // test for fetching transactions within certain dates
 // Network::loginUser("christdv@usc.edu", "christdv");
 // $date = new DateTime("2016-03-15");
