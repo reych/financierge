@@ -111,7 +111,10 @@ function sortTransactions(sortType){
         if(isValidSortType(sortType)){
             var arguments = '&accName=' + accountName + '&sortType=' + sortType;
             var result = phpRequest('getTransactionsForList', arguments);
-            createTab(result);
+            var contentID = 'content-'+accountName;
+            var contentDiv = document.getElementById(contentID);
+            result = result.substring(accountName.length);
+            displayTransactions(contentID, result);
         }
     }
 
