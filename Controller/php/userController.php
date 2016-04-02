@@ -25,27 +25,27 @@ if ($funcName == "uploadCSV") {
 	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
 	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
     uploadCSV($target_file);
-} 
-else if($funcName == "getAccountNamesForList") {
+
+} else if($funcName == "getAccountNamesForList") {
 	getAccountNamesForList();
-} 
-else if($funcName == "getTransactionsForList") {
+
+} else if($funcName == "getTransactionsForList") {
 	//get all account names as such
 	$accountName = $_GET["accName"];
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
 	getTransactionsForList($accountName, $startDate, $endDate, $sort);
-} 
-else if($funcName == "login"){
+
+} else if ($funcName == "login"){
 	$username = $_POST["username"];
 	$password = $_POST["password"];
 	login($username, $password);
-} 
-else if($funcName == "userLoggedIn"){
+
+} else if($funcName == "userLoggedIn"){
 	userLoggedIn();
-} 
-else if($funcName == 'logout') {  
+
+} else if($funcName == 'logout') {  
     logout();
 }
 
@@ -153,14 +153,15 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	if ($startDate == NULL || $startDate == "") {
 		$startDate = new DateTime();
+
 	} else {
 		$startDate = new DateTime($startDate);
 	}
 
 	if ($endDate == NULL || $endDate == "") {
-
 		$endDate = clone $startDate;
 		$endDate->modify("-3 months");
+
 	} else {
 		$endDate = new DateTime($endDate);
 	}
@@ -172,6 +173,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 		echo 'No transactions for this account!';
 		return "FAIL";
 	}
+	
 	$result = $accountName . PHP_EOL;
 
 	foreach ($rawTransactions as $key => $rawTrans){
