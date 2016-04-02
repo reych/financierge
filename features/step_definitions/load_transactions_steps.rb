@@ -28,7 +28,9 @@ end
 
 Then(/^all the transactions for Checking are displayed in the transactions widget\.$/) do
     driver.find_element(:id, "tab-Checking").click
-    driver.find_element(:id, "content-Checking").click
+    driver.find_element(:id, "content-Checking")
+    driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/deleteall.csv")
+    driver.find_element(:id, "upload-button").click
 end
 
 Given(/^there is already an account displayed in the transactions widget$/) do |table|
@@ -56,7 +58,11 @@ end
 
 Then(/^Savings transaction info is displayed$/) do
   driver.find_element(:id, "tab-Savings").click
-  driver.find_element(:id, "content-Savings").click
+
+  driver.find_element(:id, "content-Savings")
+  driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/deleteall.csv")
+  driver.find_element(:id, "upload-button").click
 
   driver.quits
+
 end
