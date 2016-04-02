@@ -1,20 +1,6 @@
-// modify the default sumbit function
-// $("#upload-button").on("click", function() {
-//     event.preventDefault();
-//
-//     // get the file from input file tag
-//     var file_data = $("#fileToUpload").prop("files")[0];
-//     var form_data = new FormData();
-//     form_data.append("file", file_data)
-//     phpRequest('uploadCSV', form_data);
-// });
-// alert(window.location.href);
-
 var loggedIn = phpRequest('userLoggedIn','');
-// alert(loggedIn);
 if (loggedIn == 'TRUE') {
     accountListController();
-    // logInController();
 } else {
     if (window.location.href != "http://localhost/login.html") {
         window.location = "login.html";
@@ -32,23 +18,21 @@ function checkIfOneMinHadPassed() {
     return isPast;
 }
 
+function changeAlertText(alertContent) {
+    document.getElementById('loginResult').innerHTML = alertContent;
+}
+
 function logoutController() {
     phpRequest('logout', '');
     window.location = "login.html";
 }
 
 function logInController() {
-
-
-
-
-
-
     if (loginCounter == 4) {
         if (checkIfOneMinHadPassed()) {
             loginCounter = 0;
         } else {
-            alert('Please wait at least 1 minute beofre next try!');
+            changeAlertText('Please wait at least 1 minute beofre next try!');
             return;
         }
     }
@@ -56,19 +40,7 @@ function logInController() {
     var usrName = document.getElementById('login-username').value;
     var passWrd = document.getElementById('login-password').value;
 
-
-    // $.post( "../Controller/php/userController.php?funcToCall=login", { username: usrName, password: passWrd })
-    //   .done(function( data ) {
-    //     // alert( "Data Loaded: " + data );
-    //     if (data == 'SUCCESS') {
-    //         window.location = "index.html";
-    //     } else {
-    //         alert('login failed');
-    //     }
-    //   });
-
     var result = phpRequest('login', '', usrName, passWrd);
-    // var result = phpRequest('login', '', 'christdv@usc.edu', 'christdv');
     // alert(result);
     if (result == 'SUCCESS') {
         window.location = "index.html";
@@ -76,10 +48,10 @@ function logInController() {
     } else {
         loginCounter++;
         if (loginCounter == 4) {
-            alert('setting past time')
             past = new Date().getTime();
         }
-        alert('Wrong username or password!');
+        // alert("asdfadsf");
+        changeAlertText('Wrong username or password!');
     }
 }
 
@@ -88,18 +60,6 @@ function accountListController() {
     // alert(result);
     displayAccounts(result);
 }
-
-// function uploadController() {
-//     event.preventDefault();
-//     // alert('uploading');
-//     // get the file from input file tag
-//     var file_data = $("#fileToUpload").prop("files")[0];
-//     var form_data = new FormData();
-//     form_data.append("file", file_data)
-//     var result = phpRequest('uploadCSV', form_data);
-//     alert(result);
-//     accountListController();
-// }
 
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
