@@ -89,17 +89,17 @@ function accountListController() {
     displayAccounts(result);
 }
 
-function uploadController() {
-    event.preventDefault();
-    // alert('uploading');
-    // get the file from input file tag
-    var file_data = $("#fileToUpload").prop("files")[0];
-    var form_data = new FormData();
-    form_data.append("file", file_data)
-    var result = phpRequest('uploadCSV', form_data);
-    // alert(result);
-    accountListController();
-}
+// function uploadController() {
+//     event.preventDefault();
+//     // alert('uploading');
+//     // get the file from input file tag
+//     var file_data = $("#fileToUpload").prop("files")[0];
+//     var form_data = new FormData();
+//     form_data.append("file", file_data)
+//     var result = phpRequest('uploadCSV', form_data);
+//     alert(result);
+//     accountListController();
+// }
 
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
