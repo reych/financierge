@@ -12,7 +12,7 @@ session_start();
 date_default_timezone_set("America/Los_Angeles");
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
-////////This section of the code will only be accessed when 
+////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request form
 //Javascript and passes the arguments to the methods.
 
@@ -45,7 +45,7 @@ if ($funcName == "uploadCSV") {
 } else if($funcName == "userLoggedIn"){
 	userLoggedIn();
 
-} else if($funcName == "logout") {  
+} else if($funcName == "logout") {
     logout();
 }
 
@@ -112,14 +112,14 @@ function uploadCSV($file_name){
 			}
 		}
         echo '<script language="javascript">';
-        echo 'alert("Upload succeded!");';
+        // echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
         return "SUCCESS";
 
 	} else {
         echo '<script language="javascript">';
-        echo 'alert("Upload failed!");';
+        // echo 'alert("Upload failed!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
         return "FAIL";
@@ -173,7 +173,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 		echo 'No transactions for this account!';
 		return "FAIL";
 	}
-	
+
 	$result = $accountName . PHP_EOL;
 
 	foreach ($rawTransactions as $key => $rawTrans){
