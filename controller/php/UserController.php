@@ -1,6 +1,6 @@
 <?php
 
-include("/home/teamh/financierge/model/network.php");
+include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
@@ -45,7 +45,7 @@ if ($funcName == "uploadCSV") {
 } else if($funcName == "userLoggedIn"){
 	userLoggedIn();
 
-} else if($funcName == 'logout') {  
+} else if($funcName == "logout") {  
     logout();
 }
 
