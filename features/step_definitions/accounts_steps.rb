@@ -103,4 +103,6 @@ Then(/^the account list should be in abc order$/) do
  driver.find_element(:id, "upload-button").click
  #wait for upload 3 seconds
  driver.manage.timeouts.implicit_wait = 3
+
+ driver.quit
 end

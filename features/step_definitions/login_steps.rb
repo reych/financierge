@@ -26,6 +26,7 @@ Then(/^the page should redirect to dashboard$/) do
   currentURL = driver.current_url
   expect(currentURL).to eq("http://localhost/index.html")
   driver.find_element(:id, "logout").click
+  driver.quit
 end
 
 # For bad password
@@ -40,14 +41,14 @@ end
 # For bad password 4 times
 When(/^user stays on login page after entering wrong password$/) do
   # driver.switch_to.alert.accept rescue Selenium::WebDriver::Error::UnhandledAlertError
-  begin
+  # begin
   driver.switch_to.alert.accept
-  rescue Selenium::WebDriver::Error::NoSuchAlertError
-  rescue Selenium::WebDriver::Error::UnhandledAlertError
+  # rescue Selenium::WebDriver::Error::NoSuchAlertError
+  # rescue Selenium::WebDriver::Error::UnhandledAlertError
   # a = 1
-  else
+  # else
   # a = 1
-  end
+  # end
 
 
   loginURL = driver.current_url

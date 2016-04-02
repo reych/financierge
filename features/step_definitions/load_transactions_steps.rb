@@ -57,4 +57,6 @@ end
 Then(/^Savings transaction info is displayed$/) do
   driver.find_element(:id, "tab-Savings").click
   driver.find_element(:id, "content-Savings").click
+
+  driver.quits
 end
