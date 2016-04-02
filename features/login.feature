@@ -5,8 +5,8 @@ Feature: Login authentication
 	Scenario: Successful login
 		Given user is on login page
 		Given the following existing user and password:
-			|username|renachen@usc.edu|
-			|password|rc|
+			|username|christdv@usc.edu|
+			|password|christdv|
 		When user enters correct username and password
 		Then the page should redirect to dashboard
 

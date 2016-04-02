@@ -96,14 +96,15 @@ function displayTransactions(containerID, transactions_list) {
     var transactionsArray = transactions_list.split('\n');
     //create table
     var table = document.createElement('TABLE');
-    createTableHeaders(table, 'Date_Principle_Amount_Category');
+    createTableHeaders(table, 'Date_Principle_Amount_Category_');
     //add onclick listeners to headers
     var tHead = table.firstChild;
     var tRow = tHead.firstChild;
     var headers = tRow.childNodes;
-    headers[0].setAttribute('onclick', sortTransactions('date'));
-    headers[2].setAttribute('onclick', sortTransactions('amount'));
-    headers[3].setAttribute('onclick', sortTransactions('category'));
+    headers[0].setAttribute('onclick', 'sortTransactions(\'date\')');
+    headers[1].setAttribute('onclick', 'sortTransactions(\'principle\')');
+    headers[2].setAttribute('onclick', 'sortTransactions(\'amount\')');
+    headers[3].setAttribute('onclick', 'sortTransactions(\'category\')');
     //add styles
     for(i=0; i<4; i++) {
     	headers[i].className = 'clickable';

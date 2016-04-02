@@ -10,17 +10,16 @@
 // });
 // alert(window.location.href);
 
-// var loggedIn = phpRequest('userLoggedIn','');
-// if (loggedIn == 'TRUE') {
+var loggedIn = phpRequest('userLoggedIn','');
+// alert(loggedIn);
+if (loggedIn == 'TRUE') {
     accountListController();
     // logInController();
-// }
-// else {
-//     if (window.location.href != "http://localhost/login.html") {
-//         window.location = "login.html";
-//     }
-//
-// }
+} else {
+    if (window.location.href != "http://localhost/login.html") {
+        window.location = "login.html";
+    }
+}
 
 var loginCounter = 0;
 var past;
@@ -33,33 +32,54 @@ function checkIfOneMinHadPassed() {
     return isPast;
 }
 
+function logoutController() {
+    phpRequest('logout', '');
+    window.location = "login.html";
+}
+
 function logInController() {
 
 
 
-    // if (loginCounter == 4) {
-    //     if (checkIfOneMinHadPassed()) {
-    //         loginCounter = 0;
-    //     } else {
-    //         alert('Please wait at least 1 minute beofre next try!');
-    //         return;
-    //     }
-    // }
 
-    var username = document.getElementById('login-username');
-    var password = document.getElementById('login-password');
-    var result = phpRequest('login', '', username, password);
+
+
+    if (loginCounter == 4) {
+        if (checkIfOneMinHadPassed()) {
+            loginCounter = 0;
+        } else {
+            alert('Please wait at least 1 minute beofre next try!');
+            return;
+        }
+    }
+
+    var usrName = document.getElementById('login-username').value;
+    var passWrd = document.getElementById('login-password').value;
+
+
+    // $.post( "../Controller/php/userController.php?funcToCall=login", { username: usrName, password: passWrd })
+    //   .done(function( data ) {
+    //     // alert( "Data Loaded: " + data );
+    //     if (data == 'SUCCESS') {
+    //         window.location = "index.html";
+    //     } else {
+    //         alert('login failed');
+    //     }
+    //   });
+
+    var result = phpRequest('login', '', usrName, passWrd);
     // var result = phpRequest('login', '', 'christdv@usc.edu', 'christdv');
     // alert(result);
     if (result == 'SUCCESS') {
         window.location = "index.html";
         // alert("login success");
     } else {
-        // loginCounter++;
-        // if (loginCounter == 4) {
-        //     past = new Date(yourTimeString).getTime();
-        // }
-        alert('login failed!');
+        loginCounter++;
+        if (loginCounter == 4) {
+            alert('setting past time')
+            past = new Date().getTime();
+        }
+        alert('Wrong username or password!');
     }
 }
 
@@ -69,23 +89,23 @@ function accountListController() {
     displayAccounts(result);
 }
 
-function uploadController() {
-    event.preventDefault();
-    alert('uploading');
-    // get the file from input file tag
-    var file_data = $("#fileToUpload").prop("files")[0];
-    var form_data = new FormData();
-    form_data.append("file", file_data)
-    var result = phpRequest('uploadCSV', form_data);
-    alert(result);
-    accountListController();
-}
+// function uploadController() {
+//     event.preventDefault();
+//     // alert('uploading');
+//     // get the file from input file tag
+//     var file_data = $("#fileToUpload").prop("files")[0];
+//     var form_data = new FormData();
+//     form_data.append("file", file_data)
+//     var result = phpRequest('uploadCSV', form_data);
+//     alert(result);
+//     accountListController();
+// }
 
 function transactionsController(accountClicked) {
-    var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date';
-    alert(arguments);
+    var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
+    // alert(arguments);
     var result = phpRequest('getTransactionsForList', arguments);
-    alert(result);
+    // alert(result);
     createTab(result);
 }
 
@@ -96,7 +116,10 @@ function sortTransactions(sortType){
         if(isValidSortType(sortType)){
             var arguments = '&accName=' + accountName + '&sortType=' + sortType;
             var result = phpRequest('getTransactionsForList', arguments);
-            createTab(result);
+            var contentID = 'content-'+accountName;
+            var contentDiv = document.getElementById(contentID);
+            result = result.substring(accountName.length);
+            displayTransactions(contentID, result);
         }
     }
 

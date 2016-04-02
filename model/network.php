@@ -34,8 +34,9 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
 
-// session_start();
 date_default_timezone_set("America/Los_Angeles");
+session_start();
+
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 class Network {
@@ -179,8 +180,8 @@ class Network {
 					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
 						$transactions = $accounts[$i]->get("transactions");
 						for ($k = 0; $k < count($transactions); $k++) {
-							$transactions[$i]->fetch();
-							//echo $transactions[$i]->get("principle") . "\n"; // used for testing purposes only
+							$transactions[$k]->fetch();
+							// echo $transactions[$k]->get("principle") . " -- " . $transactions[$k]->getObjectId() . "\n"; // used for testing purposes only
 						}
 						return $transactions;
 					}
@@ -206,13 +207,21 @@ class Network {
 							$transactionIDs[] = $transactions[$k]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $start);
-						$transactionQuery->lessThanOrEqualTo("date", $end);
+						$transactionQuery->greaterThanOrEqualTo("date", $end);
+						$transactionQuery->lessThanOrEqualTo("date", $start);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
-						$transactionQuery->ascending($sort);
+
+						$amt = strlen("amount");
+						$dt = strlen("date");
+    					if ((substr($sort, 0, $amt) === "amount") || (substr($sort, 0, $dt) === "date")) {
+    						$transactionQuery->descending($sort);
+    					} else {
+							$transactionQuery->ascending($sort);
+						}
+
 						$transactions = $transactionQuery->find();
 						// for ($k = 0; $k < count($transactions); $k++) { // used for testing purposes only
-						// 	echo $transactions[$k]->get("principle") . "--\n";
+						// 	echo $transactions[$k]->get("principle") . " -- " . $transactions[$k]->getObjectId() . "\n";
 						// }
 						return $transactions;
 					}
@@ -224,12 +233,13 @@ class Network {
 		return NULL;
 	}
 }
+
 // test for fetching transactions within certain dates
 // Network::loginUser("christdv@usc.edu", "christdv");
-// $date = new DateTime("2016-03-15");
-// Network::addTransactionToAccount("Christian's Checking Acct", $date, "USC", 1024.95, "Food");
-// $start = new DateTime("2016-03-18");
-// $end = new DateTime("2016-03-27");
-// Network::getTransactionsForAccountWithinDates("Christian's Checking Acct", $start, $end, "name");
+// // $date = new DateTime("2016-03-15");
+// // Network::addTransactionToAccount("Christian's Checking Acct", $date, "USC", 1024.95, "Food");
+// $start = new DateTime("2016-03-10");
+// $end = new DateTime("2016-03-23");
+// Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
 // Network::logoutUser();
 ?>
