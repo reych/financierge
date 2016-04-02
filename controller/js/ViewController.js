@@ -104,21 +104,10 @@ function phpRequest(funcName, data, usrName, passWrd) {
     // alert(funcName);
     return jQuery.ajax({
         type:'post',
-        // url: '../controller/php/upload.php?funcToCall=' + funcName + arguments,
         url: '../controller/php/UserController.php?funcToCall=' + funcName + arguments,
         data: {username: usrName, password: passWrd},
-        // THIS MUST BE DONE FOR FILE UPLOADING
-        // contentType: false,
-        // processData: false,
         async: false,
         success: function(phpResponse){
-            //TODO add if statements to determine which js to call(ex, pupolate
-            //  account list or populate transactions or graph)
-            // alert(phpResponse);
-            // return phpResponse;
-
-
-            // createTab(phpResponse);
         }
     }).responseText;
 }
