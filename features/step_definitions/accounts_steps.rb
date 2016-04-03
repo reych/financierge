@@ -65,8 +65,7 @@ end
 Then(/^the account list should have the account from the CSV$/) do
   #check that account is in list
  tableBody = driver.find_element(:id, "account-list")
- randomLine = tableBody.find_element(:tag_name, "tr")
- existingAccountThere = randomLine.find_element(:tag_name, "td").text
+ existingAccountThere = tableBody.find_element(:xpath,"//table/tr/td").text
  expect(existingAccountThere).to eq("Checking")
 
  #delete the account

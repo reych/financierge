@@ -1,6 +1,6 @@
-Checking,TRUE,,,
-Savings,TRUE,,,
-checking,TRUE,,,
+Checking,TRUE
+Savings,TRUE
+checking,TRUE
 Checking,3/29/16,Subway,-6.65,food
 Checking,3/28/16,Venmo,-1,leisure
 Checking,3/23/16,ATM Deposit,40,work
@@ -17,4 +17,4 @@ Checking,3/6/16,Aeropostale Online,-20,clothes
 Checking,3/5/16,Uber Ride Los Angeles,-4.99,other
 Savings,3/5/16,ATM deposit,10,work
 Savings,3/6/16,Transfer to Checking,-5,work
-checking,3/6/16,test,-10,test
+checking,3/6/16,test,-5,test
