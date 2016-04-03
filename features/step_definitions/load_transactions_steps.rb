@@ -1,6 +1,6 @@
 require 'rspec'
 require 'selenium-webdriver'
-driver = Selenium::WebDriver.for :firefox
+# driver = Selenium::WebDriver.for :firefox
 
 Given(/^nothing is yet displayed in the transaction box$/) do |table|
   #when user first signs in transaction module is empty

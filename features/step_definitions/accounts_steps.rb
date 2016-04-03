@@ -14,7 +14,9 @@ Given(/^user is logged in$/) do |table|
 end
 
 Given(/^user has an account to delete$/) do
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/Data.csv")
+
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/Data.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/Data.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 10 seconds
  driver.manage.timeouts.implicit_wait = 20
@@ -32,7 +34,8 @@ Given(/^user has an account to delete$/) do
 end
 
 When(/^user uploads the CSV with account delete information$/) do
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteChecking.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/DeleteChecking.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/DeleteChecking.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 10 seconds
  driver.manage.timeouts.implicit_wait = 10
@@ -41,14 +44,16 @@ end
 Then(/^the account list should not have the account from the CSV$/) do
  #check that account is not in list
  widget = driver.find_element(:id, "account-list")
- tableBody = widget.find_element(:tag_name, "table")
- randomLine = tableBody.find_element(:tag_name, "tr")
- notDeletedAccount = randomLine.find_element(:tag_name, "td").text
+ # tableBody = widget.find_element(:tag_name, "table")
+ # randomLine = tableBody.find_element(:tag_name, "tr")
+ # notDeletedAccount = randomLine.find_element(:tag_name, "td").text
+ notDeletedAccount = widget.find_element(:xpath,"//table/tr/td").text
  expect(notDeletedAccount).not_to eq("Checking")
 end
 
 When(/^user uploads the CSV with the account$/) do
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/Data.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/Data.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/Data.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 10 seconds
  driver.manage.timeouts.implicit_wait = 10
@@ -65,7 +70,8 @@ Then(/^the account list should have the account from the CSV$/) do
  expect(existingAccountThere).to eq("Checking")
 
  #delete the account
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteData.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/DeleteData.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/DeleteData.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 3 seconds
  driver.manage.timeouts.implicit_wait = 50
@@ -75,7 +81,8 @@ Then(/^the account list should have the account from the CSV$/) do
 end
 
 When(/^user uploads the CSV with accounts for alphabetical order$/) do
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/AddAlphabeticalAccounts.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/AddAlphabeticalAccounts.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/AddAlphabeticalAccounts.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 10 seconds
  driver.manage.timeouts.implicit_wait = 50
@@ -89,7 +96,8 @@ Then(/^the account list should be in abc order$/) do
  expect(existingAccount).to eq("aaaa-apple-Account")
 
  #delete apple
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteAlphabeticalAccounts.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/DeleteAlphabeticalAccounts.csv")
+# driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/DeleteAlphabeticalAccounts.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 3 seconds
  driver.manage.timeouts.implicit_wait = 50
@@ -101,7 +109,8 @@ Then(/^the account list should be in abc order$/) do
  expect(banana).to eq("aaaa-banana-Account")
 
  #delete banana
- driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteAlphabeticalAccounts.csv")
+ driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/DeleteAlphabeticalAccounts.csv")
+ # driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/DeleteAlphabeticalAccounts.csv")
  driver.find_element(:id, "upload-button").click
  #wait for upload 3 seconds
  driver.manage.timeouts.implicit_wait = 3

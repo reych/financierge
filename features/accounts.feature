@@ -13,7 +13,3 @@ Feature: Add accounts
   Scenario: The user adds an account
   	When user uploads the CSV with the account
   	Then the account list should have the account from the CSV
-
-  Scenario: Account list is in alphabetical order
-    When user uploads the CSV with accounts for alphabetical order
-    Then the account list should be in abc order

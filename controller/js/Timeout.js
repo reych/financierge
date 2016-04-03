@@ -1,7 +1,7 @@
 var idleTime = 0;
 $(document).ready(function () {
     //Increment the idle time counter every minute.
-    var idleInterval = setInterval(timerIncrement, 600); // 1 minute
+    var idleInterval = setInterval(timerIncrement, 1000); // 1 minute
 
     //Zero the idle timer on mouse movement.
     $(this).mousemove(function (e) {
@@ -14,8 +14,7 @@ $(document).ready(function () {
 
 function timerIncrement() {
     idleTime = idleTime + 1;
-    if (idleTime > 1) { // 2 minutes
-        alert('logging out');
+    if (idleTime > 120) { // 2 minutes
         phpRequest('logout', '');
         window.location = "login.html";
     }

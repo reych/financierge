@@ -1,18 +1,20 @@
-Checking,true
-Savings,true
-Checking,2016-03-29,Subway,-6.65,food
-Checking,2016-03-28,Venmo,-1.00,leisure
-Checking,2016-03-23,ATM Deposit,40.00,work
-Checking,2016-03-22,Venmo,-10.54,leisure
-Checking,2016-03-18,Venmo,-4.65,leisure
-Checking,2016-03-16,So Cal Gas,-23.00,work
-Checking,2016-03-15,Deposited Check #1236,500.00,work
-Checking,2016-03-12,Robinhood,-30.00,leisure
-Checking,2016-03-11,COCA COLA LOS ANGELES,-5.00,food
-Checking,2016-03-10,LADWP,-47.86,bills
-Checking,2016-03-09,RALPHS #0249,-45.80,food
-Checking,2016-03-08,LA Live,-15.99,leisure
-Checking,2016-03-06,Aeropostale Online,-20.00,clothes
-Checking,2016-03-05,Uber Ride Los Angeles,-4.99,other
-Savings,2016-03-05,ATM deposit,10.00,work
-Savings,2016-03-06,Transfer to Checking,-5.00,work
+Checking,TRUE,,,
+Savings,TRUE,,,
+checking,TRUE,,,
+Checking,3/29/16,Subway,-6.65,food
+Checking,3/28/16,Venmo,-1,leisure
+Checking,3/23/16,ATM Deposit,40,work
+Checking,3/22/16,Venmo,-10.54,leisure
+Checking,3/18/16,Venmo,-4.65,leisure
+Checking,3/16/16,So Cal Gas,-23,work
+Checking,3/15/16,Deposited Check #1236,500,work
+Checking,3/12/16,Robinhood,-30,leisure
+Checking,3/11/16,COCA COLA LOS ANGELES,-5,food
+Checking,3/10/16,LADWP,-47.86,bills
+Checking,3/9/16,RALPHS #0249,-45.8,food
+Checking,3/8/16,LA Live,-15.99,leisure
+Checking,3/6/16,Aeropostale Online,-20,clothes
+Checking,3/5/16,Uber Ride Los Angeles,-4.99,other
+Savings,3/5/16,ATM deposit,10,work
+Savings,3/6/16,Transfer to Checking,-5,work
+checking,3/6/16,test,-10,test
