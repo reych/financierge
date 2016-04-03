@@ -1,7 +1,7 @@
 <?php
 
-include("/home/teamh/financierge/model/Network.php");
-include("/home/teamh/financierge/model/vendor/autoload.php");
+include("../../model/Network.php");
+include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;

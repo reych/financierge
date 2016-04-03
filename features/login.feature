@@ -11,7 +11,6 @@ Feature: Login authentication
 		Then the page should redirect to dashboard
 
 	Scenario: Bad login
-		Given user is on login page
 		Given the following existing user and password:
 			|username|renachen@usc.edu|
 			|password|rc|
@@ -19,7 +18,6 @@ Feature: Login authentication
 		Then the page should stay on login
 
 	Scenario: Can't log in after four bad log in's before 1 minute is up
-		Given user is on login page
 		Given the following existing user and password:
 			|username|renachen@usc.edu|
 			|password|rc|
@@ -37,8 +35,8 @@ Feature: Login authentication
 	Scenario: Can't log in after four bad log in's before 1 minute is up
 		Given user is on login page
 		Given the following existing user and password:
-			|username|renachen@usc.edu|
-			|password|rc|
+			|username|christdv@usc.edu|
+			|password|christdv|
 		When user enters incorrect password
 		And user stays on login page after entering wrong password
 		And user enters incorrect password

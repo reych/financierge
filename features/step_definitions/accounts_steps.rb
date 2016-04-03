@@ -1,6 +1,6 @@
 require 'rspec'
 require 'selenium-webdriver'
-driver = Selenium::WebDriver.for :firefox
+# driver = Selenium::WebDriver.for :firefox
 
 Given(/^user is logged in$/) do |table|
   driver.navigate.to("http://localhost/login.html")

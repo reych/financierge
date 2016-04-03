@@ -9,7 +9,7 @@ if (loggedIn == 'TRUE') {
 
 var loginCounter = 0;
 var past;
-var oneMin = 1000 * 60;
+var oneMin = 1000 * 5;
 
 function checkIfOneMinHadPassed() {
 
@@ -51,6 +51,8 @@ function logInController() {
             past = new Date().getTime();
         }
         // alert("asdfadsf");
+        document.getElementById('login-username').value = '';
+        document.getElementById('login-password').value = '';
         changeAlertText('Wrong username or password!');
     }
 }
