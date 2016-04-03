@@ -1,6 +1,6 @@
 require 'rspec'
 require 'selenium-webdriver'
-# driver = Selenium::WebDriver.for :firefox
+driver = Selenium::WebDriver.for :firefox
 
 Given(/^user is on login page$/) do
 	driver.get("http://localhost/login.html")
