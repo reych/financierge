@@ -9,6 +9,7 @@ Given(/^user is in dashboard$/) do
     driver.find_element(:id, "login-submit").click
     currentURL = driver.current_url
     expect(currentURL).to eq("http://localhost/index.html")
+    puts "DON'T MOVE MOUSE OR PRESS A KEY, CHECKING FOR INACTIVITY"
     # table is a Cucumber::Core::Ast::DataTable
 end
 
