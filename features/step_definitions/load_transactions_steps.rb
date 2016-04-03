@@ -1,6 +1,6 @@
 require 'rspec'
 require 'selenium-webdriver'
-# driver = Selenium::WebDriver.for :firefox
+driver = Selenium::WebDriver.for :firefox
 
 Given(/^nothing is yet displayed in the transaction box$/) do |table|
   #when user first signs in transaction module is empty
@@ -14,13 +14,13 @@ Given(/^nothing is yet displayed in the transaction box$/) do |table|
 end
 
 When(/^the user clicks on Checking$/) do
-	driver.find_element(:id, "fileToUpload").send_keys("../../resources/data.csv")
+	driver.find_element(:id, "fileToUpload").send_keys("../../resources/Data.csv")
     driver.find_element(:id, "upload-button").click
     #wait for upload 10 seconds
 
     driver.manage.timeouts.implicit_wait = 10
 
-    driver.switch_to.alert.accept
+    #driver.switch_to.alert.accept
 
     #actual click
  	driver.find_element(:id, "Checking").click
@@ -29,7 +29,7 @@ end
 Then(/^all the transactions for Checking are displayed in the transactions widget\.$/) do
     driver.find_element(:id, "tab-Checking").click
     driver.find_element(:id, "content-Checking")
-    driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/deleteall.csv")
+    driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteData.csv")
     driver.find_element(:id, "upload-button").click
 end
 
@@ -43,7 +43,7 @@ Given(/^there is already an account displayed in the transactions widget$/) do |
   currentURL = driver.current_url
   expect(currentURL).to eq("http://localhost/index.html")
 
-  driver.find_element(:id, "fileToUpload").send_keys("../../resources/data.csv")
+  driver.find_element(:id, "fileToUpload").send_keys("../../resources/Data.csv")
   driver.find_element(:id, "upload-button").click
   #wait for upload 10 seconds
   driver.manage.timeouts.implicit_wait = 40
@@ -60,9 +60,11 @@ Then(/^Savings transaction info is displayed$/) do
   driver.find_element(:id, "tab-Savings").click
 
   driver.find_element(:id, "content-Savings")
-  driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/deleteall.csv")
+  driver.find_element(:id, "fileToUpload").send_keys("../../resources/DeleteData.csv")
   driver.find_element(:id, "upload-button").click
 
-  driver.quits
+  #log out
+  driver.find_element(:id, "logout").click
+  driver.close
 
 end
