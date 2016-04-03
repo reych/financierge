@@ -3,7 +3,7 @@ require 'selenium-webdriver'
 driver = Selenium::WebDriver.for :firefox
 
 Given(/^user is on login page$/) do
-	driver.navigate.to("http://localhost/login.html")
+	driver.get("http://localhost/login.html")
   #wait = Selenium::WebDriver::Wait.new(:timeout => 10)
   #wait.until {driver.title.downcase.start_with? "login"}
   #expect(page).to have_selector('login-box')
@@ -26,7 +26,7 @@ Then(/^the page should redirect to dashboard$/) do
   currentURL = driver.current_url
   expect(currentURL).to eq("http://localhost/index.html")
   driver.find_element(:id, "logout").click
-  driver.quit
+
 end
 
 # For bad password
@@ -34,7 +34,7 @@ When(/^user enters incorrect password$/) do
 
   driver.find_element(:id, "login-username").send_keys(@userCredentials['username'])
   badPassword = @userCredentials['password']
-  badPassword.reverse!
+  badPassword =  badPassword + 'salt'
   driver.find_element(:id, "login-password").send_keys(badPassword)
 end
 
@@ -51,7 +51,8 @@ When(/^user logs in with right password after 1 minute$/) do
   driver.find_element(:id, "login-username").send_keys(@userCredentials['username'])
   driver.find_element(:id, "login-password").send_keys(@userCredentials['password'])
   #wait longer for timeout 65 sections
-  driver.manage.timeouts.implicit_wait = 65
+  # driver.manage.timeouts.implicit_wait = 65
+  sleep(6.0)
 end
 
 Then(/^the page should stay on login$/) do
@@ -62,5 +63,4 @@ Then(/^the page should stay on login$/) do
 
   expect(currentURL).to eq(loginURL)
 
-  driver.close
 end
