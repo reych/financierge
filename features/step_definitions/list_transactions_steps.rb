@@ -34,7 +34,7 @@ When(/^the user clicks the category button$/) do
     driver.find_element(:id, "category-Checking").click
 end
 
-Then(/^the transactions should be sorted in alphabetical order according to category \(tie breakers\?\)$/) do
+Then(/^the transactions should be sorted in alphabetical order according to category$/) do
     driver.find_element(:id, "fileToUpload").send_keys("/home/teamh/financierge/resources/deleteall.csv")
     driver.find_element(:id, "upload-button").click
 end
