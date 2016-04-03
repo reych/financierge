@@ -186,7 +186,7 @@ class Network {
 
 					if (array_key_exists($thisAccountName, $newTransactions)) {
 						$newTransForAccount = $newTransactions[$thisAccountName];
-						$allAccountTransactions = $accounts[$i]->get("transactions");
+						$currentAccountTransactions = $accounts[$i]->get("transactions");
 
 						for ($j = 0; $j < count($newTransForAccount); $j++) {
 
@@ -199,10 +199,10 @@ class Network {
 							$transaction->set("category", $newTransForAccount[$j]->category);
 							$transaction->save();
 
-							$allAccountTransactions[] = $transaction;
+							$currentAccountTransactions[] = $transaction;
 						}
 						
-						$accounts[$i]->setArray("transactions", $allAccountTransactions);
+						$accounts[$i]->setArray("transactions", $currentAccountTransactions);
 					}
 				}
 				$currentUser->setArray("accounts", $accounts);
