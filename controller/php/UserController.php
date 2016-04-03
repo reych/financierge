@@ -2,6 +2,7 @@
 
 include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
+//include("/home/teamh/financierge/model/Transaction.php");
 use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;
@@ -74,6 +75,11 @@ function uploadCSV($file_name){
 
 	if(file_exists($file_name)){
 		$file = fopen($file_name, "r");
+
+		// array mapping account names to arrays containing Transaction objects
+		// array(accountName => arrayOfTransactionObjects)
+		$allNewTransactions = array();
+
 		while (!feof($file)) {
 			$line = fgets($file);
 			$data = explode(",", $line);
@@ -103,14 +109,45 @@ function uploadCSV($file_name){
 				}
 			} else {
 				//transaction
-				$accountName = $data[0];
-				$date = new DateTime($data[1]); //added time to match parse format
-				$principle = $data[2];
-				$amount = floatval($data[3]);
-				$category = $data[4];
-				Network::addTransactionToAccount($accountName, $date, $principle, $amount, $category);
+
+				$acntName = $data[0];
+				$dt = new DateTime($data[1]); //added time to match parse format
+				$princ = $data[2];
+				$amnt = floatval($data[3]);
+				$ctgry = $data[4];
+
+				// echo $princ;
+				$newTrans = new Transaction();
+				$newTrans->accountName = $acntName;
+				$newTrans->date = $dt;
+				$newTrans->principle = $princ;
+				$newTrans->amount = $amnt;
+				$newTrans->category = $ctgry;
+				//echo "Here's what should be after the :... ".$principle;
+				//echo "Trying to add transaction: ".$newTrans->principle." to an array".PHP_EOL;
+
+				// if the array contains the account name as a key already:
+				if (array_key_exists($accountName, $allNewTransactions)) {
+					// push the new Transaction object into the array held at the account name key
+					array_push($allNewTransactions[$accountName], $newTrans);
+
+				// the array doesn't yet have any transactions for this account to add
+				} else {
+					// create a new array to hold all of the transactions for this particular account
+					$tempArr = array();
+					// add the first transaction to this array
+					array_push($tempArr, $newTrans);
+					// add this array to the array holding all transactions
+					$allNewTransactions[$accountName] = $tempArr;
+				}
+
+				// Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
 			}
 		}
+
+		// call function to load up array of transactions
+		Network::addTransactionsToAccounts($allNewTransactions);
+
         echo '<script language="javascript">';
         // echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';

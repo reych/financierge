@@ -28,6 +28,7 @@ Network::getTransactionsForAccountWithinDates(start, end, name) -> array of tran
 */
 
 include("vendor/autoload.php");
+include("Transaction.php");
 use Parse\ParseClient;
 use Parse\ParseException;
 use Parse\ParseObject;
@@ -164,6 +165,51 @@ class Network {
 				}
 			}
 			return true;
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+		}
+		return false;
+	}
+
+	static function addTransactionsToAccounts($newTransactions) {
+
+		try {
+			
+			// add transaction to specified account in accounts array for current user and save it in User table
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$accounts = $currentUser->get("accounts");
+
+				for ($i = 0; $i < count($accounts); $i++) {
+					$accounts[$i]->fetch();
+					$thisAccountName = $accounts[$i]->get("name");
+
+					if (array_key_exists($thisAccountName, $newTransactions)) {
+						$newTransForAccount = $newTransactions[$thisAccountName];
+						$allAccountTransactions = $accounts[$i]->get("transactions");
+
+						for ($j = 0; $j < count($newTransForAccount); $j++) {
+
+							// echo "Trying to add transaction: ".$newTransForAccount[$j]->$principle.PHP_EOL;
+
+							$transaction = new ParseObject("Transaction");
+							$transaction->set("date", $newTransForAccount[$j]->date);
+							$transaction->set("principle", $newTransForAccount[$j]->principle);
+							$transaction->set("amount", $newTransForAccount[$j]->amount);
+							$transaction->set("category", $newTransForAccount[$j]->category);
+							$transaction->save();
+
+							$allAccountTransactions[] = $transaction;
+						}
+						
+						$accounts[$i]->setArray("transactions", $allAccountTransactions);
+					}
+				}
+				$currentUser->setArray("accounts", $accounts);
+				$currentUser->save();
+			}
+			return true;
+
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
