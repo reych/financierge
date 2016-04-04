@@ -194,10 +194,10 @@ class Network {
 							// echo "Trying to add transaction: ".$newTransForAccount[$j]->$principle.PHP_EOL;
 
 							$transaction = new ParseObject("Transaction");
-							$transaction->set("date", $newTransForAccount[$j]->date);
-							$transaction->set("principle", $newTransForAccount[$j]->principle);
-							$transaction->set("amount", $newTransForAccount[$j]->amount);
-							$transaction->set("category", $newTransForAccount[$j]->category);
+							$transaction->set("date", $newTransForAccount[$j]->get("date"));
+							$transaction->set("principle", $newTransForAccount[$j]->get("principle"));
+							$transaction->set("amount", $newTransForAccount[$j]->get("amount"));
+							$transaction->set("category", $newTransForAccount[$j]->get("category"));
 							$transaction->save();
 
 							$currentAccountTransactions[] = $transaction;

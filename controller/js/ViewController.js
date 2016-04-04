@@ -5,7 +5,7 @@ if (loggedIn == 'TRUE') {
     if (window.location.href != "http://localhost/login.html") {
         window.location = "login.html";
     }
-}
+} 
 
 var loginCounter = 0;
 var past;

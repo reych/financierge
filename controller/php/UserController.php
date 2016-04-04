@@ -1,31 +1,15 @@
 <?php
+include("home/teamh/financierge/model/Network.php");
+include("../../model/vendor/autoload.php");
+use Parse\ParseClient;
+use Parse\ParseException;
+use Parse\ParseObject;
+use Parse\ParseQuery;
+use Parse\ParseUser;
 
-
-// <<<<<<< HEAD
-// include("home/teamh/financierge/model/Network.php");
-// include("../../model/vendor/autoload.php");
-// use Parse\ParseClient;
-// use Parse\ParseException;
-// use Parse\ParseObject;
-// use Parse\ParseQuery;
-// use Parse\ParseUser;
-//
-// session_start();
-// date_default_timezone_set("America/Los_Angeles");
-// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
-// =======
-include("/home/teamh/financierge/model/Network.php");
-// include("../../model/vendor/autoload.php");
-// use Parse\ParseClient;
-// use Parse\ParseException;
-// use Parse\ParseObject;
-// use Parse\ParseQuery;
-// use Parse\ParseUser;
-
-// session_start();
-// date_default_timezone_set("America/Los_Angeles");
-// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
-// >>>>>>> origin/master
+date_default_timezone_set("America/Los_Angeles");
+session_start();
+ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request form
@@ -189,9 +173,9 @@ function getAccountNamesForList(){
 		echo ' ';
 		return "FAIL";
 	}
-	$accountNameArray = array();
+	$accountNameArray = [];
 	foreach ($accounts as $account) {
-		array_push($accountNameArray, $account->get("name"));
+		$accountNameArray[] = $account->get("name");
 	}
 
 	sort($accountNameArray);
@@ -230,7 +214,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	$result = $accountName . PHP_EOL;
 
-	foreach ($rawTransactions as $key => $rawTrans){
+	foreach ($rawTransactions as $rawTrans){
 
 		$date = $rawTrans->get("date");
 		$principle = $rawTrans->get("principle");
