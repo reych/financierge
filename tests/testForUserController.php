@@ -1,25 +1,44 @@
 <?php
 
-include '../Controller/php/userController.php';
-include("../../model/vendor/autoload.php");
-use Parse\ParseClient;
-use Parse\ParseException;
-use Parse\ParseObject;
-use Parse\ParseQuery;
-use Parse\ParseUser;
-
-session_start();
-date_default_timezone_set("America/Los_Angeles");
-ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
-
+include '../controller/php/UserController.php';
 
 class userControllerTest extends PHPUnit_Framework_TestCase {
 
 	public function testLogin(){
 		$result = login("asd", "asdf");
-		$resultt= login("christdv@usc.edu", "christdv");
+		$resultt= login("test1", "t1");
 		$this->assertEquals($result, "FAIL");
 		$this->assertEquals($resultt, "SUCCESS");
+	}
+
+	public function testUploadCSV(){
+
+		//second try with real file for importing
+		$file_path = "../resources/Data.csv";
+		$result = uploadCSV($file_path);
+		$this->assertTrue($result);
+/*
+		//third try importing accounts twice
+		$file_path = "../resources/TwoAccounts.csv";
+		$result = uploadCSV($file_path);
+		$this->assertEquals($result, "SUCCESS");
+
+		//fourth try with real file for deletion
+		$file_path = "../resources/DeleteData.csv";
+		$result = uploadCSV($file_path);
+		$this->assertEquals($result, "SUCCESS");
+
+		//this upload is just for testing
+		$file_path = "../resources/Data.csv";
+		$result = uploadCSV($file_path);
+		$this->assertEquals($result, "SUCCESS");
+
+/*
+		//first try with any random string
+		$file_path = "/Asdf/dgf.csv";
+		$result = uploadCSV($file_path);
+		$this->assertEquals($result, "FAIL");
+		*/
 	}
 
 	public function testGetAccountNamesForList(){
@@ -31,7 +50,7 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 		//now test with user that does NOT contain accounts
 		//in the database. "edgarlug"
 		logout();
-		login("edgarlug@usc.edu", "ed");
+		login("test2", "t2");
 		$result = getAccountNamesForList();
 		$this->assertEquals($result, "FAIL");
 	}
@@ -54,35 +73,11 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 		failure on "asf"
 		*/
 		logout();
-		login("christdv@usc.edu", "christdv");
+		login("test1", "t1");
 		$result = getTransactionsForList("Checking", NULL, NULL, "date");
 		$resultt = getTransactionsForList("asf", NULL, NULL, "date");
 		$this->assertEquals($result, "SUCCESS");
 		$this->assertEquals($resultt, "FAIL");
-	}
-
-	public function testUploadCSV(){
-
-
-		//first try with any random string
-		$file_path = "/Asdf/dgf.csv";
-		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "FAIL");
-
-		//second try with real file for deletion
-		$file_path = "/home/teamh/financierge/resources/jeffsdelete.csv";
-		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
-
-		//third try with real file for importing
-		$file_path = "/home/teamh/financierge/resources/data.csv";
-		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
-
-		//fourth try importing accounts twice
-		$file_path = "/home/teamh/financierge/resources/twoAccounts.csv";
-		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
 	}
 
 	public function testUserLoggedIn(){
@@ -91,6 +86,11 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testLogout() {
+/*
+		//clear database before login out, for testing purposes
+		$file_path = "/home/teamh/financierge/resources/DeleteData.csv";
+		$result = uploadCSV($file_path);
+*/
 		$result = logout();
 		$this->assertEquals($result, "Logged out");
 	}
@@ -102,6 +102,9 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 
 }
 
-//phpunit --coverage-html report testForUserController.php --whitelist userController.php
+/*
+The following command is used to run this test:
+phpunit --coverage-html report testForUserController.php --whitelist ../Controller/php/userController.php
+*/
 
 ?>

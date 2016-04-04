@@ -1,17 +1,17 @@
 <?php
 
 
-include("../../model/Network.php");
-include("../../model/vendor/autoload.php");
-use Parse\ParseClient;
-use Parse\ParseException;
-use Parse\ParseObject;
-use Parse\ParseQuery;
-use Parse\ParseUser;
+include("/home/teamh/financierge/model/Network.php");
+// include("../../model/vendor/autoload.php");
+// use Parse\ParseClient;
+// use Parse\ParseException;
+// use Parse\ParseObject;
+// use Parse\ParseQuery;
+// use Parse\ParseUser;
 
-session_start();
-date_default_timezone_set("America/Los_Angeles");
-ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
+// session_start();
+// date_default_timezone_set("America/Los_Angeles");
+// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request form
@@ -92,11 +92,14 @@ function uploadCSV($file_name){
 				// check to see if account already exists for this user
 				$AccountAlreadyExists = false;
 				$accounts = Network::getAccounts();
-				foreach ($accounts as $account) {
-					if (strcmp($account->get("name"), $accountName) == 0) {
-						$AccountAlreadyExists = true;
+				if($accounts){
+					foreach ($accounts as $account) {
+						if (strcmp($account->get("name"), $accountName) == 0) {
+							$AccountAlreadyExists = true;
+						}
 					}
 				}
+
 				if(!$AccountAlreadyExists){
 					Network::addAccount($accountName, $isAsset);
 				}
@@ -109,7 +112,6 @@ function uploadCSV($file_name){
 				}
 			} else {
 				//transaction
-
 				$acntName = $data[0];
 				$dt = new DateTime($data[1]); //added time to match parse format
 				$princ = $data[2];
@@ -152,17 +154,19 @@ function uploadCSV($file_name){
         // echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
-        return "SUCCESS";
+        return true;
 
-	} else {
+	} 
+	/*else {
         echo '<script language="javascript">';
         // echo 'alert("Upload failed!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
-        return "FAIL";
+        return false;
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
+	*/
 }
 
 function getAccountNamesForList(){
