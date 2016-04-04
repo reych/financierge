@@ -104,7 +104,7 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 
 /*
 The following command is used to run this test:
-phpunit --coverage-html report testForUserController.php --whitelist ../Controller/php/userController.php
+phpunit --coverage-html report testForUserController.php --whitelist ../controller/php/UserController.php
 */
 
 ?>

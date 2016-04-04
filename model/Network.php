@@ -166,6 +166,7 @@ class Network {
 					}
 				}
 			}
+			return true;
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}

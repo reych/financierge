@@ -129,26 +129,26 @@ function uploadCSV($file_name){
 				//echo "Trying to add transaction: ".$newTrans->principle." to an array".PHP_EOL;
 
 				// if the array contains the account name as a key already:
-				// if (array_key_exists($accountName, $allNewTransactions)) {
-				// 	// push the new Transaction object into the array held at the account name key
-				// 	array_push($allNewTransactions[$accountName], $newTrans);
+				if (array_key_exists($accountName, $allNewTransactions)) {
+					// push the new Transaction object into the array held at the account name key
+					array_push($allNewTransactions[$accountName], $newTrans);
 
-				// // the array doesn't yet have any transactions for this account to add
-				// } else {
-				// 	// create a new array to hold all of the transactions for this particular account
-				// 	$tempArr = array();
-				// 	// add the first transaction to this array
-				// 	array_push($tempArr, $newTrans);
-				// 	// add this array to the array holding all transactions
-				// 	$allNewTransactions[$accountName] = $tempArr;
-				// }
+				// the array doesn't yet have any transactions for this account to add
+				} else {
+					// create a new array to hold all of the transactions for this particular account
+					$tempArr = array();
+					// add the first transaction to this array
+					array_push($tempArr, $newTrans);
+					// add this array to the array holding all transactions
+					$allNewTransactions[$accountName] = $tempArr;
+				}
 
-				Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
+				// Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
 			}
 		}
 
 		// call function to load up array of transactions
-		// Network::addTransactionsToAccounts($allNewTransactions);
+		Network::addTransactionsToAccounts($allNewTransactions);
 
         echo '<script language="javascript">';
         // echo 'alert("Upload succeded!");';
@@ -157,7 +157,7 @@ function uploadCSV($file_name){
         return true;
 
 	} 
-	/*else {
+	else {
         echo '<script language="javascript">';
         // echo 'alert("Upload failed!");';
         echo 'window.location.assign("../../index.html");';
@@ -166,7 +166,7 @@ function uploadCSV($file_name){
 	}
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
-	*/
+	return true;
 }
 
 function getAccountNamesForList(){
