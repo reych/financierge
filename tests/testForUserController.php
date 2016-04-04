@@ -17,28 +17,27 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 		$file_path = "../resources/Data.csv";
 		$result = uploadCSV($file_path);
 		$this->assertTrue($result);
-/*
+		echo "importing termianted";
 		//third try importing accounts twice
 		$file_path = "../resources/TwoAccounts.csv";
 		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
-
+		$this->assertTrue($result);
+		echo "adding same accounts terminated";
 		//fourth try with real file for deletion
 		$file_path = "../resources/DeleteData.csv";
 		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
-
+		$this->assertTrue($result);
+		echo "delete data terminated";
 		//this upload is just for testing
 		$file_path = "../resources/Data.csv";
 		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "SUCCESS");
-
-/*
+		$this->assertTrue($result);
+		echo "importing again temrianted";
 		//first try with any random string
 		$file_path = "/Asdf/dgf.csv";
 		$result = uploadCSV($file_path);
-		$this->assertEquals($result, "FAIL");
-		*/
+		$this->assertNotTrue($result);
+		echo "bad file import terminated";
 	}
 
 	public function testGetAccountNamesForList(){
@@ -48,7 +47,7 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, "SUCCESS");
 
 		//now test with user that does NOT contain accounts
-		//in the database. "edgarlug"
+		//in the database. ""
 		logout();
 		login("test2", "t2");
 		$result = getAccountNamesForList();
@@ -86,11 +85,11 @@ class userControllerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testLogout() {
-/*
+
 		//clear database before login out, for testing purposes
 		$file_path = "/home/teamh/financierge/resources/DeleteData.csv";
 		$result = uploadCSV($file_path);
-*/
+		echo "database cleared";
 		$result = logout();
 		$this->assertEquals($result, "Logged out");
 	}
