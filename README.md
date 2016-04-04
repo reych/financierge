@@ -1,11 +1,11 @@
 ---------------------------------------------
-Financierge
+financierge
 ---------------------------------------------
 "The paynless way to balance your halfunds"
 
-For CSCI310 project 2
-By Team H
-Developers:
+Produced for CSCI 310 Project 2 by Team H
+
+Team Members:
 * Christian Villa
 * Christina Liang
 * Edgar Lugo
@@ -16,9 +16,9 @@ Developers:
 ---------------------------------------------
 DESCRIPTION
 ---------------------------------------------
-Financierge is a web application for keeping track of your financial accounts, account transactions, budget, assets, and liabilities. 
+financierge is a web application for keeping track of your financial accounts, transactions, budgets, assets, and liabilities. 
 
-Please follow this procedures in order to run our software and tests:
+Please follow this procedure in order to run our software and tests:
 
 To run the software:
 1. Open the terminal
@@ -40,4 +40,3 @@ To run our tests:
 
 Please note that our tests take between 7-10 minutes to run. 
 We provide both Black box and White box testing, Cucumber and PHPUnit (with coverage).
-
