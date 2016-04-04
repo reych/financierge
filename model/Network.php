@@ -122,8 +122,10 @@ class Network {
 					$accounts[$i]->fetch();
 					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
 						$transactions = $accounts[$i]->get("transactions");
-						foreach ($transactions as $transaction) {
-							$transaction->destroy();
+						if($transactions){
+							foreach ($transactions as $transaction) {
+								$transaction->destroy();
+							}
 						}
 						$accounts[$i]->destroy();
 						unset($accounts[$i]);
@@ -164,7 +166,6 @@ class Network {
 					}
 				}
 			}
-			return true;
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
