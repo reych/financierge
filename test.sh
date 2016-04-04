@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# cucumber
-phpunit --coverage-html report tests/testForUserController.php --whitelist controller/php/UserController.php
-phpunit --coverage-html report tests/testForNetwork.php --whitelist model/Network.php
-firefox tests/report/UserController.php.html tests/report/Network.php.html
+cucumber
+cd tests
+phpunit --coverage-html report testForUserController.php --whitelist ../controller/php/UserController.php
+phpunit --coverage-html report testForNetwork.php --whitelist ../model/Network.php
+firefox report/Network.php.html report/UserController.php.html 
