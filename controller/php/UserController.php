@@ -1,5 +1,5 @@
 <?php
-include("home/teamh/financierge/model/Network.php");
+include("/home/teamh/financierge/model/Network.php");
 // include("../../model/Network.php");
 include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
@@ -118,36 +118,36 @@ function uploadCSV($file_name){
 				$ctgry = $data[4];
 
 				// echo $princ;
-				// $newTrans = new Transaction();
-				// $newTrans->accountName = $acntName;
-				// $newTrans->date = $dt;
-				// $newTrans->principle = $princ;
-				// $newTrans->amount = $amnt;
-				// $newTrans->category = $ctgry;
+				$newTrans = new Transaction();
+				$newTrans->accountName = $acntName;
+				$newTrans->date = $dt;
+				$newTrans->principle = $princ;
+				$newTrans->amount = $amnt;
+				$newTrans->category = $ctgry;
 				//echo "Here's what should be after the :... ".$principle;
 				//echo "Trying to add transaction: ".$newTrans->principle." to an array".PHP_EOL;
 
-				// // if the array contains the account name as a key already:
-				// if (array_key_exists($accountName, $allNewTransactions)) {
-				// 	// push the new Transaction object into the array held at the account name key
-				// 	array_push($allNewTransactions[$accountName], $newTrans);
+				// if the array contains the account name as a key already:
+				if (array_key_exists($acntName, $allNewTransactions)) {
+					// push the new Transaction object into the array held at the account name key
+					array_push($allNewTransactions[$acntName], $newTrans);
 
-				// // the array doesn't yet have any transactions for this account to add
-				// } else {
-				// 	// create a new array to hold all of the transactions for this particular account
-				// 	$tempArr = array();
-				// 	// add the first transaction to this array
-				// 	array_push($tempArr, $newTrans);
-				// 	// add this array to the array holding all transactions
-				// 	$allNewTransactions[$accountName] = $tempArr;
-				// }
+				// the array doesn't yet have any transactions for this account to add
+				} else {
+					// create a new array to hold all of the transactions for this particular account
+					$tempArr = array();
+					// add the first transaction to this array
+					array_push($tempArr, $newTrans);
+					// add this array to the array holding all transactions
+					$allNewTransactions[$acntName] = $tempArr;
+				}
 
-				Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
+				// Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
 			}
 		}
 
 		// call function to load up array of transactions
-		//Network::addTransactionsToAccounts($allNewTransactions);
+		Network::addTransactionsToAccounts($allNewTransactions);
 
         echo '<script language="javascript">';
         // echo 'alert("Upload succeded!");';
