@@ -1,5 +1,6 @@
 <?php
 include("home/teamh/financierge/model/Network.php");
+// include("../../model/Network.php");
 include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
@@ -153,7 +154,7 @@ function uploadCSV($file_name){
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
         return true;
-	} 
+	}
 	else {
         echo '<script language="javascript">';
         // echo 'alert("Upload failed!");';
