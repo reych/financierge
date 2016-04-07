@@ -30,7 +30,7 @@ if ($funcName == "uploadCSV") {
 	getAccountNamesForList();
 
 } else if($funcName == "getTransactionsForList") {
-	//get all account names as such
+	// get all account names as such
 	$accountName = $_GET["accName"];
 	$sort = $_GET["sortType"];
 	$startDate = $_GET["startDate"];
@@ -51,8 +51,8 @@ if ($funcName == "uploadCSV") {
 
 
 function login($username, $password){
-	//call parse class login function
-	//login returns a user object or null
+	// call parse class login function
+	// login returns a user object or null
 	$user = Network::loginUser($username, $password);
 
 	if($user){
