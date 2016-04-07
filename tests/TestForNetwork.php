@@ -1,7 +1,7 @@
 <?php
 include '../model/Network.php';
 
-class networkClassTest extends PHPUnit_Framework_TestCase {
+class NetworkClassTest extends PHPUnit_Framework_TestCase {
 
 	function testLoginUser(){
 		$user = Network::loginUser("asdf", "asd");
