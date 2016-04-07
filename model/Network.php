@@ -1,32 +1,4 @@
 <?php
-/*
-
------------------
-NETWORK CLASS API
------------------
-
-DISCLAIMER: All functions have only been tested on a basic level, so there might still be issues I was unable to see during implementation.
-
-Network::signupUser(username, password) -> true if signup was successful, false if otherwise
-
-Network::loginUser(username, password) -> user object if login was successful, NULL if otherwise
-
-Network::getCurrentUser() -> user object if user is logged in, NULL is otherwise
-
-Network::logoutUser() -> nothing
-
-Network::addAccount(name, isAsset) -> true if account was added sucessfully, false if otherwise
-
-Network::deleteAccount(name) -> true if account was deleted sucessfully, false if otherwise
-
-Network::addTransactionToAccount(date, principle, amount, category, name) -> true if transaction was added sucessfully, false if otherwise
-
-Network::getTransactionsForAccount(name) -> array of transactions if fetch was successful, NULL if otherwise
-
-Network::getTransactionsForAccountWithinDates(start, end, name) -> array of transactions if fetch was successful, NULL if otherwise
-
-*/
-
 include("vendor/autoload.php");
 include("Transaction.php");
 use Parse\ParseClient;
@@ -37,23 +9,9 @@ use Parse\ParseUser;
 
 date_default_timezone_set("America/Los_Angeles");
 session_start();
-
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 class Network {
-
-	static function signupUser($username, $password) {
-		try {
-			$user = new ParseUser();
-			$user->set("username", $username);
-			$user->set("password", $password);
-			$user->signUp();
-			return true;
-		} catch (ParseException $error) {
-			echo $error->getMessage();
-		}
-		return false;
-	}
 
 	static function loginUser($username, $password) {
 		try {
