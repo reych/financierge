@@ -1,6 +1,8 @@
 /* Write transactions code here */
 var currAccount = '';
 
+/* For removing a tab and its contents. Triggered by clicking the 'x' button on tabs.
+ * Input: the 'x' element. */
 function closeTab(close_element){
     var tabContainer = document.getElementById('transaction-tabs');
     var contentContainer = document.getElementById('transaction-tabcontents');
@@ -23,7 +25,8 @@ function closeTab(close_element){
     //     str+=nextTabs[i].id + "\n";
     // }
 }
-/* */
+/* Creates a tab and calls displayTransactions to fill in content.
+ * Input: the string echoed by php, in the format: name \n transactions_strings */
 function createTab(phpResponse) {
     var tabContainer = document.getElementById('transaction-tabs');
 
@@ -142,7 +145,9 @@ function clearChildren(container) {
   	}
 }
 
-/* Create headers for a table */
+/* Create headers for a table
+ * Input: 'table' - the table that headers are added to;
+ *        'headers_string' - string of desired headers separated by underscores */
 function createTableHeaders(table, headers_string){
 	//create a new row
 	var tableRow = document.createElement("TR");

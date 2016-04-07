@@ -3,6 +3,8 @@
 var tabContainer = document.getElementById('transaction-tabs');
 var contentContainer = document.getElementById('transaction-tabcontents');
 
+//Selects tab and shows its content, hiding the other tabs and contents.
+//Input: tab element
 function displayData(tab_element) {
     var tabID = tab_element.id;
     var contentID = 'content'+tabID.substring(3);
