@@ -2,7 +2,7 @@ Feature: Login authentication
 
 	User must log in to account to access the rest of the website.
 
-	Scenario: Successful login
+	Scenario: Successful login. User enters correct username and password
 		Given user is on login page
 		Given the following existing user and password:
 			|username|christdv@usc.edu|
@@ -10,7 +10,7 @@ Feature: Login authentication
 		When user enters correct username and password
 		Then the page should redirect to dashboard
 
-	Scenario: Bad login
+	Scenario: Bad login user enters wrong password for username
 		Given the following existing user and password:
 			|username|renachen@usc.edu|
 			|password|rc|
