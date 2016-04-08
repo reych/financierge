@@ -9,8 +9,8 @@ Feature: Sort transactions for an account by date, catetory, and amount
 
 	Scenario: When the user clicks the category button for the transactions, then they will be sorted by category.
 		Given account transactions are displayed
-		When(/^the user clicks the category button$/)
-		Then(/^the transactions should be sorted in alphabetical order according to category$/)
+		When the user clicks the category button
+		Then the transactions should be sorted in alphabetical order according to category
 
 	Scenario: When the user clicks the amount button for transactions, then they will be sorted by amount.
 		Given account transactions are displayed
