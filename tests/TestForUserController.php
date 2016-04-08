@@ -2,7 +2,7 @@
 
 include '../controller/php/UserController.php';
 
-class userControllerTest extends PHPUnit_Framework_TestCase {
+class UserControllerTest extends PHPUnit_Framework_TestCase {
 
 	public function testLogin(){
 		$result = login("asd", "asdf");
