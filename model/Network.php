@@ -201,9 +201,8 @@ class Network {
 				}
 				$currentUser->setArray("accounts", $accounts);
 				$currentUser->save();
+				return true;
 			}
-			return true;
-
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
