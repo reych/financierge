@@ -61,7 +61,43 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 	}
 
 	function testAddTransactionsToAccounts() {
-		//for next sprint
+		
+				//set up data in required format using transaction objects
+				//there will be two transactions
+				$acntName = "Savings";
+				$dt = new DateTime("2016/1/1");
+				$princ = "Testtesttest";
+				$amnt = floatval(3.565);
+				$ctgry = "other";
+
+				$newTrans1 = new Transaction();
+				$newTrans1->accountName = $acntName;
+				$newTrans1->date = $dt;
+				$newTrans1->principle = $princ;
+				$newTrans1->amount = $amnt;
+				$newTrans1->category = $ctgry;
+
+				$dt = new DateTime("2016/2/2");
+				$princ = "Testteest";
+				$amnt = floatval(5.565);
+
+				$newTrans2 = new Transaction();
+				$newTrans2->accountName = $acntName;
+				$newTrans2->date = $dt;
+				$newTrans2->principle = $princ;
+				$newTrans2->amount = $amnt;
+				$newTrans2->category = $ctgry;
+
+				// create a new array to hold all of the transactions for this particular account
+				$tempArr = array();
+				// add the first transaction to this array
+				array_push($tempArr, $newTrans1);
+				array_push($tempArr, $newTrans2);
+				// add this array to the array holding all transactions
+				$allNewTransactions[$acntName] = $tempArr;
+
+				$result = Network::addTransactionsToAccounts($allNewTransactions);
+				$this->assertTrue($result);
 	}
 
 	// tests if transactions can be fetched for accounts
