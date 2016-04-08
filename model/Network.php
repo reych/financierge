@@ -95,9 +95,9 @@ class Network {
 					$accounts[$i]->fetch();
 					if (strcmp($accounts[$i]->get("name"), $name) == 0) {
 						$transactions = $accounts[$i]->get("transactions");
-						for ($i = 0; $i < count($transactions); $i++) {
+						for ($k = 0; $k < count($transactions); $k++) {
 							// deletes each transaction for the account in the Transaction table on Parse
-							$transactions[$i]->destroy();
+							$transactions[$k]->destroy();
 						}
 						// deletes the account in the Account table on Parse
 						$accounts[$i]->destroy();
