@@ -16,10 +16,10 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 //called from the HTML, this part handles the request form
 //Javascript and passes the arguments to the methods.
 
-// Use get method to determine which function to call
+// Use get method to determine which function the javascrip is requesting
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
-		//get file from temporary direcory where it is stored
+	//get file from temporary direcory where it is stored
 	$target_dir = sys_get_temp_dir();
 	//complete file path
 	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
@@ -181,6 +181,9 @@ function getAccountNamesForList(){
 
 	sort($accountNameArray);
 
+	//result will be one string that will be echoed for the javascrip to pick up
+	//PHP_EOL => PHP EndOfLine
+	//Used instea of "\n" for parsing
 	for ($i = 0; $i < count($accountNameArray); $i++){
 		$result .= $accountNameArray[$i] . PHP_EOL;
 	}
@@ -191,6 +194,8 @@ function getAccountNamesForList(){
 function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	if ($startDate == NULL || $startDate == "") {
+		//by calling new DateTime() with no arguments,
+		//the date object is created with the current date
 		$startDate = new DateTime();
 
 	} else {
@@ -198,6 +203,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 	}
 
 	if ($endDate == NULL || $endDate == "") {
+		//the startDate time is then used to give the default 3 months range
 		$endDate = clone $startDate;
 		$endDate->modify("-3 months");
 
