@@ -28,6 +28,7 @@ function closeTab(close_element){
 /* Creates a tab and calls displayTransactions to fill in content.
  * Input: the string echoed by php, in the format: name \n transactions_strings */
 function createTab(phpResponse) {
+
     var tabContainer = document.getElementById('transaction-tabs');
 
     var contentContainer = document.getElementById('transaction-tabcontents');
@@ -99,7 +100,7 @@ function displayTransactions(containerID, transactions_list) {
     var transactionsArray = transactions_list.split('\n');
     //create table
     var table = document.createElement('TABLE');
-    createTableHeaders(table, 'Date_Principle_Amount_Category_');
+    createTableHeaders(table, 'Date_Principle_Amount_Category');
     //add onclick listeners to headers
     var tHead = table.firstChild;
     var tRow = tHead.firstChild;
@@ -115,12 +116,23 @@ function displayTransactions(containerID, transactions_list) {
 
 
     //insert transaction data into table
+    // for some wired reason php some time return each transaction with one
+    // addtional line causing coloring based one line# to fail so added a
+    // if statement to see if each line is actually a valid transaction
+    var colorCounter = 0;
     for(i=0; i<transactionsArray.length; i++) {
         var transactionDataArray = transactionsArray[i].split('_');
         var tableRow = document.createElement('TR');
+
+
         //every odd row color darker
-        if(i%2 == 0){
-            tableRow.setAttribute('style', 'background-color: #C0C0C0;');
+        if(transactionDataArray.length > 1){
+            // use colorCounter to determine whether dark color backgound or not
+            // instead of i
+            if (colorCounter % 2 == 1) {
+                tableRow.setAttribute('style', 'background-color: #C0C0C0;');
+            }
+            colorCounter++;
         }
 
         for(j=0; j<transactionDataArray.length; j++) {

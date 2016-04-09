@@ -1,3 +1,16 @@
+/*
+ This file has controller functions with name XXXController
+ These functions are directly called from HTML by the onclick attributes of
+ individual tags.
+ Controller funcitons then setup corrent arguments and gather necessary info
+ either from funciton parameter or HTML page directly by using document.getXXX()
+ and then calls phpRequest to make request to backend and get result from php
+ if necessary then calls seperate function to display result from php.
+
+ Most of these controller funcitons are like middle man between actual JS that
+ is changeing the page and backend PHP.
+*/
+
 
 // this part of the code is executed every time the js file is loaded and check
 // if the user is loggedin by calling userLoggedIn funciton throught phpRequest
@@ -88,20 +101,29 @@ function logInController() {
     }
 }
 
+// this function is called when the index.html is loaded
+// this function calls phpRequest for account list and then calls
+// displayAccounts fucntion to display accounts in a table
+// see details in in displayAccounts funciton
 function accountListController() {
     var result = phpRequest('getAccountNamesForList','');
     // alert(result);
     displayAccounts(result);
 }
 
+// this funciton is called when user clicks on an account. then it tries to
+// display transactions for that acount by calling createTab funciton
+// accountClicked is the actual <td> tag that is clicked and the id for each
+// account tag is its own account name. Thus we can get the account name by
+// getting tag's id.
 function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
-    // alert(arguments);
     var result = phpRequest('getTransactionsForList', arguments);
-    // alert(result);
     createTab(result);
 }
 
+// this funciton is called when user clicks on the header of transactions table
+// in order to sort transactions by desired sorting type.
 function sortTransactions(sortType){
     var selectedTabs = document.getElementsByClassName('selected');
     if(selectedTabs[0] !== undefined && selectedTabs[0] != undefined) {
@@ -134,20 +156,19 @@ function logoutController() {
 }
 
 // ajax func to handel all call to php
-function phpRequest(funcName, data, usrName, passWrd) {
-    var arguments = "";
-    if (typeof data == 'string' ) {
-        arguments = data;
-
-    }
-    var result;
-    // alert(funcName);
+function phpRequest(funcName, arguments, usrName, passWrd) {
     return jQuery.ajax({
+        // using post method to pass data to php for security of username and
+        // password
         type:'post',
+        // the url points to the php file to call and I used get method to pass
+        // function name that I want to call along with arguments needed
         url: '../controller/php/UserController.php?funcToCall=' + funcName + arguments,
+        // this data is passed to php using post method defined above for
+        // security resaons
         data: {username: usrName, password: passWrd},
+        // set async to false in order to make funciton return the actual
+        // responde from php instead of just returning a blank string immdeately
         async: false,
-        success: function(phpResponse){
-        }
     }).responseText;
 }
