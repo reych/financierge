@@ -4,9 +4,8 @@
 function updateGraph(values) {
     var chartData = [];
 
-    values = "assets|2016-04-10_10|2016-04-11_11|2016-04-12_12|2016-04-13_13|2016-04-14_14|2016-04-15_15\n
-    liabilities|2016-04-10_15|2016-04-11_16|2016-04-12_17|2016-04-13_18|2016-04-14_19|2016-04-15_20\n
-    networth|2016-04-10_2|2016-04-11_3|2016-04-12_4|2016-04-13_5|2016-04-14_6|2016-04-15_7";
+
+    values = "assets|2016-04-10_10|2016-04-11_11|2016-04-12_12|2016-04-13_13|2016-04-14_14|2016-04-15_15\nliabilities|2016-04-10_15|2016-04-11_16|2016-04-12_17|2016-04-13_18|2016-04-14_19|2016-04-15_20\nnetworth|2016-04-10_2|2016-04-11_3|2016-04-12_4|2016-04-13_5|2016-04-14_6|2016-04-15_7";
     var lines = values.split('\n');
 
     // nodes for assets line
@@ -14,10 +13,12 @@ function updateGraph(values) {
     var name = nodes[0];
     for (k = 1; k < nodes.length; k++) {
         var values = nodes[k].split('_');
+        var date = new Date(values[0]);
+        var value = parseFloat(values[1]);
         chartData.push({
-            date: values[0];
-            assets: values[1];
-        })
+            date: date,
+            assets: value
+        });
     }
 
     // nodes for liabilities line
@@ -25,10 +26,12 @@ function updateGraph(values) {
     var name = nodes[0];
     for (k = 1; k < nodes.length; k++) {
         var values = nodes[k].split('_');
+        var date = new Date(values[0]);
+        var value = parseFloat(values[1]);
         chartData.push({
-            date: values[0];
-            liabilities: values[1];
-        })
+            date: date,
+            liabilities: value
+        });
     }
 
     // nodes for net worth line
@@ -36,10 +39,12 @@ function updateGraph(values) {
     var name = nodes[0];
     for (k = 1; k < nodes.length; k++) {
         var values = nodes[k].split('_');
+        var date = new Date(values[0]);
+        var value = parseFloat(values[1]);
         chartData.push({
-            date: values[0];
-            networth: values[1];
-        })
+            date: date,
+            networth: value
+        });
     }
 
     var chart = AmCharts.makeChart("chartdiv", {
@@ -47,7 +52,7 @@ function updateGraph(values) {
         "theme": "none",
         "marginTop": 0,
         "marginRight": 10,
-        "dataProvider": chartData
+        "dataProvider": chartData,
         "graphs": [{
             "id":"g1",
                 "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[assets]]</span></b>",
@@ -97,17 +102,17 @@ function updateGraph(values) {
 
         },
         "chartCursor": {
-            "categoryBalloonDateFormat": "YYYY",
+            "categoryBalloonDateFormat": "YYYY-mm-dd",
             "cursorAlpha": 0,
             "valueLineEnabled":true,
             "valueLineBalloonEnabled":true,
             "valueLineAlpha":0.5,
             "fullWidth":true
         },
-        "dataDateFormat": "YYYY",
-        "categoryField": "year",
+        "dataDateFormat": "YYYY-mm-dd",
+        "categoryField": "date",
         "categoryAxis": {
-            "minPeriod": "YYYY",
+            "minPeriod": "YYYY-mm-dd",
             "parseDates": true,
             "minorGridAlpha": 0.1,
             "minorGridEnabled": true
