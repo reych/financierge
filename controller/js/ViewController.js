@@ -111,6 +111,11 @@ function accountListController() {
     displayAccounts(result);
 }
 
+function graphController() {
+    var values = phpRequest('getTransactionsForAllAccounts', ''); // UPDATE: this call could be wrong!!!
+    updateGraph(values);
+}
+
 // this funciton is called when user clicks on an account. then it tries to
 // display transactions for that acount by calling createTab funciton
 // accountClicked is the actual <td> tag that is clicked and the id for each

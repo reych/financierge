@@ -1,8 +1,12 @@
+function updateGraph($values) {
+
+}
+
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "none",
-    "marginTop":0,
-    "marginRight": 80,
+    "marginTop": 0,
+    "marginRight": 10,
     "dataProvider": [{
         "year": "1950",
         "value": -0.307
@@ -173,7 +177,6 @@ var chart = AmCharts.makeChart("chartdiv", {
         "value": 0.47
     }],
     "valueAxes": [{
-        "axisAlpha": 0,
         "position": "left"
     }],
     "graphs": [{
