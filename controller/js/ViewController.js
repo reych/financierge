@@ -19,6 +19,7 @@
 var loggedIn = phpRequest('userLoggedIn','');
 if (loggedIn == 'TRUE') {
     accountListController();
+    graphController();
 } else {
     if (window.location.href != "http://localhost/login.html") {
         window.location = "login.html";
