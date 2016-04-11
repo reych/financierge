@@ -2,10 +2,6 @@
 var namesToDataArrays = new Map();
 var dataSets = [];
 
-var chartData1 = [];
-var chartData2 = [];
-var chartData3 = [];
-
 generateChartData();
 
 
