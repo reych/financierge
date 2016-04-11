@@ -47,6 +47,8 @@ if ($funcName == "uploadCSV") {
 
 } else if($funcName == "logout") {
     logout();
+} else if($funcName == "getBaseData") {
+	getBaseDataForGraph();
 }
 
 
@@ -244,5 +246,180 @@ function userLoggedIn() {
 		echo "FALSE";
 		return "FALSE";
 	}
+}
+
+/* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
+function getBaseDataForGraph() {
+	
+	Network::loginUser("zhongyag@usc.edu", "zg");
+
+	//get accounts
+	$accounts = Network::getAccounts();
+
+	$accountAssets = array();
+	$accountLiabilities = array();
+	//split accounts into assets or liabilities
+	for($i=0; $i<count($accounts); $i++){
+		$accounts[$i]->fetch();
+		if($accounts[$i]->get("isAsset")) {
+			array_push($accountAssets, $accounts[$i]);
+		} else {
+			array_push($accountLiabilities, $accounts[$i]);
+
+		}
+	}
+
+	$transAssets = array();
+	$transLiabilities = array();
+
+	/* REFACTOR THIS LATER TO NOT BE SO REPEATED*/
+	//Getting liability and asset arrays for transactions
+	foreach ($accountAssets as $singleAssetAccount) {
+		$transactions = Network::getTransactionsForAccount($singleAssetAccount->get("name"));
+		$transAssets = array_merge($transAssets, $transactions); //add transactions to transAssets array
+	}
+
+	foreach ($accountLiabilities as $singleLiabilityAccount) {
+		$transactions = Network::getTransactionsForAccount($singleLiabilityAccount->get("name"));
+		$transLiabilities = array_merge($transLiabilities, $transactions); //add transactions to transLiabilities array
+	}
+
+	//sort the transactions by date.
+	// usort($transAssets, "cmp");
+	// usort($transLiabilities, "cmp");
+	$compactAssets = calculateDailyValues($transAssets);
+	$compactLiabilities = calculateDailyValues($transLiabilities);
+
+	//CALCULATE NET WORTH
+	//net worth array
+	$netWorth;
+	//set pointer to last element in array to get the earliest last date
+	end($compactAssets);
+	$assetEndDate = key($compactAssets);
+	end($compactLiabilities);
+	$liabilityEndDate = key($compactLiabilities);
+	$endDate = returnLower($assetEndDate, $liabilityEndDate);
+	//reset to set pointer to first element in array
+	reset($compactAssets);
+	reset($compactLiabilities);
+	$assetCurrentDate = key($compactAssets);
+	$liabilityCurrentDate = key($compactLiabilities);
+
+	//set initial previous values
+	$networthPrevVal = 0;
+
+	//return first date
+	$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
+
+
+
+	//loop while current date is less than or equal to end date
+	//while((strcmp($currDate, $endDate)) < 1) {
+	$i = 0;
+	while($i < 17) {
+		$compareResult = strcmp($assetCurrentDate, $liabilityCurrentDate);
+		//add lower date to the networth array.
+		//if values are the same, combine the values and then add to networth current date.
+		if($compareResult == -1) {
+			//if asset date is earlier
+			$networth[$assetCurrentDate] = $compactAssets[$assetCurrentDate] + $networthPrevVal;
+			$networthPrevVal = $networth[$assetCurrentDate]; //set last networth
+			next($compactAssets); //increment to the next date
+			$assetCurrentDate = key($compactAssets);
+		} else if($compareResult == 1) {
+			//if liability date is earlier
+			$networth[$liabilityCurrentDate] = $networthPrevVal - $compactLiabilities[$liabilityCurrentDate];
+			$networthPrevVal = $networth[$liabilityCurrentDate]; //set last networth
+			next($compactLiabilities); //increment to the next date
+			$liabilityCurrentDate = key($compactLiabilities);
+		} else {
+			//if dates are the same
+			$toAdd = $compactAssets[$assetCurrentDate] - $compactLiabilities[$liabilityCurrentDate];
+			$networth[$assetCurrentDate] = $networthPrevVal + $toAdd;
+			$networthPrevVal = $networth[$assetCurrentDate];
+			//increment pointers and get key
+			next($compactLiabilities);
+			next($compactAssets);
+			$assetCurrentDate = key($compactAssets);
+			$liabilityCurrentDate = key($compactLiabilities);
+
+		}
+
+		$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
+		echo $currDate;
+		$i++;
+	}
+
+	//still have some transactions left from the longer array.
+	while(strcmp($assetCurrentDate, $assetEndDate) != 0) {
+		$networth[$assetCurrentDate] = $compactAssets[$assetCurrentDate] + $networthPrevVal;
+		$networthPrevVal = $networth[$assetCurrentDate]; //set last networth
+		next($compactAssets); //increment to the next date
+		$assetCurrentDate = key($compactAssets);
+	}
+	while(strcmp($liabilityCurrentDate, $liabilityEndDate) != 0) {
+		$networth[$liabilityCurrentDate] = $networthPrevVal - $compactLiabilities[$liabilityCurrentDate];
+			$networthPrevVal = $networth[$liabilityCurrentDate]; //set last networth
+			next($compactLiabilities); //increment to the next date
+			$liabilityCurrentDate = key($compactLiabilities);
+	}
+
+	//format assets, liabilities, and networth.
+	$formattedAssets = formatDailyValues("Assets", $compactAssets);
+	$formattedLiabilities = formatDailyValues("Liabilities", $compactLiabilities);
+	$formattedNetworth = formatDailyValues("Net Worth", $networth);
+
+	$baseDataString = $formattedAssets . $formattedLiabilities . $formattedNetworth;
+
+	echo $baseDataString;
+
+	Network::logoutUser();
+
+}
+
+//take in (sorted?) array and calculate the daily values
+//Returns associative array of date->value mapping in sorted order by date
+function calculateDailyValues($transactionsArray) {
+	$compressedArray;
+	foreach($transactionsArray as $trans) {
+		$key = $trans->get("date")->format('Y-m-d');
+		if(array_key_exists($key,$compressedArray)){
+			$compressedArray[$key] += $trans->get("amount");
+		} else {
+			$compressedArray[$key] = $trans->get("amount");
+		}
+	}
+
+	ksort($compressedArray);
+	return $compressedArray;
+
+
+}
+
+//comparator for sorting by date
+function cmp($trans1, $trans2){
+	return ($trans1->get("date") > $trans2->get("date"));
+}
+
+//compares two strings, returns the lesser of the two
+function returnLower($val1, $val2) {
+	$val = strcmp($val1, $val2);
+
+	if($val == -1){
+		return $val1;
+	}
+	else {
+		return $val2;
+	}
+}
+
+//format daily values for $name. Corresponds to a line on the graph.
+function formatDailyValues($name, $dailyValuesAssocArray){
+	$resultString = $name;
+	foreach($dailyValuesAssocArray as $date => $value) {
+		$resultString .= "|" . $date . "_" . $value;
+	}
+	$resultString .= PHP_EOL;
+	return $resultString;
 }
 ?>
