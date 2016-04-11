@@ -1,6 +1,6 @@
 
 
-// var allGraphs = 
+var allGraphs = 
 
 
 var chart = AmCharts.makeChart("chartdiv", {

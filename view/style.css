@@ -84,3 +84,15 @@ h1,h3{
 	padding-bottom: 2%;
 }
 */
+.amChartsCompareList div{
+	min-height: 20px;
+	box-sizing: default;
+	-webkit-box-sizing: default;
+}
+
+
+.amChartsInputField div{
+	min-height: 150px;
+	box-sizing: default;
+	-webkit-box-sizing: default;
+}
