@@ -50,12 +50,16 @@
             <div class="col-sm-8">
                 <h3>Graph</h3>
                 <div class = "graph module">
-                    <form>
-                        Start Date:
-                        <input type="date" name="start-date">
-                        End Date:
-                        <input type="date" name="end-date">
-                    </form>
+                    <div>
+  						<h5>Date Range (YYYY-MM-DD):</h5>
+  						<label for="from">From:</label>
+  						<input type="date" name="from" id="from">
+
+  						<label for="to">To:</label>
+  						<input type="date" name="to" id="to">
+  
+  						<button id="go">Go</button>
+					</div>
                     <div id = "chartdiv"></div>
                 </div>
                 <h3>Transaction History</h3>
