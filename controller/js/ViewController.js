@@ -19,6 +19,7 @@
 var loggedIn = phpRequest('userLoggedIn','');
 if (loggedIn == 'TRUE') {
     accountListController();
+    graphController();
 } else {
     if (window.location.href != "http://localhost/login.html") {
         window.location = "login.html";
@@ -112,8 +113,8 @@ function accountListController() {
 }
 
 function graphController() {
-    var values = phpRequest('getTransactionsForAllAccounts', ''); // UPDATE: this call could be wrong!!!
-    updateGraph(values);
+    //var values = phpRequest('getTransactionsForAllAccounts', ''); // UPDATE: this call could be wrong!!!
+    updateGraph("null");
 }
 
 // this funciton is called when user clicks on an account. then it tries to
