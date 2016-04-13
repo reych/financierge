@@ -49,6 +49,9 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
+} else if($funcName == "getIndividualGraphData") {
+	$acctName = $_GET["accName"];
+	getIndividualDataForGraph($acctName);
 }
 
 
@@ -248,9 +251,25 @@ function userLoggedIn() {
 	}
 }
 
+//will return nothing if the acocunt doesn't have any transactions
+function getIndividualDataForGraph($acctName) {
+
+	Network::loginUser("zhongyag@usc.edu", "zg");
+	$transactions = Network::getTransactionsForAccount($acctName);
+	if($transactions == NULL) {
+		return;
+	}
+	$compactTrans = calculateDailyValues($transactions);
+	$cumulativeTrans = calculateCumulativeValues($compactTrans);
+	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
+
+	echo $formattedTrans;
+	Network::logoutUser();
+}
+
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
-	
+
 	Network::loginUser("zhongyag@usc.edu", "zg");
 
 	//get accounts
@@ -290,6 +309,34 @@ function getBaseDataForGraph() {
 	$compactAssets = calculateDailyValues($transAssets);
 	$compactLiabilities = calculateDailyValues($transLiabilities);
 
+	$cumulativeAssets = calculateCumulativeValues($compactAssets);
+	$cumulativaLiabilities = calculateCumulativeValues($compactLiabilities);
+
+	// if there is no transactions at all, which means you don't have a life
+	if (count($transAssets) == 0 && count($transLiabilities) == 0) {
+		return;
+	}
+
+	// if you only have assets, which means you do not spend
+	if (count($transAssets) > 0 && count($transLiabilities) == 0) {
+		$formattedAssets = formatGraphDataToString("Assets", $cumulativeAssets);
+		$formattedNetworth = formatGraphDataToString("Networth", $cumulativeAssets);
+		// already added PHP_EOL in formatGraphDataToString so no need here
+		echo $formattedAssets . $formattedNetworth;
+		return;
+	}
+	// if you only have liabilities, which means you are going to be broke
+	if (count($transLiabilities) > 0 && count($transAssets) == 0) {
+		$formattedLiabilities = formatGraphDataToString("Liabilities", $cumulativaLiabilities);
+		foreach ($cumulativaLiabilities as $key => $value) {
+			$cumulativaLiabilities[$key] = $value * -1;
+		}
+		$formattedNetworth = formatGraphDataToString("Networth", $cumulativaLiabilities);
+		echo $formattedLiabilities . $formattedNetworth;
+		return;
+	}
+
+
 	//CALCULATE NET WORTH
 	//net worth array
 	$netWorth;
@@ -314,22 +361,28 @@ function getBaseDataForGraph() {
 
 
 	//loop while current date is less than or equal to end date
-	//while((strcmp($currDate, $endDate)) < 1) {
-	$i = 0;
-	while($i < 17) {
+	while((strcmp($currDate, $endDate)) < 1) {
+	// $i = 0;
+	// while($i < 17) {
 		$compareResult = strcmp($assetCurrentDate, $liabilityCurrentDate);
 		//add lower date to the networth array.
 		//if values are the same, combine the values and then add to networth current date.
-		if($compareResult == -1) {
+		if($compareResult < 0) {
 			//if asset date is earlier
 			$networth[$assetCurrentDate] = $compactAssets[$assetCurrentDate] + $networthPrevVal;
 			$networthPrevVal = $networth[$assetCurrentDate]; //set last networth
+			if (strcmp($currDate, $endDate) == 0) {
+				break;
+			}
 			next($compactAssets); //increment to the next date
 			$assetCurrentDate = key($compactAssets);
-		} else if($compareResult == 1) {
+		} else if($compareResult > 0) {
 			//if liability date is earlier
 			$networth[$liabilityCurrentDate] = $networthPrevVal - $compactLiabilities[$liabilityCurrentDate];
 			$networthPrevVal = $networth[$liabilityCurrentDate]; //set last networth
+			if (strcmp($currDate, $endDate) == 0) {
+				break;
+			}
 			next($compactLiabilities); //increment to the next date
 			$liabilityCurrentDate = key($compactLiabilities);
 		} else {
@@ -337,6 +390,9 @@ function getBaseDataForGraph() {
 			$toAdd = $compactAssets[$assetCurrentDate] - $compactLiabilities[$liabilityCurrentDate];
 			$networth[$assetCurrentDate] = $networthPrevVal + $toAdd;
 			$networthPrevVal = $networth[$assetCurrentDate];
+			if (strcmp($currDate, $endDate) == 0) {
+				break;
+			}
 			//increment pointers and get key
 			next($compactLiabilities);
 			next($compactAssets);
@@ -346,9 +402,12 @@ function getBaseDataForGraph() {
 		}
 
 		$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
-		echo $currDate;
-		$i++;
+		// echo "dates for a&l " . $assetCurrentDate . " " . $liabilityCurrentDate . PHP_EOL;
+		// echo "currDate: " . $currDate . PHP_EOL;
+		// $i++;
 	}
+
+	// echo "a&l curr dates: " . $assetCurrentDate . " " . $liabilityCurrentDate . PHP_EOL;
 
 	//still have some transactions left from the longer array.
 	while(strcmp($assetCurrentDate, $assetEndDate) != 0) {
@@ -365,9 +424,9 @@ function getBaseDataForGraph() {
 	}
 
 	//format assets, liabilities, and networth.
-	$formattedAssets = formatDailyValues("Assets", $compactAssets);
-	$formattedLiabilities = formatDailyValues("Liabilities", $compactLiabilities);
-	$formattedNetworth = formatDailyValues("Net Worth", $networth);
+	$formattedAssets = formatGraphDataToString("Assets", $cumulativeAssets);
+	$formattedLiabilities = formatGraphDataToString("Liabilities", $cumulativaLiabilities);
+	$formattedNetworth = formatGraphDataToString("Net Worth", $networth);
 
 	$baseDataString = $formattedAssets . $formattedLiabilities . $formattedNetworth;
 
@@ -377,10 +436,20 @@ function getBaseDataForGraph() {
 
 }
 
+function calculateCumulativeValues($transactionsArray) {
+	$cumulativeArray = array();
+	$prevValue = 0;
+	foreach($transactionsArray as $key => $transVal) {
+		$cumulativeArray[$key] =  $prevValue + $transVal;
+		$prevValue = $cumulativeArray[$key];
+	}
+	return $cumulativeArray;
+}
+
 //take in (sorted?) array and calculate the daily values
 //Returns associative array of date->value mapping in sorted order by date
 function calculateDailyValues($transactionsArray) {
-	$compressedArray;
+	$compressedArray = array();
 	foreach($transactionsArray as $trans) {
 		$key = $trans->get("date")->format('Y-m-d');
 		if(array_key_exists($key,$compressedArray)){
@@ -405,7 +474,7 @@ function cmp($trans1, $trans2){
 function returnLower($val1, $val2) {
 	$val = strcmp($val1, $val2);
 
-	if($val == -1){
+	if($val < 0){
 		return $val1;
 	}
 	else {
@@ -414,7 +483,7 @@ function returnLower($val1, $val2) {
 }
 
 //format daily values for $name. Corresponds to a line on the graph.
-function formatDailyValues($name, $dailyValuesAssocArray){
+function formatGraphDataToString($name, $dailyValuesAssocArray){
 	$resultString = $name;
 	foreach($dailyValuesAssocArray as $date => $value) {
 		$resultString .= "|" . $date . "_" . $value;

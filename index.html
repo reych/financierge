@@ -12,14 +12,14 @@
 <body>
 
     <div class="container-fluid">
-        <h1>Financierge
+        <h1>financierge
         <button type="button" class="btn btn-primary" id = "logout" onclick="logoutController();">Logout</button>
         <button type="button" onclick="testThisChart();">Test Graph</button>
         </h1>
 
         <div class="row">
             <div class="col-sm-4">
-                <h3>Upload Accounts</h3>
+                <h3>Upload</h3>
                 <div class = "upload module">
                     <!-- <form id="CSVForm" enctype="multipart/form-data" method="post" action="Controller/php/upload.php?funcToCall=uploadCSV"> -->
                     <form id="CSVForm" enctype="multipart/form-data" method="post" action="controller/php/UserController.php?funcToCall=uploadCSV">
@@ -30,7 +30,7 @@
                         <!-- <button type="submit" id="upload-button" onclick="uploadController();">Upload</button> -->
                     </form>
                 </div>
-                <h3>Account List</h3>
+                <h3>Accounts</h3>
                 <div class = "account-list module" id = "account-list">
                     <!-- <button onclick="phpRequest('testFunc2');">Ajax Test!</button>
                     <table width="200" border="1">
