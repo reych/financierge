@@ -27,7 +27,7 @@ Given(/^the graph exists$/) do
 end
 
 When(/^user looks at dash$/) do
-  driver.find_element(:id, "graphy").click
+  
 end
 
 Then(/^they should see liability, assets, and net worth line on the graph$/) do
