@@ -270,7 +270,7 @@ function getIndividualDataForGraph($acctName) {
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
 
-	Network::loginUser("zhongyag@usc.edu", "zg");
+	//Network::loginUser("zhongyag@usc.edu", "zg");
 
 	//get accounts
 	$accounts = Network::getAccounts();
