@@ -49,6 +49,9 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
+} else if($funcName == "getIndividualGraphData") {
+	$acctName = $_GET["accName"];
+	getIndividualDataForGraph($acctName);
 }
 
 
@@ -246,6 +249,22 @@ function userLoggedIn() {
 		echo "FALSE";
 		return "FALSE";
 	}
+}
+
+//will return nothing if the acocunt doesn't have any transactions
+function getIndividualDataForGraph($acctName) {
+
+	Network::loginUser("zhongyag@usc.edu", "zg");
+	$transactions = Network::getTransactionsForAccount($acctName);
+	if($transactions == NULL) {
+		return;
+	}
+	$compactTrans = calculateDailyValues($transactions);
+	$cumulativeTrans = calculateCumulativeValues($compactTrans);
+	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
+
+	echo $formattedTrans;
+	Network::logoutUser();
 }
 
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
