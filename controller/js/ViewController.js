@@ -18,7 +18,7 @@
 // if the user is loggedin, it will try to load account list
 var loggedIn = phpRequest('userLoggedIn','');
 if (loggedIn == 'TRUE') {
-    accountListController();
+    accountsController();
     graphController();
 } else {
     if (window.location.href != "http://localhost/login.html") {
@@ -106,7 +106,7 @@ function logInController() {
 // this function calls phpRequest for account list and then calls
 // displayAccounts fucntion to display accounts in a table
 // see details in in displayAccounts funciton
-function accountListController() {
+function accountsController() {
     var result = phpRequest('getAccountNamesForList','');
     // alert(result);
     displayAccounts(result);
@@ -114,7 +114,7 @@ function accountListController() {
 
 function graphController() {
     //var values = phpRequest('getTransactionsForAllAccounts', ''); // UPDATE: this call could be wrong!!!
-    updateGraph("null");
+    //updateGraph("null");
 }
 
 // this funciton is called when user clicks on an account. then it tries to
