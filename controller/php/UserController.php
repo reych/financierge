@@ -438,13 +438,10 @@ function getBaseDataForGraph() {
 
 	echo $baseDataString;
 
-<<<<<<< HEAD
-	//Network::logoutUser();
-=======
+
 	// echo "Time at end of func " . date("h:i:sa") . PHP_EOL;
 
 	// Network::logoutUser();
->>>>>>> de2626a450a1411d3913b3e3c4856e7fd4a7bc97
 
 }
 
