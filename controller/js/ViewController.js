@@ -126,6 +126,10 @@ function transactionsController(accountClicked) {
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
     var result = phpRequest('getTransactionsForList', arguments);
     createTab(result);
+
+    var arguments2 = '&accName=' + accountClicked.id;
+    var result = phpRequest('getIndividualGraphData',arguments2);
+    addOrUpdateAccount(result);
 }
 
 // this funciton is called when user clicks on the header of transactions table

@@ -121,6 +121,7 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 		$this->assertNull($result);
 		Network::logoutUser();
 	}
+	
 
 	// tests if the user can delete an account
 	function testDeleteAccount(){

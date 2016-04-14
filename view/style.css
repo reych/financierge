@@ -17,6 +17,19 @@ body {
 
 .account-list{
 	overflow: scroll;
+	padding-left: 20px;
+}
+
+.account-list table {
+	width: 100%;
+}
+.account-list td {
+	padding: 0 10px;
+}
+.account-data:hover {
+	background-color: #C0C0C0;
+	color: white;
+	cursor: pointer;
 }
 
 h1,h3{

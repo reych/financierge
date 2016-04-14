@@ -10,6 +10,7 @@ function displayAccounts(account_list) {
     //insert transaction data into table
     for(i=0; i<accountsArray.length; i++) {
         var tableRow = document.createElement('TR');
+        tableRow.className = 'account-data';
         var tableData = document.createElement('TD');
         tableData.setAttribute('onclick', 'transactionsController(this);');
         var value = document.createTextNode(accountsArray[i]);
