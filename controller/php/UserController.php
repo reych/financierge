@@ -270,13 +270,6 @@ function getIndividualDataForGraph($acctName) {
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
 
-<<<<<<< HEAD
-	// Network::loginUser("zhongyag@usc.edu", "zg");
-
-	// echo "Time start " . date("h:i:sa") . PHP_EOL;
-=======
-	//Network::loginUser("zhongyag@usc.edu", "zg");
->>>>>>> origin/master
 
 	//get accounts
 	$accounts = Network::getAccounts();
