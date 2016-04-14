@@ -270,10 +270,11 @@ function getIndividualDataForGraph($acctName) {
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
 
-	//Network::loginUser("zhongyag@usc.edu", "zg");
 
 	//get accounts
 	$accounts = Network::getAccounts();
+
+	// echo "Time after getting all accounts " . date("h:i:sa") . PHP_EOL;
 
 	$accountAssets = array();
 	$accountLiabilities = array();
@@ -287,6 +288,8 @@ function getBaseDataForGraph() {
 
 		}
 	}
+
+	// echo "Time after grouping accounts " . date("h:i:sa") . PHP_EOL;
 
 	$transAssets = array();
 	$transLiabilities = array();
@@ -302,6 +305,8 @@ function getBaseDataForGraph() {
 		$transactions = Network::getTransactionsForAccount($singleLiabilityAccount->get("name"));
 		$transLiabilities = array_merge($transLiabilities, $transactions); //add transactions to transLiabilities array
 	}
+
+	// echo "Time after merging all trans " . date("h:i:sa") . PHP_EOL;
 
 	//sort the transactions by date.
 	// usort($transAssets, "cmp");
@@ -336,6 +341,7 @@ function getBaseDataForGraph() {
 		return;
 	}
 
+	// echo "Time after getting cumulative & daily values " . date("h:i:sa") . PHP_EOL;
 
 	//CALCULATE NET WORTH
 	//net worth array
@@ -358,7 +364,7 @@ function getBaseDataForGraph() {
 	//return first date
 	$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
 
-
+	// echo "Time at start of first while " . date("h:i:sa") . PHP_EOL;
 
 	//loop while current date is less than or equal to end date
 	while((strcmp($currDate, $endDate)) < 1) {
@@ -407,7 +413,7 @@ function getBaseDataForGraph() {
 		// $i++;
 	}
 
-	// echo "a&l curr dates: " . $assetCurrentDate . " " . $liabilityCurrentDate . PHP_EOL;
+	// echo "Time at start of second while " . date("h:i:sa") . PHP_EOL;
 
 	//still have some transactions left from the longer array.
 	while(strcmp($assetCurrentDate, $assetEndDate) != 0) {
@@ -432,7 +438,13 @@ function getBaseDataForGraph() {
 
 	echo $baseDataString;
 
+<<<<<<< HEAD
 	//Network::logoutUser();
+=======
+	// echo "Time at end of func " . date("h:i:sa") . PHP_EOL;
+
+	// Network::logoutUser();
+>>>>>>> de2626a450a1411d3913b3e3c4856e7fd4a7bc97
 
 }
 
