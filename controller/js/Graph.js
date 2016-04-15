@@ -8,7 +8,7 @@ document.querySelector("#go").addEventListener("mousedown", function () {
 jQuery(function($) {
 //     var $j = jQuery.noConflict();
 //     $j("#dob").datepicker();
-    $(".date-input").datepicker({
+    JQuery(".date-input").datepicker({
       changeMonth: true,
       changeYear: true
     });
