@@ -25,3 +25,12 @@ end
 Then(/^the transactions should be sorted from least amount to greatest\.$/) do
     #driver.close
 end
+
+Then(/^the transactions should be sorted from earliest date to latest$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the transactions should be sorted from least amount to greatest$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+

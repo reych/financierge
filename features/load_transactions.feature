@@ -2,8 +2,8 @@ Feature: Load transactions
 
   Scenario: User clicks on one account and transactions are displayed
     Given nothing is yet displayed in the transaction box
-      |username|christdv@usc.edu|
-      |password|christdv|
+      |username|cucumber|
+	  |password|cucumber|
     When the user clicks on Checking
     Then all the transactions for Checking are displayed in the transactions widget.
 

@@ -4,8 +4,8 @@ Feature: Add accounts
 
   Scenario: The user deletes an account from the account list and it disappeares 
     Given user is logged in
-      |username|christdv@usc.edu|
-      |password|christdv|
+      |username|cucumber|
+      |password|cucumber|
     And user has an account to delete
     When user uploads the CSV with account delete information
     Then the account list should not have the account from the CSV
