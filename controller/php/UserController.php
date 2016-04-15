@@ -218,8 +218,10 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	//change code here to not use start and end date for sprint 1
 
-	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName, $startDate, $endDate, strtolower($sort));
-	if($rawTransactions == NULL){
+	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName,
+						 $startDate, $endDate, strtolower($sort));
+	
+	if ($rawTransactions == NULL){
 		echo 'No transactions for this account!';
 		return "FAIL";
 	}
@@ -266,6 +268,20 @@ function getIndividualDataForGraph($acctName) {
 	//Network::logoutUser();
 }
 
+//will return nothing if the acocunt doesn't have any transactions
+function formIndividualDataForGraph($acctName, $acctTrans) {
+
+	if($acctTrans == NULL) {
+		return;
+	}
+	$compactTrans = calculateDailyValues($acctTrans);
+	$cumulativeTrans = calculateCumulativeValues($compactTrans);
+	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
+
+	return $formattedTrans;
+	//Network::logoutUser();
+}
+
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
 
@@ -293,16 +309,23 @@ function getBaseDataForGraph() {
 	$transAssets = array();
 	$transLiabilities = array();
 
+	$accountGraphData = "";
+
+	// function formIndividualDataForGraph($acctName, $acctTrans)
 	/* REFACTOR THIS LATER TO NOT BE SO REPEATED*/
 	//Getting liability and asset arrays for transactions
 	foreach ($accountAssets as $singleAssetAccount) {
-		$transactions = Network::getTransactionsForAccount($singleAssetAccount->get("name"));
+		$curName = $singleAssetAccount->get("name");
+		$transactions = Network::getTransactionsForAccount($curName);
 		$transAssets = array_merge($transAssets, $transactions); //add transactions to transAssets array
+		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
 
 	foreach ($accountLiabilities as $singleLiabilityAccount) {
-		$transactions = Network::getTransactionsForAccount($singleLiabilityAccount->get("name"));
+		$curName = $singleLiabilityAccount->get("name");
+		$transactions = Network::getTransactionsForAccount($curName);
 		$transLiabilities = array_merge($transLiabilities, $transactions); //add transactions to transLiabilities array
+		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
 
 	// echo "Time after merging all trans " . date("h:i:sa") . PHP_EOL;
@@ -324,9 +347,9 @@ function getBaseDataForGraph() {
 	// if you only have assets, which means you do not spend
 	if (count($transAssets) > 0 && count($transLiabilities) == 0) {
 		$formattedAssets = formatGraphDataToString("Assets", $cumulativeAssets);
-		$formattedNetworth = formatGraphDataToString("Networth", $cumulativeAssets);
+		$formattedNetworth = formatGraphDataToString("Net Worth", $cumulativeAssets);
 		// already added PHP_EOL in formatGraphDataToString so no need here
-		echo $formattedAssets . $formattedNetworth;
+		echo $formattedNetworth . $formattedAssets . $accountGraphData;
 		return;
 	}
 	// if you only have liabilities, which means you are going to be broke
@@ -336,7 +359,7 @@ function getBaseDataForGraph() {
 			$cumulativaLiabilities[$key] = $value * -1;
 		}
 		$formattedNetworth = formatGraphDataToString("Networth", $cumulativaLiabilities);
-		echo $formattedLiabilities . $formattedNetworth;
+		echo $formattedNetworth . $formattedLiabilities . $accountGraphData;
 		return;
 	}
 
@@ -433,7 +456,7 @@ function getBaseDataForGraph() {
 	$formattedLiabilities = formatGraphDataToString("Liabilities", $cumulativaLiabilities);
 	$formattedNetworth = formatGraphDataToString("Net Worth", $networth);
 
-	$baseDataString = $formattedAssets . $formattedLiabilities . $formattedNetworth;
+	$baseDataString = $formattedNetworth . $formattedAssets . $formattedLiabilities . $accountGraphData;
 
 	echo $baseDataString;
 
