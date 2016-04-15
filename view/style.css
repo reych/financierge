@@ -11,6 +11,10 @@ body {
 	margin-bottom: 20px;
 }
 
+#logout {
+	float: right;
+}
+
 .transactions{
 	overflow: scroll;
 }
@@ -34,6 +38,7 @@ body {
 
 h1,h3{
 	color: #efefef;
+	font-family: 'Muli', sans-serif;
 }
 
 #chartdiv {
