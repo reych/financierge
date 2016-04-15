@@ -58,10 +58,10 @@ var chart = AmCharts.makeChart( "chartdiv", {
     } ]
   },
 
-  "stockLegend": {
-            "periodValueTextComparing": "test",
-            "periodValueTextRegular": "test"
-        },
+  // "stockLegend": {
+  //           "periodValueTextComparing": "test",
+  //           "periodValueTextRegular": "test"
+  //       },
 
   "dataSetSelector": {
     "position": "left"
@@ -85,6 +85,9 @@ function generateChartData() {
 
 
 function addOrUpdateAccount(accountData) {
+  this.chart.bulletField = "bullet";
+
+  // alert(accountData);
   //var values = "assets|2015-10-10_10|2016-01-11_11|2016-03-12_12|2016-04-13_13|2016-04-14_2\nliabilities|2016-04-10_15|2016-04-11_16|2016-04-12_17|2016-04-13_12|2016-04-14_19|2016-04-15_20\nnetworth|2016-04-10_2|2016-04-11_3|2016-04-12_4|2016-04-13_5|2016-04-14_6|2016-04-15_7";
     var lines = accountData.split('\n');
 
@@ -93,10 +96,10 @@ function addOrUpdateAccount(accountData) {
         var nodes = lines[i].split('|');
         var name = nodes[0];
 
-        if(namesToDataArrays.has(name)){
-          namesToDataArrays.delete(name);
-          continue;
-        }
+        // if(namesToDataArrays.has(name)){
+        //   namesToDataArrays.delete(name);
+        //   continue;
+        // }
         var dataArr = [];
 
         for(j = 1; j < nodes.length; j++) {
@@ -124,7 +127,7 @@ function addOrUpdateAccount(accountData) {
 
 function updateDataSets() {
     this.dataSets = [];
-    this.allGraphs = [];
+    // this.allGraphs = [];
     // var i = 0;
 
     for (var [name, dataArray] of this.namesToDataArrays) {
@@ -146,24 +149,27 @@ function updateDataSets() {
                 "fieldMappings": [{"fromField": "value", "toField": "value"}],
                  "dataProvider": dataArray,
                 "categoryField": "date"
+                       
                   });
             }
         }
 
 
-      // this.allGraphs.push({
-      //   "id": name,
-      // "valueField": "value",
-      // "comparable": true,
-      // "compareField": "value" + i,
-      // "balloonText": "[[title]]:<b>$[[value]]</b>",
-      // "compareGraphBalloonText": "[[title]]:<b>$[[value]]</b>"
-      // });
+    //   this.allGraphs.push({
+    //     "id": name,
+    //   "valueField": "value",
+    //   "comparable": true,
+    //   "compareField": "value" + i,
+    //   "bullet": "round",
+    //   "bulletBorderThickness": 1,
+    //   "balloonText": "[[title]]:<b>$[[value]]</b>",
+    //   "compareGraphBalloonText": "[[title]]:<b>$[[value]]</b>"
+    //   });
 
-      // i++;
+    //   i++;
     }
 
-    //this.chart.panels.stockGraphs = this.allGraphs;
+    // this.chart.panels.stockGraphs = this.allGraphs;
     this.chart.dataSets = this.dataSets;
     this.chart.validateNow();
     this.chart.validateData();
