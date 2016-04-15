@@ -240,7 +240,6 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
     // return "SUCCESS";
 }
 
-
 function userLoggedIn() {
 	if(Network::getCurrentUser()) {
 		echo "TRUE";
@@ -254,7 +253,7 @@ function userLoggedIn() {
 //will return nothing if the acocunt doesn't have any transactions
 function getIndividualDataForGraph($acctName) {
 
-	Network::loginUser("zhongyag@usc.edu", "zg");
+	//Network::loginUser("zhongyag@usc.edu", "zg");
 	$transactions = Network::getTransactionsForAccount($acctName);
 	if($transactions == NULL) {
 		return;
@@ -264,7 +263,7 @@ function getIndividualDataForGraph($acctName) {
 	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
 
 	echo $formattedTrans;
-	Network::logoutUser();
+	//Network::logoutUser();
 }
 
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */

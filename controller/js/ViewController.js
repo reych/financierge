@@ -41,6 +41,8 @@ var loginCounter = 0;
 var past;
 var oneMin = 1000 * 5;
 
+var accountList;
+
 // check current time with the var past, which holds the time of the forth
 // fail login and based on the time difference, set isPast to true or false
 // then return isPast
@@ -110,6 +112,7 @@ function accountsController() {
     var result = phpRequest('getAccountNamesForList','');
     // alert(result);
     displayAccounts(result);
+    accountList = document.getElementById('account-list');
 }
 
 function graphController() {
@@ -123,9 +126,12 @@ function graphController() {
 // account tag is its own account name. Thus we can get the account name by
 // getting tag's id.
 function transactionsController(accountClicked) {
+    //lksafljsd
     var arguments = '&accName=' + accountClicked.id + '&sortType=' + 'date'+'&startDate=&endDate=';
     var result = phpRequest('getTransactionsForList', arguments);
     createTab(result);
+
+    //var accountSelected = accountClicked.id;
 
     var arguments2 = '&accName=' + accountClicked.id;
     var result = phpRequest('getIndividualGraphData',arguments2);

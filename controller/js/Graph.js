@@ -76,7 +76,7 @@ var chart = AmCharts.makeChart( "chartdiv", {
 generateChartData();
 
 
-function generateChartData(xcbzdv) {
+function generateChartData() {
     // var values = "Net Worth|2015-10-10_10|2016-01-11_11|2016-03-12_12|2016-04-13_13|2016-04-14_2\nLiabilities|2015-10-10_5|2016-01-11_2|2016-03-12_7|2016-04-13_8|2016-04-14_4\nAssets|2015-10-10_3|2016-01-11_-4|2016-03-12_9|2016-04-13_20|2016-04-14_-5\nChecking|2015-10-10_1|2016-01-11_20|2016-03-12_10|2016-04-13_5|2016-04-14_1\nSavings|2015-10-10_-11|2016-01-11_3|2016-03-12_16|2016-04-13_5|2016-04-14_7";
     var results = phpRequest('getBaseData', '');
     addOrUpdateAccount(results);
@@ -92,6 +92,11 @@ function addOrUpdateAccount(accountData) {
     for (i = 0; i < lines.length; i++) {
         var nodes = lines[i].split('|');
         var name = nodes[0];
+
+        if(namesToDataArrays.has(name)){
+          namesToDataArrays.delete(name);
+          continue;
+        }
         var dataArr = [];
 
         for(j = 1; j < nodes.length; j++) {
