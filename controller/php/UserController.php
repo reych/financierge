@@ -220,7 +220,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName,
 						 $startDate, $endDate, strtolower($sort));
-	
+
 	if ($rawTransactions == NULL){
 		echo 'No transactions for this account!';
 		return "FAIL";
@@ -312,7 +312,6 @@ function getBaseDataForGraph() {
 	$accountGraphData = "";
 
 	// function formIndividualDataForGraph($acctName, $acctTrans)
-	/* REFACTOR THIS LATER TO NOT BE SO REPEATED*/
 	//Getting liability and asset arrays for transactions
 	foreach ($accountAssets as $singleAssetAccount) {
 		$curName = $singleAssetAccount->get("name");
