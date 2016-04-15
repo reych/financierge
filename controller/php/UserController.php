@@ -1,6 +1,6 @@
 <?php
-//include("/home/teamh/financierge/model/Network.php");
-include("../../model/Network.php");
+include("/home/teamh/financierge/model/Network.php");
+// include("../../model/Network.php");
 include("../../model/vendor/autoload.php");
 use Parse\ParseClient;
 use Parse\ParseException;
@@ -265,6 +265,7 @@ function getIndividualDataForGraph($acctName) {
 	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
 
 	echo $formattedTrans;
+	return "SUCCESS";
 	//Network::logoutUser();
 }
 
@@ -340,7 +341,7 @@ function getBaseDataForGraph() {
 
 	// if there is no transactions at all, which means you don't have a life
 	if (count($transAssets) == 0 && count($transLiabilities) == 0) {
-		return;
+		return "SUCCESS";
 	}
 
 	// if you only have assets, which means you do not spend
@@ -349,7 +350,7 @@ function getBaseDataForGraph() {
 		$formattedNetworth = formatGraphDataToString("Net Worth", $cumulativeAssets);
 		// already added PHP_EOL in formatGraphDataToString so no need here
 		echo $formattedNetworth . $formattedAssets . $accountGraphData;
-		return;
+		return "SUCCESS";
 	}
 	// if you only have liabilities, which means you are going to be broke
 	if (count($transLiabilities) > 0 && count($transAssets) == 0) {
@@ -359,7 +360,7 @@ function getBaseDataForGraph() {
 		}
 		$formattedNetworth = formatGraphDataToString("Networth", $cumulativaLiabilities);
 		echo $formattedNetworth . $formattedLiabilities . $accountGraphData;
-		return;
+		return "SUCCESS";
 	}
 
 	// echo "Time after getting cumulative & daily values " . date("h:i:sa") . PHP_EOL;
@@ -458,8 +459,7 @@ function getBaseDataForGraph() {
 	$baseDataString = $formattedNetworth . $formattedAssets . $formattedLiabilities . $accountGraphData;
 
 	echo $baseDataString;
-
-
+	return "SUCCESS";
 	// echo "Time at end of func " . date("h:i:sa") . PHP_EOL;
 
 	// Network::logoutUser();
