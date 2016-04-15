@@ -1,9 +1,17 @@
-
 document.querySelector("#go").addEventListener("mousedown", function () {
   var from = new Date(document.querySelector("#from").value);
   var to = new Date(document.querySelector("#to").value);
-  
+
   chart.zoom(from, to);
+});
+
+jQuery(function($) {
+//     var $j = jQuery.noConflict();
+//     $j("#dob").datepicker();
+    $(".date-input").datepicker({
+      changeMonth: true,
+      changeYear: true
+    });
 });
 
 var namesToDataArrays = new Map();
@@ -85,7 +93,7 @@ function generateChartData() {
     // var values = "Net Worth|2015-10-10_10|2016-01-11_11|2016-03-12_12|2016-04-13_13|2016-04-14_2\nLiabilities|2015-10-10_5|2016-01-11_2|2016-03-12_7|2016-04-13_8|2016-04-14_4\nAssets|2015-10-10_3|2016-01-11_-4|2016-03-12_9|2016-04-13_20|2016-04-14_-5\nChecking|2015-10-10_1|2016-01-11_20|2016-03-12_10|2016-04-13_5|2016-04-14_1\nSavings|2015-10-10_-11|2016-01-11_3|2016-03-12_16|2016-04-13_5|2016-04-14_7";
     var results = phpRequest('getBaseData', '');
     addOrUpdateAccount(results);
-}     
+}
 
 
 
@@ -112,7 +120,7 @@ function addOrUpdateAccount(accountData) {
             var dateValues = nodes[j].split('_');
             var dateArr = dateValues[0].split('-');
 
-            var newDate = new Date(parseInt(dateArr[0]), parseInt(dateArr[1]), 
+            var newDate = new Date(parseInt(dateArr[0]), parseInt(dateArr[1]),
                                    parseInt(dateArr[2]));
 
             var newValue = parseFloat(dateValues[1]);
@@ -123,8 +131,8 @@ function addOrUpdateAccount(accountData) {
             });
         }
 
-        
-        this.namesToDataArrays.set(name, dataArr);        
+
+        this.namesToDataArrays.set(name, dataArr);
     }
     updateDataSets();
 
@@ -137,7 +145,7 @@ function updateDataSets() {
 
     for (var [name, dataArray] of this.namesToDataArrays) {
         if(name.length !== 0) {
-            if (name.localeCompare("Net Worth") === 0 
+            if (name.localeCompare("Net Worth") === 0
                 || name.localeCompare("Assets") === 0
                 || name.localeCompare("Liabilities") === 0) {
 
@@ -154,7 +162,7 @@ function updateDataSets() {
                 "fieldMappings": [{"fromField": "value", "toField": "value"}],
                  "dataProvider": dataArray,
                 "categoryField": "date"
-                       
+
                   });
             }
         }
@@ -178,12 +186,12 @@ function updateDataSets() {
     this.chart.dataSets = this.dataSets;
     this.chart.validateNow();
     this.chart.validateData();
-    
+
 }
 
 function testThisChart() {
 
    var values = "Jeffs Playtime Fun Money Bags|2015-10-10_-10|2016-01-11_-11|2016-03-12_-12|2016-04-13_13|2016-04-14_-2";
    addOrUpdateAccount(values);
-    
+
 }

@@ -56,11 +56,11 @@
                     <div>
   						<h5>Date Range (YYYY-MM-DD):</h5>
   						<label for="from">From:</label>
-  						<input type="date" name="from" id="from">
+  						<input type="text" name="from" id="from" class="date-input">
 
   						<label for="to">To:</label>
-  						<input type="date" name="to" id="to">
-  
+  						<input type="text" name="to" id="to" class="date-input">
+
   						<button id="go">Go</button>
 					</div>
                     <div id = "chartdiv"></div>
@@ -82,7 +82,8 @@
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script src="https://www.amcharts.com/lib/3/serial.js"></script>
     <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
