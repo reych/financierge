@@ -1,5 +1,10 @@
 
-
+document.querySelector("#go").addEventListener("mousedown", function () {
+  var from = new Date(document.querySelector("#from").value);
+  var to = new Date(document.querySelector("#to").value);
+  
+  chart.zoom(from, to);
+});
 
 var namesToDataArrays = new Map();
 var dataSets = [];
