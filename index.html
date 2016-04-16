@@ -6,10 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
     <link rel = "stylesheet" type="text/css" href = "view/style.css">
     <link href="view/tab-style/tabcontent.css" rel="stylesheet" type="text/css" />
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
+    
 </head>
 <body>
 
@@ -54,6 +59,9 @@
             <div class="col-sm-8">
                 <h3>Graph</h3>
                 <div class = "graph module">
+                	<iframe src="calendar.html" width="80%" height="100%" id = "iframed"></iframe>
+                    <p id = "arrg1">value should go here</p>
+                    <p id = "arrg2">same with this</p>
                     <div>
   						<h5>Date Range (YYYY-MM-DD):</h5>
   						<label for="from">From:</label>
@@ -64,7 +72,7 @@
 
   						<button id="go">Go</button>
 					</div>
-                    <div id = "chartdiv"></div>
+					<div id = "chartdiv"></div>
                 </div>
                 <h3>Transaction History</h3>
                 <div class = "transactions module" id = "transactions">
@@ -82,22 +90,21 @@
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    
     <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script src="https://www.amcharts.com/lib/3/serial.js"></script>
     <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
     <script src="https://www.amcharts.com/lib/3/amstock.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <script src="controller/js/TransactionsController.js"></script>
     <script src="controller/js/TabFunction.js"></script>
     <script src="controller/js/ShowAccounts.js"></script>
     <script src="controller/js/ViewController.js"></script>
     <script src="controller/js/Timeout.js"></script>
     <script src="controller/js/Graph.js"></script>
+	
 
 </body>
 </html>

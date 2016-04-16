@@ -1,9 +1,19 @@
-document.querySelector("#go").addEventListener("mousedown", function () {
-  var from = new Date(document.querySelector("#from").value);
-  var to = new Date(document.querySelector("#to").value);
 
-  chart.zoom(from, to);
+document.querySelector("#go").addEventListener("mousedown", function () {
+
+  var fromField = window.frames['iframed'].document.getElementById('from').value;
+  var fromField = window.frames['iframed'].document.getElementById('to').value; 
+  
+  var from = new Date(fromField);
+  var to = new Date(toField);
+
+  document.getElementById("arrg1").innerHTML = fromField;
+
+  
+
+  //chart.zoom(from, to);
 });
+
 
 jQuery(function($) {
 //     var $j = jQuery.noConflict();
@@ -195,3 +205,15 @@ function testThisChart() {
    addOrUpdateAccount(values);
 
 }
+
+chart.addListener('rendered', function (event) {
+    var dataProvider = chart.dataSets[0].dataProvider;
+  $( ".amChartsPeriodSelector .amChartsInputField" ).datepicker({
+      dateFormat: "dd-mm-yy",
+      minDate: dataProvider[0].date,
+      maxDate: dataProvider[dataProvider.length-1].date,
+      onClose: function() {
+          $( ".amChartsPeriodSelector .amChartsInputField" ).trigger('blur');
+      }
+  });
+});
