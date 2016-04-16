@@ -1,18 +1,19 @@
 
 document.querySelector("#go").addEventListener("mousedown", function () {
 
-  var ifr = document.getElementById('iframed');
+  var ifr = document.getElementById("iframed");
   var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
-  var theFrom = ifrDoc.getElementById('from');
+  var theFrom = ifrDoc.getElementById("from");
   
-  var from = new Date(fromField);
-  var to = new Date(toField);
-
-  document.getElementById("arrg1").innerHTML = theFrom.value;
+  var theTo = ifrDoc.getElementById("to");
+  //var from = new Date(fromField);
+  //var to = new Date(toField);
+  var from = new Date(theFrom.value); //try .value if this doesn't work
+  var to = new Date(theTo.value);
 
   
 
-  //chart.zoom(from, to);
+  chart.zoom(from, to);
 });
 
 
