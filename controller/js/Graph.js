@@ -1,13 +1,14 @@
 
 document.querySelector("#go").addEventListener("mousedown", function () {
 
-  var fromField = window.frames['iframed'].document.getElementById('from').value;
-  var fromField = window.frames['iframed'].document.getElementById('to').value; 
+  var ifr = document.getElementById('iframed');
+  var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
+  var theFrom = ifrDoc.getElementById('from');
   
   var from = new Date(fromField);
   var to = new Date(toField);
 
-  document.getElementById("arrg1").innerHTML = fromField;
+  document.getElementById("arrg1").innerHTML = theFrom.value;
 
   
 
