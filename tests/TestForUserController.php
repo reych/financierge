@@ -89,8 +89,8 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		logout();
 		login("cucumber", "cucumber");
 		//first test case where user have no accounts
-		$file_path = "../resources/deleteall.csv";
-		uploadCSV($file_path);
+		// $file_path = "../resources/deleteall.csv";
+		// uploadCSV($file_path);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
@@ -113,6 +113,10 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		uploadCSV($file_path);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
+
+		//clear the accounts afte this test
+		$file_path = "../resources/DeleteVisa.csv";
+		uploadCSV($file_path);
 	}
 
 	public function testgetIndividualDataForGraph(){
