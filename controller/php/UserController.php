@@ -258,7 +258,7 @@ function getIndividualDataForGraph($acctName) {
 	//Network::loginUser("zhongyag@usc.edu", "zg");
 	$transactions = Network::getTransactionsForAccount($acctName);
 	if($transactions == NULL) {
-		return;
+		return "FAILED";
 	}
 	$compactTrans = calculateDailyValues($transactions);
 	$cumulativeTrans = calculateCumulativeValues($compactTrans);
