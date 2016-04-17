@@ -14,7 +14,7 @@ session_start();
 ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
-//called from the HTML, this part handles the request form
+//called from the HTML, this part handles the request from
 //Javascript and passes the arguments to the methods.
 
 // Use get method to determine which function the javascrip is requesting
@@ -26,10 +26,8 @@ if ($funcName == "uploadCSV") {
 	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
 	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
     uploadCSV($target_file);
-
 } else if($funcName == "getAccountNamesForList") {
 	getAccountNamesForList();
-
 } else if($funcName == "getTransactionsForList") {
 	// get all account names as such
 	$accountName = $_GET["accName"];
@@ -37,12 +35,10 @@ if ($funcName == "uploadCSV") {
 	$startDate = $_GET["startDate"];
 	$endDate = $_GET["endDate"];
 	getTransactionsForList($accountName, $startDate, $endDate, $sort);
-
 } else if ($funcName == "login"){
 	$username = $_POST["username"];
 	$password = $_POST["password"];
 	login($username, $password);
-
 } else if($funcName == "userLoggedIn"){
 	userLoggedIn();
 
@@ -81,8 +77,6 @@ function uploadCSV($file_name){
 	if(file_exists($file_name)){
 		$file = fopen($file_name, "r");
 
-		// array mapping account names to arrays containing Transaction objects
-		// array(accountName => arrayOfTransactionObjects)
 		$allNewTransactions = array();
 
 		while (!feof($file)) {
@@ -130,14 +124,11 @@ function uploadCSV($file_name){
 				$newTrans->principle = $princ;
 				$newTrans->amount = $amnt;
 				$newTrans->category = $ctgry;
-				//echo "Here's what should be after the :... ".$principle;
-				//echo "Trying to add transaction: ".$newTrans->principle." to an array".PHP_EOL;
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
 					// push the new Transaction object into the array held at the account name key
 					array_push($allNewTransactions[$acntName], $newTrans);
-
 				// the array doesn't yet have any transactions for this account to add
 				} else {
 					// create a new array to hold all of the transactions for this particular account
@@ -147,27 +138,22 @@ function uploadCSV($file_name){
 					// add this array to the array holding all transactions
 					$allNewTransactions[$acntName] = $tempArr;
 				}
-
-				// Network::addTransactionToAccount($acntName, $dt, $princ, $amnt, $ctgry);
 			}
 		}
-
-		// call function to load up array of transactions
 		Network::addTransactionsToAccounts($allNewTransactions);
 
         echo '<script language="javascript">';
-        // echo 'alert("Upload succeded!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
         return true;
 	}
 	else {
         echo '<script language="javascript">';
-        // echo 'alert("Upload failed!");';
         echo 'window.location.assign("../../index.html");';
         echo '</script>';
         return false;
 	}
+
 	//delete file from temporary directory to avoid conflicts with future uploads
 	unlink($target_file);
 	return true;
@@ -218,7 +204,6 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 	}
 
 	//change code here to not use start and end date for sprint 1
-
 	$rawTransactions = Network::getTransactionsForAccountWithinDates($accountName,
 						 $startDate, $endDate, strtolower($sort));
 
@@ -256,7 +241,6 @@ function userLoggedIn() {
 //will return nothing if the acocunt doesn't have any transactions
 function getIndividualDataForGraph($acctName) {
 
-	//Network::loginUser("zhongyag@usc.edu", "zg");
 	$transactions = Network::getTransactionsForAccount($acctName);
 	if($transactions == NULL) {
 		return "FAILED";
@@ -281,20 +265,17 @@ function formIndividualDataForGraph($acctName, $acctTrans) {
 	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
 
 	return $formattedTrans;
-	//Network::logoutUser();
 }
 
 /* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
 function getBaseDataForGraph() {
 
-
 	//get accounts
 	$accounts = Network::getAccounts();
 
-	// echo "Time after getting all accounts " . date("h:i:sa") . PHP_EOL;
-
 	$accountAssets = array();
 	$accountLiabilities = array();
+
 	//split accounts into assets or liabilities
 	for($i=0; $i<count($accounts); $i++){
 		$accounts[$i]->fetch();
@@ -306,14 +287,11 @@ function getBaseDataForGraph() {
 		}
 	}
 
-	// echo "Time after grouping accounts " . date("h:i:sa") . PHP_EOL;
-
 	$transAssets = array();
 	$transLiabilities = array();
 
 	$accountGraphData = "";
 
-	// function formIndividualDataForGraph($acctName, $acctTrans)
 	//Getting liability and asset arrays for transactions
 	foreach ($accountAssets as $singleAssetAccount) {
 		$curName = $singleAssetAccount->get("name");
@@ -329,11 +307,6 @@ function getBaseDataForGraph() {
 		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
 
-	// echo "Time after merging all trans " . date("h:i:sa") . PHP_EOL;
-
-	//sort the transactions by date.
-	// usort($transAssets, "cmp");
-	// usort($transLiabilities, "cmp");
 	$compactAssets = calculateDailyValues($transAssets);
 	$compactLiabilities = calculateDailyValues($transLiabilities);
 
@@ -353,6 +326,7 @@ function getBaseDataForGraph() {
 		echo $formattedNetworth . $formattedAssets . $accountGraphData;
 		return "SUCCESS";
 	}
+
 	// if you only have liabilities, which means you are going to be broke
 	if (count($transLiabilities) > 0 && count($transAssets) == 0) {
 		$formattedLiabilities = formatGraphDataToString("Liabilities", $cumulativaLiabilities);
@@ -364,11 +338,11 @@ function getBaseDataForGraph() {
 		return "SUCCESS";
 	}
 
-	// echo "Time after getting cumulative & daily values " . date("h:i:sa") . PHP_EOL;
-
 	//CALCULATE NET WORTH
+
 	//net worth array
 	$netWorth;
+
 	//set pointer to last element in array to get the earliest last date
 	end($compactAssets);
 	$assetEndDate = key($compactAssets);
@@ -387,12 +361,8 @@ function getBaseDataForGraph() {
 	//return first date
 	$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
 
-	// echo "Time at start of first while " . date("h:i:sa") . PHP_EOL;
-
 	//loop while current date is less than or equal to end date
 	while((strcmp($currDate, $endDate)) < 1) {
-	// $i = 0;
-	// while($i < 17) {
 		$compareResult = strcmp($assetCurrentDate, $liabilityCurrentDate);
 		//add lower date to the networth array.
 		//if values are the same, combine the values and then add to networth current date.
@@ -427,16 +397,10 @@ function getBaseDataForGraph() {
 			next($compactAssets);
 			$assetCurrentDate = key($compactAssets);
 			$liabilityCurrentDate = key($compactLiabilities);
-
 		}
 
 		$currDate = returnLower($assetCurrentDate, $liabilityCurrentDate);
-		// echo "dates for a&l " . $assetCurrentDate . " " . $liabilityCurrentDate . PHP_EOL;
-		// echo "currDate: " . $currDate . PHP_EOL;
-		// $i++;
 	}
-
-	// echo "Time at start of second while " . date("h:i:sa") . PHP_EOL;
 
 	//still have some transactions left from the longer array.
 	while(strcmp($assetCurrentDate, $assetEndDate) != 0) {
@@ -461,10 +425,6 @@ function getBaseDataForGraph() {
 
 	echo $baseDataString;
 	return "SUCCESS";
-	// echo "Time at end of func " . date("h:i:sa") . PHP_EOL;
-
-	// Network::logoutUser();
-
 }
 
 function calculateCumulativeValues($transactionsArray) {
