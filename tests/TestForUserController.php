@@ -68,7 +68,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		/*
 		now test with a user that actually has an account
 		in the database: "christdv"
-		Expected succes on real name "Checking" and 
+		Expected succes on real name "Checking" and
 		failure on "asf"
 		*/
 		logout();
@@ -82,6 +82,35 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 	public function testUserLoggedIn(){
 		$result = userLoggedIn();
 		$this->assertEquals($result, "TRUE");
+	}
+
+	public function testGetBaseDataForGraph(){
+
+		//first test case where user have no accounts
+		$file_path = "../resources/deleteall.csv";
+		uploadCSV($file_path);
+		$result = getBaseDataForGraph();
+		$this->assertEquals($result, "SUCCESS");
+
+		//second test case where the user have both assets and liabilities
+		$file_path = "../resources/Data.csv";
+		uploadCSV($file_path);
+		$result = getBaseDataForGraph();
+		$this->assertEquals($result, "SUCCESS");
+
+		//third test case where user only have assets
+		$file_path = "../resources/DeleteVisa.csv";
+		uploadCSV($file_path);
+		$result = getBaseDataForGraph();
+		$this->assertEquals($result, "SUCCESS");
+
+		//forth test case where the user only have liabilities
+		$file_path = "../resources/Data.csv";
+		uploadCSV($file_path);
+		$file_path = "../resources/DeleteAssetsAccounts.csv";
+		uploadCSV($file_path);
+		$result = getBaseDataForGraph();
+		$this->assertEquals($result, "SUCCESS");
 	}
 
 	public function testLogout() {
