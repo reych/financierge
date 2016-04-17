@@ -240,7 +240,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 	}
 
 	echo $result;
-    // return "SUCCESS";
+    //return "SUCCESS";
 }
 
 function userLoggedIn() {

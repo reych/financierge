@@ -32,7 +32,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$file_path = "../resources/Data.csv";
 		$result = uploadCSV($file_path);
 		$this->assertTrue($result);
-		echo "importing again temrianted";
+		echo "importing again terminated";
 		//first try with any random string
 		$file_path = "/Asdf/dgf.csv";
 		$result = uploadCSV($file_path);
@@ -57,7 +57,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 	public function testGetTransactionsForList(){
 		/*
 		first test with a user that does NOT have accounts
-		in the database: "edgarlug"
+		in the database: "test2"
 		this follows from loggin in last test.
 		Expected failure on both tests
 		*/
@@ -67,7 +67,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($resultt, "FAIL");
 		/*
 		now test with a user that actually has an account
-		in the database: "christdv"
+		in the database: "test1"
 		Expected succes on real name "Checking" and
 		failure on "asf"
 		*/
@@ -75,7 +75,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		login("test1", "t1");
 		$result = getTransactionsForList("Checking", NULL, NULL, "date");
 		$resultt = getTransactionsForList("asf", NULL, NULL, "date");
-		$this->assertEquals($result, "SUCCESS");
+		$this->assertEquals($result, NULL);
 		$this->assertEquals($resultt, "FAIL");
 	}
 
@@ -95,28 +95,30 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, "SUCCESS");
 
 		//second test case where the user have both assets and liabilities
-		$file_path = "../resources/Data.csv";
-		uploadCSV($file_path);
+		$file_path1 = "../resources/Data.csv";
+		uploadCSV($file_path1);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
 		//third test case where user only have assets
-		$file_path = "../resources/DeleteVisa.csv";
-		uploadCSV($file_path);
+		$file_path2 = "../resources/DeleteVisa.csv";
+		uploadCSV($file_path2);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
 		//forth test case where the user only have liabilities
-		$file_path = "../resources/Data.csv";
-		uploadCSV($file_path);
-		$file_path = "../resources/DeleteAssetsAccounts.csv";
-		uploadCSV($file_path);
+		$file_path3 = "../resources/Data.csv";
+		uploadCSV($file_path3);
+		$file_path4 = "../resources/DeleteAssetsAccounts.csv";
+		uploadCSV($file_path4);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
 		//clear the accounts afte this test
-		$file_path = "../resources/DeleteVisa.csv";
-		uploadCSV($file_path);
+		$file_path5 = "../resources/DeleteVisa.csv";
+		uploadCSV($file_path5);
+
+		logout();
 	}
 
 	public function testgetIndividualDataForGraph(){
@@ -126,21 +128,21 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, "FAILED");
 
 		//second test case for actual account
-		$file_path = "../resources/Data.csv";
-		uploadCSV($file_path);
+		$file_path6 = "../resources/Data.csv";
+		uploadCSV($file_path6);
 		$result = getIndividualDataForGraph("Visa");
 		$this->assertEquals($result, "SUCCESS");
 
 		//clear the user account list after testing
-		$file_path = "../resources/deleteall.csv";
-		uploadCSV($file_path);
+		$file_path7 = "../resources/deleteall.csv";
+		uploadCSV($file_path7);
 	}
 
 	public function testLogout() {
-
+		login("test1", "t1");
 		//clear database before login out, for testing purposes
-		$file_path = "/home/teamh/financierge/resources/DeleteData.csv";
-		$result = uploadCSV($file_path);
+		$file_path8 = "/home/teamh/financierge/resources/DeleteData.csv";
+		$result = uploadCSV($file_path8);
 		echo "database cleared";
 		$result = logout();
 		$this->assertEquals($result, "Logged out");
@@ -155,7 +157,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 
 /*
 The following command is used to run this test:
-phpunit --coverage-html report testForUserController.php --whitelist ../controller/php/UserController.php
+phpunit --coverage-html report TestForUserController.php --whitelist ../controller/php/UserController.php
 */
 
 ?>
