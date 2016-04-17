@@ -21,11 +21,11 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
 	//get file from temporary direcory where it is stored
-	$target_dir = sys_get_temp_dir();
+	$targerDir = sys_get_temp_dir();
 	//complete file path
-	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
-	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-    uploadCSV($target_file);
+	$targetFile = $targerDir . "/" . basename($_FILES["fileToUpload"]["name"]);
+	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
+    uploadCSV($targetFile);
 } else if($funcName == "getAccountNamesForList") {
 	getAccountNamesForList();
 } else if($funcName == "getTransactionsForList") {
@@ -46,12 +46,9 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
-} else if($funcName == "getIndividualGraphData") {
-	$acctName = $_GET["accName"];
-	getIndividualDataForGraph($acctName);
 }
 
-
+// logs user into our Parse database. Accepts a username and password as strings
 function login($username, $password){
 	// call parse class login function
 	// login returns a user object or null
@@ -67,15 +64,18 @@ function login($username, $password){
 	}
 }
 
+// logs the presently logged in user out of Parse database
 function logout(){
 	Network::logoutUser();
 	return "Logged out";
 }
 
-function uploadCSV($file_name){
+// uploads the specified file from a csv to the database, associating the
+// data with the presently logged-in user. $fileName
+function uploadCSV($fileName){
 
-	if(file_exists($file_name)){
-		$file = fopen($file_name, "r");
+	if(file_exists($fileName)){
+		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
 
@@ -155,7 +155,7 @@ function uploadCSV($file_name){
 	}
 
 	//delete file from temporary directory to avoid conflicts with future uploads
-	unlink($target_file);
+	unlink($targetFile);
 	return true;
 }
 
@@ -238,21 +238,6 @@ function userLoggedIn() {
 	}
 }
 
-//will return nothing if the acocunt doesn't have any transactions
-function getIndividualDataForGraph($acctName) {
-
-	$transactions = Network::getTransactionsForAccount($acctName);
-	if($transactions == NULL) {
-		return "FAILED";
-	}
-	$compactTrans = calculateDailyValues($transactions);
-	$cumulativeTrans = calculateCumulativeValues($compactTrans);
-	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
-
-	echo $formattedTrans;
-	return "SUCCESS";
-	//Network::logoutUser();
-}
 
 //will return nothing if the acocunt doesn't have any transactions
 function formIndividualDataForGraph($acctName, $acctTrans) {
