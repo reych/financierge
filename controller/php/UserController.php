@@ -240,7 +240,7 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 	}
 
 	echo $result;
-    //return "SUCCESS";
+    return "SUCCESS";
 }
 
 function userLoggedIn() {
@@ -496,10 +496,6 @@ function calculateDailyValues($transactionsArray) {
 
 }
 
-//comparator for sorting by date
-function cmp($trans1, $trans2){
-	return ($trans1->get("date") > $trans2->get("date"));
-}
 
 //compares two strings, returns the lesser of the two
 function returnLower($val1, $val2) {
