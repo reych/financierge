@@ -11,10 +11,11 @@ function displayAccounts(account_list) {
     for(i=0; i<accountsArray.length; i++) {
         var tableRow = document.createElement('TR');
         tableRow.className = 'account-data';
+
         var tableData = document.createElement('TD');
         tableData.setAttribute('onclick', 'transactionsController(this);');
-        var value = document.createTextNode(accountsArray[i]);
 
+        var value = document.createTextNode(accountsArray[i]);
         tableData.id = accountsArray[i].trim();
 
         tableData.appendChild(value);

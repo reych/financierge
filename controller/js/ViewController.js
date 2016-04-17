@@ -110,7 +110,7 @@ function logInController() {
 // see details in in displayAccounts funciton
 function accountsController() {
     var result = phpRequest('getAccountNamesForList','');
-    
+
     displayAccounts(result);
     accountList = document.getElementById('account-list');
 }
@@ -144,6 +144,7 @@ function sortTransactions(sortType){
             var result = phpRequest('getTransactionsForList', arguments);
             var contentID = 'content-'+accountName;
             var contentDiv = document.getElementById(contentID);
+            
             result = result.substring(accountName.length);
             displayTransactions(contentID, result);
         }
