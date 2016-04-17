@@ -461,10 +461,6 @@ function getBaseDataForGraph() {
 
 	echo $baseDataString;
 	return "SUCCESS";
-	// echo "Time at end of func " . date("h:i:sa") . PHP_EOL;
-
-	// Network::logoutUser();
-
 }
 
 function calculateCumulativeValues($transactionsArray) {
@@ -492,8 +488,6 @@ function calculateDailyValues($transactionsArray) {
 
 	ksort($compressedArray);
 	return $compressedArray;
-
-
 }
 
 //comparator for sorting by date
