@@ -1,8 +1,10 @@
-function displayAccounts(account_list) {
+// accepts parameter accountList which is a string of account names
+// crates a table containing these account names in the user UI
+function displayAccounts(accountList) {
     var container = document.getElementById('account-list');
     clearChildren(container);
     //split data
-    var accountsArray = account_list.split('\n');
+    var accountsArray = accountList.split('\n');
     //create table
     var table = document.createElement('TABLE');
     createTableHeaders(table, 'Accounts_Balance');
