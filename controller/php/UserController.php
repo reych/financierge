@@ -21,11 +21,11 @@ ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr
 $funcName = $_GET['funcToCall'];
 if ($funcName == "uploadCSV") {
 	//get file from temporary direcory where it is stored
-	$target_dir = sys_get_temp_dir();
+	$targerDir = sys_get_temp_dir();
 	//complete file path
-	$target_file = $target_dir . "/" . basename($_FILES["fileToUpload"]["name"]);
-	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-    uploadCSV($target_file);
+	$targetFile = $targerDir . "/" . basename($_FILES["fileToUpload"]["name"]);
+	move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $targetFile);
+    uploadCSV($targetFile);
 } else if($funcName == "getAccountNamesForList") {
 	getAccountNamesForList();
 } else if($funcName == "getTransactionsForList") {
@@ -46,12 +46,9 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
-} else if($funcName == "getIndividualGraphData") {
-	$acctName = $_GET["accName"];
-	getIndividualDataForGraph($acctName);
 }
 
-
+// logs user into our Parse database. Accepts a username and password as strings
 function login($username, $password){
 	// call parse class login function
 	// login returns a user object or null
@@ -67,15 +64,18 @@ function login($username, $password){
 	}
 }
 
+// logs the presently logged in user out of Parse database
 function logout(){
 	Network::logoutUser();
 	return "Logged out";
 }
 
-function uploadCSV($file_name){
+// uploads the specified file from a csv to the database, associating the
+// data with the presently logged-in user. $fileName
+function uploadCSV($fileName){
 
-	if(file_exists($file_name)){
-		$file = fopen($file_name, "r");
+	if(file_exists($fileName)){
+		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
 
@@ -155,7 +155,7 @@ function uploadCSV($file_name){
 	}
 
 	//delete file from temporary directory to avoid conflicts with future uploads
-	unlink($target_file);
+	unlink($targetFile);
 	return true;
 }
 
@@ -225,9 +225,11 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 	}
 
 	echo $result;
-    //return "SUCCESS";
+    return "SUCCESS";
 }
 
+// checks to see if a user is presently logged in. Returns and echos the strings
+// "TRUE" or "FALSE" depending on the result.
 function userLoggedIn() {
 	if(Network::getCurrentUser()) {
 		echo "TRUE";
@@ -238,27 +240,14 @@ function userLoggedIn() {
 	}
 }
 
-//will return nothing if the acocunt doesn't have any transactions
-function getIndividualDataForGraph($acctName) {
 
-	$transactions = Network::getTransactionsForAccount($acctName);
-	if($transactions == NULL) {
-		return "FAILED";
-	}
-	$compactTrans = calculateDailyValues($transactions);
-	$cumulativeTrans = calculateCumulativeValues($compactTrans);
-	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
-
-	echo $formattedTrans;
-	return "SUCCESS";
-}
-
-//will return nothing if the acocunt doesn't have any transactions
+// will return nothing if the acocunt doesn't have any transactions.
+// $acctName takes a string as the account name and the $acctTrans
+// takes an array of Parse transaction objects associated with the
+// account specified by $acctName. Returns a properly formatted string
+// containing data for a specific account. Example:
+// "Account Name 1|2016-5-13_50|2016-6-14_31"
 function formIndividualDataForGraph($acctName, $acctTrans) {
-
-	if($acctTrans == NULL) {
-		return;
-	}
 	$compactTrans = calculateDailyValues($acctTrans);
 	$cumulativeTrans = calculateCumulativeValues($compactTrans);
 	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
@@ -266,7 +255,7 @@ function formIndividualDataForGraph($acctName, $acctTrans) {
 	return $formattedTrans;
 }
 
-/* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
+// Requests raw data about all accounts owned by
 function getBaseDataForGraph() {
 
 	//get accounts
@@ -295,6 +284,9 @@ function getBaseDataForGraph() {
 	foreach ($accountAssets as $singleAssetAccount) {
 		$curName = $singleAssetAccount->get("name");
 		$transactions = Network::getTransactionsForAccount($curName);
+		if($transactions == NULL){
+			continue;
+		}
 		$transAssets = array_merge($transAssets, $transactions); //add transactions to transAssets array
 		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
@@ -302,6 +294,9 @@ function getBaseDataForGraph() {
 	foreach ($accountLiabilities as $singleLiabilityAccount) {
 		$curName = $singleLiabilityAccount->get("name");
 		$transactions = Network::getTransactionsForAccount($curName);
+		if($transactions == NULL){
+			continue;
+		}
 		$transLiabilities = array_merge($transLiabilities, $transactions); //add transactions to transLiabilities array
 		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
@@ -320,7 +315,8 @@ function getBaseDataForGraph() {
 	// if you only have assets, which means you do not spend
 	if (count($transAssets) > 0 && count($transLiabilities) == 0) {
 		$formattedAssets = formatGraphDataToString("Assets", $cumulativeAssets);
-		$formattedNetworth = formatGraphDataToString("Net Worth", $cumulativeAssets);
+		$formattedNetworth = formatGraphDataToString("Net Worth",
+							 $cumulativeAssets);
 		// already added PHP_EOL in formatGraphDataToString so no need here
 		echo $formattedNetworth . $formattedAssets . $accountGraphData;
 		return "SUCCESS";
@@ -451,14 +447,8 @@ function calculateDailyValues($transactionsArray) {
 
 	ksort($compressedArray);
 	return $compressedArray;
-
-
 }
 
-//comparator for sorting by date
-function cmp($trans1, $trans2){
-	return ($trans1->get("date") > $trans2->get("date"));
-}
 
 //compares two strings, returns the lesser of the two
 function returnLower($val1, $val2) {

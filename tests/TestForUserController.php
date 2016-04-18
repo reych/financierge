@@ -75,7 +75,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		login("test1", "t1");
 		$result = getTransactionsForList("Checking", NULL, NULL, "date");
 		$resultt = getTransactionsForList("asf", NULL, NULL, "date");
-		$this->assertEquals($result, NULL);
+		$this->assertEquals($result, "SUCCESS");
 		$this->assertEquals($resultt, "FAIL");
 	}
 
@@ -118,30 +118,24 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$file_path5 = "../resources/DeleteVisa.csv";
 		uploadCSV($file_path5);
 
-		logout();
-	}
-
-	public function testgetIndividualDataForGraph(){
-
-		//first test get data for account that does not exist
-		$result = getIndividualDataForGraph("fake");
-		$this->assertEquals($result, "FAILED");
-
-		//second test case for actual account
-		$file_path6 = "../resources/Data.csv";
-		uploadCSV($file_path6);
-		$result = getIndividualDataForGraph("Visa");
+		//fifth test case to reach our code
+		$file_path9 = "../resources/DataSecond.csv";
+		uploadCSV($file_path9);
+		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
-		//clear the user account list after testing
-		$file_path7 = "../resources/deleteall.csv";
-		uploadCSV($file_path7);
+		//clear contents
+		$file_path10 = "../resources/deleteall.csv";
+		uploadCSV($file_path10);
+
+		logout();
+
 	}
 
 	public function testLogout() {
 		login("test1", "t1");
 		//clear database before login out, for testing purposes
-		$file_path8 = "/home/teamh/financierge/resources/DeleteData.csv";
+		$file_path8 = "/home/teamh/financierge/resources/deleteall.csv";
 		$result = uploadCSV($file_path8);
 		echo "database cleared";
 		$result = logout();
@@ -151,6 +145,8 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 	public function testUserLoggedInAfterLogout(){
 		$result = userLoggedIn();
 		$this->assertEquals($result, "FALSE");
+
+
 	}
 
 }
