@@ -228,6 +228,8 @@ function getTransactionsForList($accountName, $startDate, $endDate, $sort){
     return "SUCCESS";
 }
 
+// checks to see if a user is presently logged in. Returns and echos the strings
+// "TRUE" or "FALSE" depending on the result.
 function userLoggedIn() {
 	if(Network::getCurrentUser()) {
 		echo "TRUE";
@@ -239,7 +241,12 @@ function userLoggedIn() {
 }
 
 
-//will return nothing if the acocunt doesn't have any transactions
+// will return nothing if the acocunt doesn't have any transactions.
+// $acctName takes a string as the account name and the $acctTrans 
+// takes an array of Parse transaction objects associated with the
+// account specified by $acctName. Returns a properly formatted string
+// containing data for a specific account. Example:
+// "Account Name 1|2016-5-13_50|2016-6-14_31"
 function formIndividualDataForGraph($acctName, $acctTrans) {
 	$compactTrans = calculateDailyValues($acctTrans);
 	$cumulativeTrans = calculateCumulativeValues($compactTrans);
@@ -248,7 +255,7 @@ function formIndividualDataForGraph($acctName, $acctTrans) {
 	return $formattedTrans;
 }
 
-/* REFACTOR THIS LATER TO MAKE CLEANER OR MORE EFFICIENT */
+// Requests raw data about all accounts owned by 
 function getBaseDataForGraph() {
 
 	//get accounts
@@ -308,7 +315,8 @@ function getBaseDataForGraph() {
 	// if you only have assets, which means you do not spend
 	if (count($transAssets) > 0 && count($transLiabilities) == 0) {
 		$formattedAssets = formatGraphDataToString("Assets", $cumulativeAssets);
-		$formattedNetworth = formatGraphDataToString("Net Worth", $cumulativeAssets);
+		$formattedNetworth = formatGraphDataToString("Net Worth", 
+							 $cumulativeAssets);
 		// already added PHP_EOL in formatGraphDataToString so no need here
 		echo $formattedNetworth . $formattedAssets . $accountGraphData;
 		return "SUCCESS";
