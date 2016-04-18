@@ -2,6 +2,7 @@ Checking,true
 Savings,true
 Visa,false
 Mastercard,false
+CheckingTwo,true
 Checking,2016-03-29,Subway,-6.65,food
 Checking,2016-03-28,Venmo,-1.00,leisure
 Checking,2016-03-18,Venmo,-4.65,leisure

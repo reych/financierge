@@ -120,36 +120,16 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 
 		//fifth test case to reach our code
 		$file_path9 = "../resources/DataSecond.csv";
-		uploadCSV($file_path5);
+		uploadCSV($file_path9);
 		$result = getBaseDataForGraph();
 		$this->assertEquals($result, "SUCCESS");
 
 		//clear contents
-		$file_path5 = "../resources/deleteall.csv";
-		uploadCSV($file_path5);
+		$file_path10 = "../resources/deleteall.csv";
+		uploadCSV($file_path10);
 
-	}
-
-	public function testgetIndividualDataForGraph(){
-
-		//first test get data for account that does not exist
-		$result = getIndividualDataForGraph("fake");
-		$this->assertEquals($result, "FAILED");
-
-		//second test get data for account that does not exist
-		$result = getIndividualDataForGraph(NULL);
-		$this->assertEquals($result, "FAILED");
-
-		//third test case for actual account
-		$file_path6 = "../resources/Data.csv";
-		uploadCSV($file_path6);
-		$result = getIndividualDataForGraph("Visa");
-		$this->assertEquals($result, "SUCCESS");
-
-		//clear the user account list after testing
-		$file_path7 = "../resources/deleteall.csv";
-		uploadCSV($file_path7);
 		logout();
+
 	}
 
 	public function testLogout() {
