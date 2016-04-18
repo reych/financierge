@@ -16,20 +16,6 @@ document.querySelector("#go").addEventListener("mousedown", function () {
     chart.zoom(from, to);
 });
 
-// var dataProvider = chart.dataSets[0].dataProvider;
-//   $( ".amChartsPeriodSelector .amChartsInputField" ).datepicker({
-//       dateFormat: "dd-mm-yy",
-//       minDate: dataProvider[0].date,
-//       maxDate: dataProvider[dataProvider.length-1].date,
-
-// $(document).ready(
-
-//     var dataProvider = chart.dataSets[0].dataProvider;
-//     var start = dataProvider[dataProvider.length-1].date;
-//     var end = new Date(start);
-//     end.setMonth(end.getMonth() - 3);
-//     chart.zoom(start, end);
-// );
 
 
 jQuery(function($) {
@@ -103,22 +89,12 @@ var chart = AmCharts.makeChart( "chartdiv", {
         } ]
     },
 
-  // "stockLegend": {
-  //           "periodValueTextComparing": "test",
-  //           "periodValueTextRegular": "test"
-  //       },
-
     "dataSetSelector": {
         "position": "left"
     },
     "panelsSettings":{
         "recalculateToPercents" : "never"
     },
-
-    // "valueAxes": [
-    // {
-    //     "maximumDate"
-    // }],
 
     "export": {
         "enabled": true
@@ -238,14 +214,6 @@ function updateDataSets() {
     this.chart.validateData();
 }
 
-// this function is used to test inputing data into our graph. It is now
-// obsolete as the graph is functional
-function testThisChart() {
-
-   var values = "Test|2015-10-10_-10|2016-03-12_-12|2016-04-13_13|2016-04-14_-2";
-   addOrUpdateAccount(values);
-}
-
 chart.addListener('rendered', function (event) {
     var dataProvider = chart.dataSets[0].dataProvider;
   $( ".amChartsPeriodSelector .amChartsInputField" ).datepicker({
@@ -256,11 +224,5 @@ chart.addListener('rendered', function (event) {
           $( ".amChartsPeriodSelector .amChartsInputField" ).trigger('blur');
       }
   });
-
-  // set default date range of three months
-// chart.periodSelector.setDefaultPeriod();
-  
-// this.chart.validateNow();
-// this.chart.validateData();
 
 });
