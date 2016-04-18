@@ -71,7 +71,8 @@ function logout(){
 }
 
 // uploads the specified file from a csv to the database, associating the
-// data with the presently logged-in user. $fileName
+// data with the presently logged-in user. $fileName is a string that specifies
+// the name of a properly formatted .csv file for upload
 function uploadCSV($fileName){
 
 	if(file_exists($fileName)){
@@ -159,6 +160,7 @@ function uploadCSV($fileName){
 	return true;
 }
 
+// echoes account names for the list of accounts. Additionally
 function getAccountNamesForList(){
 	$result = "";
 	$accounts = Network::getAccounts();
@@ -255,7 +257,7 @@ function formIndividualDataForGraph($acctName, $acctTrans) {
 	return $formattedTrans;
 }
 
-// Requests raw data about all accounts owned by
+// Requests raw data about all accounts owned by the logged in user
 function getBaseDataForGraph() {
 
 	//get accounts
