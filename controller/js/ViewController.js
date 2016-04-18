@@ -21,13 +21,13 @@ if (loggedIn == 'TRUE') {
     accountsController();
     graphController();
 } else {
-    if (window.location.href != "https://localhost/login.html") {
-        window.location = "https://localhost/login.html";
-    }
-    //use the if statement below if your computer is not setup to use https
-    // if (window.location.href != "http://localhost/login.html") {
-    //     window.location = "http://localhost/login.html";
+    // if (window.location.href != "https://localhost/login.html") {
+    //     window.location = "https://localhost/login.html";
     // }
+    //use the if statement below if your computer is not setup to use https
+    if (window.location.href != "http://localhost/login.html") {
+        window.location = "http://localhost/login.html";
+    }
 }
 
 
