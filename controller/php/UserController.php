@@ -241,10 +241,6 @@ function userLoggedIn() {
 
 //will return nothing if the acocunt doesn't have any transactions
 function formIndividualDataForGraph($acctName, $acctTrans) {
-
-	if($acctTrans == NULL) {
-		return;
-	}
 	$compactTrans = calculateDailyValues($acctTrans);
 	$cumulativeTrans = calculateCumulativeValues($compactTrans);
 	$formattedTrans = formatGraphDataToString($acctName, $cumulativeTrans);
@@ -281,6 +277,9 @@ function getBaseDataForGraph() {
 	foreach ($accountAssets as $singleAssetAccount) {
 		$curName = $singleAssetAccount->get("name");
 		$transactions = Network::getTransactionsForAccount($curName);
+		if($transactions == NULL){
+			continue;
+		}
 		$transAssets = array_merge($transAssets, $transactions); //add transactions to transAssets array
 		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}
@@ -288,6 +287,9 @@ function getBaseDataForGraph() {
 	foreach ($accountLiabilities as $singleLiabilityAccount) {
 		$curName = $singleLiabilityAccount->get("name");
 		$transactions = Network::getTransactionsForAccount($curName);
+		if($transactions == NULL){
+			continue;
+		}
 		$transLiabilities = array_merge($transLiabilities, $transactions); //add transactions to transLiabilities array
 		$accountGraphData .= formIndividualDataForGraph($curName, $transactions);
 	}

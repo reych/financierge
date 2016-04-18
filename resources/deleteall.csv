@@ -2,3 +2,4 @@ delete,Checking,true
 delete,Savings,true
 delete,Visa,false
 delete,Mastercard,false
+delete,CheckingTwo,true
