@@ -1,28 +1,43 @@
 
 document.querySelector("#go").addEventListener("mousedown", function () {
 
-  var ifr = document.getElementById("iframed");
-  var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
-  var theFrom = ifrDoc.getElementById("from");
-  
-  var theTo = ifrDoc.getElementById("to");
-  //var from = new Date(fromField);
-  //var to = new Date(toField);
-  var from = new Date(theFrom.value); //try .value if this doesn't work
-  var to = new Date(theTo.value);
+    var ifr = document.getElementById("iframed");
+    var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
+    var theFrom = ifrDoc.getElementById("from");
+    
+    var theTo = ifrDoc.getElementById("to");
+    //var from = new Date(fromField);
+    //var to = new Date(toField);
+    var from = new Date(theFrom.value); //try .value if this doesn't work
+    var to = new Date(theTo.value);
 
-  
+    
 
-  chart.zoom(from, to);
+    chart.zoom(from, to);
 });
+
+// var dataProvider = chart.dataSets[0].dataProvider;
+//   $( ".amChartsPeriodSelector .amChartsInputField" ).datepicker({
+//       dateFormat: "dd-mm-yy",
+//       minDate: dataProvider[0].date,
+//       maxDate: dataProvider[dataProvider.length-1].date,
+
+// $(document).ready(
+
+//     var dataProvider = chart.dataSets[0].dataProvider;
+//     var start = dataProvider[dataProvider.length-1].date;
+//     var end = new Date(start);
+//     end.setMonth(end.getMonth() - 3);
+//     chart.zoom(start, end);
+// );
 
 
 jQuery(function($) {
 //     var $j = jQuery.noConflict();
 //     $j("#dob").datepicker();
     jQuery(".date-input").datepicker({
-      changeMonth: true,
-      changeYear: true
+        changeMonth: true,
+        changeYear: true
     });
 });
 
@@ -68,10 +83,14 @@ var chart = AmCharts.makeChart( "chartdiv", {
         "position": "left",
         "periods": [ {
             "period": "MM",
-            "selected": true,
             "count": 1,
             "label": "1 month"
-        }, {
+        },{
+          "period": "MM",
+            "selected": true,
+            "count": 3,
+            "label": "3 months"
+        },{
             "period": "YYYY",
             "count": 1,
             "label": "1 year"
@@ -95,6 +114,11 @@ var chart = AmCharts.makeChart( "chartdiv", {
     "panelsSettings":{
         "recalculateToPercents" : "never"
     },
+
+    // "valueAxes": [
+    // {
+    //     "maximumDate"
+    // }],
 
     "export": {
         "enabled": true
@@ -209,6 +233,7 @@ function updateDataSets() {
 
     // this.chart.panels.stockGraphs = this.allGraphs;
     this.chart.dataSets = this.dataSets;
+    this.chart.periodSelector.setDefaultPeriod();
     this.chart.validateNow();
     this.chart.validateData();
 }
@@ -231,4 +256,11 @@ chart.addListener('rendered', function (event) {
           $( ".amChartsPeriodSelector .amChartsInputField" ).trigger('blur');
       }
   });
+
+  // set default date range of three months
+// chart.periodSelector.setDefaultPeriod();
+  
+// this.chart.validateNow();
+// this.chart.validateData();
+
 });
