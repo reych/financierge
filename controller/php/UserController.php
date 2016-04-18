@@ -185,6 +185,10 @@ function getAccountNamesForList(){
 	return "SUCCESS";
 }
 
+// accepts an acount name ($accountName) a start and end date as string objects
+// formatted in a YYYY-MM-DD fashion ($startDate and endDate respectively)
+// and a string designating a sort parameter (date, value, or type). Echoes
+// a properly formatter string that can be parsed by the frontend js
 function getTransactionsForList($accountName, $startDate, $endDate, $sort){
 
 	if ($startDate == NULL || $startDate == "") {
@@ -257,7 +261,8 @@ function formIndividualDataForGraph($acctName, $acctTrans) {
 	return $formattedTrans;
 }
 
-// Requests raw data about all accounts owned by the logged in user
+// Requests raw data about all accounts owned by the logged in user and echoes
+// results to the front end javascript
 function getBaseDataForGraph() {
 
 	//get accounts
@@ -424,6 +429,9 @@ function getBaseDataForGraph() {
 	return "SUCCESS";
 }
 
+// takes in an array of transaction values cumulated by the daily aggragate
+// amount and returns a new array of dates and net amount for an account
+// per day
 function calculateCumulativeValues($transactionsArray) {
 	$cumulativeArray = array();
 	$prevValue = 0;
@@ -434,7 +442,7 @@ function calculateCumulativeValues($transactionsArray) {
 	return $cumulativeArray;
 }
 
-//take in (sorted?) array and calculate the daily values
+//take in array and calculate the daily values
 //Returns associative array of date->value mapping in sorted order by date
 function calculateDailyValues($transactionsArray) {
 	$compressedArray = array();

@@ -118,7 +118,6 @@ function generateChartData() {
 // "Account Name 1|2016-5-13_50|2016-6-14_31|Account Name 2|2016-6-14_31"
 function addOrUpdateAccount(accountData) {
 
-    alert(accountData);
     this.chart.bulletField = "bullet";
 
     var lines = accountData.split('\n');
