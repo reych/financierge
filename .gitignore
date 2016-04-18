@@ -2,3 +2,5 @@
 resources/zhongyag_test.csv
 
 resources/zhongyag_lib_test.csv
+
+tests/report/**

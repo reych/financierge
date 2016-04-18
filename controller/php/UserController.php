@@ -251,7 +251,6 @@ function getIndividualDataForGraph($acctName) {
 
 	echo $formattedTrans;
 	return "SUCCESS";
-	//Network::logoutUser();
 }
 
 //will return nothing if the acocunt doesn't have any transactions
