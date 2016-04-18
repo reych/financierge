@@ -117,6 +117,8 @@ function generateChartData() {
 // totals for that account as a net of each day. Example:
 // "Account Name 1|2016-5-13_50|2016-6-14_31|Account Name 2|2016-6-14_31"
 function addOrUpdateAccount(accountData) {
+
+    alert(accountData);
     this.chart.bulletField = "bullet";
 
     var lines = accountData.split('\n');
@@ -138,7 +140,7 @@ function addOrUpdateAccount(accountData) {
             var dateValues = nodes[j].split('_');
             var dateArr = dateValues[0].split('-');
 
-            var newDate = new Date(parseInt(dateArr[0]), parseInt(dateArr[1]),
+            var newDate = new Date(parseInt(dateArr[0]), parseInt(dateArr[1]) - 1,
                                    parseInt(dateArr[2]));
 
             var newValue = parseFloat(dateValues[1]);
