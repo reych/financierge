@@ -21,13 +21,13 @@ if (loggedIn == 'TRUE') {
     accountsController();
     graphController();
 } else {
-    // if (window.location.href != "https://localhost/login.html") {
-    //     window.location = "https://localhost/login.html";
-    // }
-    //use the if statement below if your computer is not setup to use https
-    if (window.location.href != "http://localhost/login.html") {
-        window.location = "http://localhost/login.html";
+    if (window.location.href != "https://localhost/login.html") {
+        window.location = "https://localhost/login.html";
     }
+    //use the if statement below if your computer is not setup to use https
+    // if (window.location.href != "http://localhost/login.html") {
+    //     window.location = "http://localhost/login.html";
+    // }
 }
 
 
@@ -125,7 +125,7 @@ function accountsController() {
 // account tag is its own account name. Thus we can get the account name by
 // getting tag's id.
 function transactionsController(accountClicked) {
-    var arguments = '&accName=' + accountClicked.id + '&sortType=' 
+    var arguments = '&accName=' + accountClicked.id + '&sortType='
                     + 'date' + '&startDate=&endDate=';
     var result = phpRequest('getTransactionsForList', arguments);
     createTab(result);
@@ -148,7 +148,7 @@ function sortTransactions(sortType){
             var result = phpRequest('getTransactionsForList', arguments);
             var contentID = 'content-'+accountName;
             var contentDiv = document.getElementById(contentID);
-            
+
             result = result.substring(accountName.length);
             displayTransactions(contentID, result);
         }
