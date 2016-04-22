@@ -79,6 +79,7 @@ function uploadCSV($fileName){
 		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
+		$transactionsByCatagory = array();
 
 		while (!feof($file)) {
 			$line = fgets($file);
@@ -139,9 +140,20 @@ function uploadCSV($fileName){
 					// add this array to the array holding all transactions
 					$allNewTransactions[$acntName] = $tempArr;
 				}
+
+				// if we can't find the key in the transactions by catagory
+				if (!array_key_exists($ctgry, $transactionsByCatagory)) {
+					// add it
+					$tempArr = array();
+					$transactionsByCatagory[$ctgry] = $tempArr;
+				}
+
+				// add transaction to appropriate array
+				array_push($transactionsByCatagory[$ctgry], $newTrans);
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
+		Network::addTransactionsToCatagories($transactionsByCatagory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
