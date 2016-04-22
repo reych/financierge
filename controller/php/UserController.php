@@ -129,11 +129,14 @@ function uploadCSV($fileName){
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
-					// push the new Transaction object into the array held at the account name key
+					// push the new Transaction object into the 
+					// array held at the account name key
 					array_push($allNewTransactions[$acntName], $newTrans);
-				// the array doesn't yet have any transactions for this account to add
+				// the array doesn't yet have any transactions for 
+				// this account to add
 				} else {
-					// create a new array to hold all of the transactions for this particular account
+					// create a new array to hold all of the transactions 
+					// for this particular account
 					$tempArr = array();
 					// add the first transaction to this array
 					array_push($tempArr, $newTrans);
@@ -153,6 +156,9 @@ function uploadCSV($fileName){
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
+
+		// array with keys of catagories with values of arrays of 
+		// transactions (assets and liabilities)
 		Network::addTransactionsToCatagories($transactionsByCatagory);
 
         echo '<script language="javascript">';
