@@ -3,15 +3,15 @@ include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
 // include("../../model/Network.php");
 // include("../../model/vendor/autoload.php");
-use Parse\ParseClient;
-use Parse\ParseException;
-use Parse\ParseObject;
-use Parse\ParseQuery;
-use Parse\ParseUser;
-
-date_default_timezone_set("America/Los_Angeles");
-session_start();
-ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
+// use Parse\ParseClient;
+// use Parse\ParseException;
+// use Parse\ParseObject;
+// use Parse\ParseQuery;
+// use Parse\ParseUser;
+//
+// date_default_timezone_set("America/Los_Angeles");
+// session_start();
+// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -83,6 +83,7 @@ function uploadCSV($fileName){
 		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
+		$transactionsByCategory = array();
 
 		while (!feof($file)) {
 			$line = fgets($file);
@@ -121,6 +122,7 @@ function uploadCSV($fileName){
 				$princ = $data[2];
 				$amnt = floatval($data[3]);
 				$ctgry = $data[4];
+				$isAsst = $data[5];
 
 				// echo $princ;
 				$newTrans = new Transaction();
@@ -129,23 +131,47 @@ function uploadCSV($fileName){
 				$newTrans->principle = $princ;
 				$newTrans->amount = $amnt;
 				$newTrans->category = $ctgry;
+				if (substr($isAsst, 0, 4 ) === "true") {
+					$newTrans->isAsset = true;
+				
+				} else {
+					$newTrans->isAsset = false;
+				}
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
-					// push the new Transaction object into the array held at the account name key
+					// push the new Transaction object into the 
+					// array held at the account name key
 					array_push($allNewTransactions[$acntName], $newTrans);
-				// the array doesn't yet have any transactions for this account to add
+				// the array doesn't yet have any transactions for 
+				// this account to add
 				} else {
-					// create a new array to hold all of the transactions for this particular account
+					// create a new array to hold all of the transactions 
+					// for this particular account
 					$tempArr = array();
 					// add the first transaction to this array
 					array_push($tempArr, $newTrans);
 					// add this array to the array holding all transactions
 					$allNewTransactions[$acntName] = $tempArr;
 				}
+
+				// the category does not yet exist in our liability array
+				if (!array_key_exists($ctgry, $transactionsByCategory)) {
+					// add it
+					$tempArr = array();
+
+					$transactionsByCategory[$ctgry] = $tempArr;
+				}
+				// add transaction to asset array
+				array_push($transactionsByCategory[$ctgry], $newTrans);
+				
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
+
+		// array with keys of categories with values of arrays of 
+		// transactions (assets and liabilities)
+		Network::addTransToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';

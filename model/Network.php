@@ -116,7 +116,7 @@ class Network {
 
 	// Network::addTransactionToAccount(name: string, date: DateTime, principe: string, amount: number, category: string)
 	// returns true or false
-	static function addTransactionToAccount($name, $date, $principle, $amount, $category) {
+	static function addTransactionToAccount($name, $date, $principle, $amount, $category, $isAsset) {
 		try {
 			// creates a transaction and saves it in the Transaction table on Parse
 			$transaction = new ParseObject("Transaction");
@@ -124,6 +124,7 @@ class Network {
 			$transaction->set("principle", $principle);
 			$transaction->set("amount", $amount);
 			$transaction->set("category", $category);
+			$transaction->set("isAnAsset", $isAsset);
 			$transaction->save();
 			// adds the transaction to the account in the accounts array for the user and saves it in the User table on Parse
 			$currentUser = ParseUser::getCurrentUser();
@@ -189,6 +190,7 @@ class Network {
 							$transaction->set("principle", $newTransForAccount[$j]->principle);
 							$transaction->set("amount", $newTransForAccount[$j]->amount);
 							$transaction->set("category", $newTransForAccount[$j]->category);
+							$transaction->set("isAnAsset", $newTransForAccount[$j]->isAsset);
 							$transaction->save();
 
 							$currentAccountTransactions[] = $transaction;
@@ -209,6 +211,12 @@ class Network {
 		return false;
 	}
 
+	// this function takes in an array that maps catagory names as keys to arrays 
+	// of Transaction objects as values. 
+	static function addTransToCategories($transByCatagory) {
+
+		
+	}
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
 	static function getTransactionsForAccount($name) {
