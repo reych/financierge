@@ -10,10 +10,11 @@ When(/^the account is not toggled$/) do
 end
 
 Then(/^the graph line for that account should show up\.$/) do
-  
+
 end
 
 Then(/^it should be a different color than all the other$/) do
+
 end
 
 Then(/^the graph line for that account should show up and be the same color as the button color$/) do
@@ -37,7 +38,7 @@ When(/^user selects a specific calendar date$/) do
 end
 
 Then(/^the graph should adjust to the correct interval$/) do
-	driver.find_element(:id, "graphy").click
+
 end
 
 Given(/^an account has already been toggled$/) do
@@ -57,5 +58,5 @@ When(/^user views the dash$/) do
 end
 
 Then(/^it should be defaulted into a three month interval$/) do
-	driver.find_element(:id, "graphy").click
+
 end
