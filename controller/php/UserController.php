@@ -46,6 +46,10 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
+} else if ($funcName == "getBudgetInformation"){
+	$catName = $_POST["category_input"];
+	$month = $_POST["month_input"];
+	getBudgetInformation($catName, $month);
 }
 
 // logs user into our Parse database. Accepts a username and password as strings
@@ -79,7 +83,7 @@ function uploadCSV($fileName){
 		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
-		$transactionsByCatagory = array();
+		$transactionsByCategory = array();
 
 		while (!feof($file)) {
 			$line = fgets($file);
@@ -118,6 +122,7 @@ function uploadCSV($fileName){
 				$princ = $data[2];
 				$amnt = floatval($data[3]);
 				$ctgry = $data[4];
+				$isAsst = $data[5];
 
 				// echo $princ;
 				$newTrans = new Transaction();
@@ -126,6 +131,12 @@ function uploadCSV($fileName){
 				$newTrans->principle = $princ;
 				$newTrans->amount = $amnt;
 				$newTrans->category = $ctgry;
+				if (substr($isAsst, 0, 4 ) === "true") {
+					$newTrans->isAsset = true;
+				
+				} else {
+					$newTrans->isAsset = false;
+				}
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
@@ -144,22 +155,23 @@ function uploadCSV($fileName){
 					$allNewTransactions[$acntName] = $tempArr;
 				}
 
-				// if we can't find the key in the transactions by catagory
-				if (!array_key_exists($ctgry, $transactionsByCatagory)) {
+				// the category does not yet exist in our liability array
+				if (!array_key_exists($ctgry, $transactionsByCategory)) {
 					// add it
 					$tempArr = array();
-					$transactionsByCatagory[$ctgry] = $tempArr;
-				}
 
-				// add transaction to appropriate array
-				array_push($transactionsByCatagory[$ctgry], $newTrans);
+					$transactionsByCategory[$ctgry] = $tempArr;
+				}
+				// add transaction to asset array
+				array_push($transactionsByCategory[$ctgry], $newTrans);
+				
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
 
-		// array with keys of catagories with values of arrays of 
+		// array with keys of categories with values of arrays of 
 		// transactions (assets and liabilities)
-		Network::addTransactionsToCatagories($transactionsByCatagory);
+		Network::addTransToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
@@ -477,7 +489,6 @@ function calculateDailyValues($transactionsArray) {
 	return $compressedArray;
 }
 
-
 //compares two strings, returns the lesser of the two
 function returnLower($val1, $val2) {
 	$val = strcmp($val1, $val2);
@@ -498,5 +509,40 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 	}
 	$resultString .= PHP_EOL;
 	return $resultString;
+}
+
+function getBudgetInformation($categoryName, $monthYear){
+
+	if ($monthYear == NULL || $monthYear == "") {
+		//Dont allow this in the front end!
+	}
+
+	//get the first and last day of the month
+	$startDate = new DateTime("01/". $startDate);
+	$endDate = new DateTime("31/". $startDate);
+
+	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
+
+	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
+
+	$amountSpent = 0;
+	$success =  "FAIL";
+	if($transactions != NULL){
+		foreach ($transactions as $transaction) {
+			$isAsset = $transaction->get("isAsset");
+			$amount = $transaction->get("amount");
+
+			if($isAsset){
+				$amountSpent -= $amount;
+			} else {
+				$amountSpent += $amount;
+			}
+		}
+		$success = "SUCCESS";
+	}
+
+
+	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
+	return $success;
 }
 ?>

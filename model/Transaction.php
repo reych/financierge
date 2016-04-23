@@ -7,6 +7,7 @@ class Transaction {
     public $principle;
     public $amount;
     public $category;
+    public $isAsset;
 }
 
 ?>
