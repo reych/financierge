@@ -511,12 +511,17 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 	return $resultString;
 }
 
-
 function getBudgetInformation($categoryName, $monthYear){
 
-	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
+	if ($monthYear == NULL || $monthYear == "") {
+		//Dont allow this in the front end!
+	}
 
-	//calculate date
+	//get the first and last day of the month
+	$startDate = new DateTime("01/".$startDate);
+	//$endDate = 
+
+	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
 
 	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
@@ -528,11 +533,9 @@ function getBudgetInformation($categoryName, $monthYear){
 			$amount = $transaction->get("amount");
 
 			if($isAsset){
-				//check if it is negative or positive
-
+				$amountSpent -= $amount;
 			} else {
-				//check if it is negative or positive
-
+				$amountSpent += $amount;
 			}
 		}
 		$success = "SUCCESS";

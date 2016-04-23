@@ -283,5 +283,18 @@ class Network {
 		}
 		return NULL;
 	}
+
+	//returns the budget amount from the budget table by category name AND month/year
+	//if the particular row is not in the table (database) return 0
+	static function getBudgetAmount($categoryName, $monthYear){
+
+	}
+
+	//returns an array of transaction objects from the transactions_by_category table 
+	//within the dates provided. If no transactions for the given categoryName or dates, 
+	//return NULL
+	static function getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate){
+
+	}
 }
 ?>
