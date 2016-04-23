@@ -211,7 +211,7 @@ class Network {
 		return false;
 	}
 
-	
+
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
 	static function getTransactionsForAccount($name) {
