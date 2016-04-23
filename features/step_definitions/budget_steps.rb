@@ -40,6 +40,7 @@ end
 
 Then(/^the amount spent value should be displayed in yellow on the dashboard$/) do
   driver.find_element(:id, "budgety").click
+  driver.find_element(:id, "budgety").click
 end
 
 Given(/^user enters fifteen dollars in budget input field$/) do
