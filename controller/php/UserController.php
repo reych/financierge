@@ -79,7 +79,7 @@ function uploadCSV($fileName){
 		$file = fopen($fileName, "r");
 
 		$allNewTransactions = array();
-		$transactionsByCatagory = array();
+		$transactionsByCategory = array();
 
 		while (!feof($file)) {
 			$line = fgets($file);
@@ -118,6 +118,7 @@ function uploadCSV($fileName){
 				$princ = $data[2];
 				$amnt = floatval($data[3]);
 				$ctgry = $data[4];
+				$isAsst = $data[5];
 
 				// echo $princ;
 				$newTrans = new Transaction();
@@ -126,6 +127,12 @@ function uploadCSV($fileName){
 				$newTrans->principle = $princ;
 				$newTrans->amount = $amnt;
 				$newTrans->category = $ctgry;
+				if (substr($isAsst, 0, 4 ) === "true") {
+					$newTrans->isAsset = true;
+				
+				} else {
+					$newTrans->isAsset = false;
+				}
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
@@ -144,22 +151,23 @@ function uploadCSV($fileName){
 					$allNewTransactions[$acntName] = $tempArr;
 				}
 
-				// if we can't find the key in the transactions by catagory
-				if (!array_key_exists($ctgry, $transactionsByCatagory)) {
+				// the category does not yet exist in our liability array
+				if (!array_key_exists($ctgry, $transactionsByCategory)) {
 					// add it
 					$tempArr = array();
-					$transactionsByCatagory[$ctgry] = $tempArr;
-				}
 
-				// add transaction to appropriate array
-				array_push($transactionsByCatagory[$ctgry], $newTrans);
+					$transactionsByCategory[$ctgry] = $tempArr;
+				}
+				// add transaction to asset array
+				array_push($transactionsByCategory[$ctgry], $newTrans);
+				
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
 
-		// array with keys of catagories with values of arrays of 
+		// array with keys of categories with values of arrays of 
 		// transactions (assets and liabilities)
-		Network::addTransactionsToCatagories($transactionsByCatagory);
+		Network::addTransToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
