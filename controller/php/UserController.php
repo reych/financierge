@@ -3,15 +3,6 @@ include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
 // include("../../model/Network.php");
 // include("../../model/vendor/autoload.php");
-// use Parse\ParseClient;
-// use Parse\ParseException;
-// use Parse\ParseObject;
-// use Parse\ParseQuery;
-// use Parse\ParseUser;
-//
-// date_default_timezone_set("America/Los_Angeles");
-// session_start();
-// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -50,6 +41,11 @@ if ($funcName == "uploadCSV") {
 	$catName = $_GET["category_input"];
 	$month = $_GET["month_input"];
 	getBudgetInformation($catName, $month);
+} else if ($funcName == "setBudget") {
+	$catName = $_GET["category_input"];
+	$month = $_GET["month_input"];
+	$newBudget = $_GET["newBudget"];
+	setBudget($catName, $month, $newBudget);
 }
 
 // logs user into our Parse database. Accepts a username and password as strings
@@ -518,8 +514,8 @@ function getBudgetInformation($categoryName, $monthYear){
 	}
 
 	//get the first and last day of the month
-	$startDate = new DateTime("01/". $startDate);
-	$endDate = new DateTime("31/". $startDate);
+	$startDate = new DateTime($startDate . '-01');
+	$endDate = new DateTime($startDate . '-31');
 
 	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
 
@@ -544,5 +540,10 @@ function getBudgetInformation($categoryName, $monthYear){
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
 	return $success;
+}
+
+function setBudget($categoryName, $monthYear, $newBudget) {
+	$monthYear = new DateTime($monthYear . '-31');
+	Network::setBudget($categoryName, $monthYear, $newBudget);
 }
 ?>

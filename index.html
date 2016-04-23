@@ -67,14 +67,16 @@
                         </div>
                         <div class="col-sm-4">
                             <label for="from">Month: </label>
-                            <input type="text" id="month-input" size="8">
+                            <input type="text" id="month-input" placeholder="2016-01" size="8">
                         </div>
                         <div class="col-sm-4 button-div">
-                            <button type="button" class="btn btn-default" id = "show-budget-btn">GO!</button>
+                            <button type="button" class="btn btn-default" id = "show-budget-btn" onclick="getBudget();">GO!</button>
                         </div>
                     </div>
 
-                    <label id="info-label">Information</label>
+                    <div>
+                        <label id="info-label">Information</label>
+                    </div>
                     <div id="budget-information">
                     	<div class="line"><label>Category:</label><p id="category">hello</p></div>
                     	<div class="line"><label>Amount spent:</label><p id="amount-spent"></p></div>
@@ -82,8 +84,9 @@
                     </div>
 
                     <label>Set new budget amount:</label>
-                    <input type="text" id="set-budget">
-                    <button type="button" class="btn btn-default" id = "set-budget-btn">Set</button>
+                    <br>
+                    <input type="number" id="set-budget">
+                    <button type="button" disabled class="btn btn-default" onclick="setBudget();" id = "set-budget-btn">Set</button>
                 </div>
             </div>
             <div class="col-sm-8">

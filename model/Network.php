@@ -25,13 +25,13 @@ class Network {
 		return NULL;
 	}
 
-	// Network::getCurrentUser() 
+	// Network::getCurrentUser()
 	// returns ParseUser or NULL
 	static function getCurrentUser() {
 		return ParseUser::getCurrentUser();
 	}
 
-	// Network::logoutUser() 
+	// Network::logoutUser()
 	// returns ParseUser or NULL
 	static function logoutUser() {
 		ParseUser::logOut();
@@ -153,7 +153,7 @@ class Network {
 	static function addTransactionsToAccounts($newTransactions) {
 
 		try {
-			
+
 			// add transaction to specified account in accounts array for current user and save it in User table
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
@@ -195,7 +195,7 @@ class Network {
 
 							$currentAccountTransactions[] = $transaction;
 						}
-						
+
 
 						$accounts[$i]->setArray("transactions", $currentAccountTransactions);
 						// $actualAccount->setArray("transactions", $currentAccountTransactions);
@@ -211,11 +211,11 @@ class Network {
 		return false;
 	}
 
-	// this function takes in an array that maps catagory names as keys to arrays 
-	// of Transaction objects as values. 
+	// this function takes in an array that maps catagory names as keys to arrays
+	// of Transaction objects as values.
 	static function addTransToCategories($transByCatagory) {
 
-		
+
 	}
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
@@ -290,10 +290,15 @@ class Network {
 
 	}
 
-	//returns an array of transaction objects from the transactions_by_category table 
-	//within the dates provided. If no transactions for the given categoryName or dates, 
+	//returns an array of transaction objects from the transactions_by_category table
+	//within the dates provided. If no transactions for the given categoryName or dates,
 	//return NULL
 	static function getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate){
+
+	}
+
+	//creates new row in budget table with giving information
+	static function setBudget($categoryName, $monthYear, $newBudget) {
 
 	}
 }

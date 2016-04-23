@@ -171,14 +171,63 @@ function logoutController() {
     window.location = "login.html";
 }
 
-function getBudget(catName, monthYear) {
-    var arguments = '&category_input=' + catName + '&month_input='
-                    + monthYear;
-    var result = phpRequest('getBudgetInformation', arguments);
-    var resultInArr = result.split('_');
+function getBudget() {
+
+
+    var catName = document.getElementById('category-input').value;
+    var monhthYear = document.getElementById('month-input').value;
+
+    // var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
+    // var result = phpRequest('getBudgetInformation', arguments);
+    // var resultInArr = result.split('_');
+
+    var resultInArr = [100,100];
+
     if (resultInArr.length = 2) {
-        // document.getElementById('id').
+        document.getElementById('category').innerHTML = catName;
+        document.getElementById('amount-spent').innerHTML = resultInArr[1];
+        document.getElementById('budget').innerHTML = resultInArr[0];
+
+        if (resultInArr[0] > resultInArr[1]) {
+            document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
+            document.getElementById('budget').setAttribute("style", "color:#32CD32");
+        } else if (resultInArr[0] < resultInArr[1]) {
+            document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+            document.getElementById('budget').setAttribute("style", "color:#DC143C");
+        } else {
+
+            document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+            document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+        }
+        document.getElementById('set-budget-btn').disabled = false;
     }
+}
+
+function setBudget() {
+
+    var newBudget = document.getElementById('set-budget').value;
+    document.getElementById('set-budget').value = "";
+    var amountSpent = document.getElementById('amount-spent').innerHTML;
+
+    document.getElementById('budget').innerHTML = newBudget;
+
+    if (newBudget > amountSpent) {
+        document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
+        document.getElementById('budget').setAttribute("style", "color:#32CD32");
+    } else if (newBudget < amountSpent) {
+        document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+        document.getElementById('budget').setAttribute("style", "color:#DC143C");
+    } else {
+        document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+        document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+    }
+
+    var catName = document.getElementById('category-input').value;
+    var monthYear = document.getElementById('month-input').value;
+    var arguments = '&category_input=' + catName + '&month_input=' + monthYear + '&newBudget=' + newBudget;
+
+
+    phpRequest("setBudget", arguments);
 }
 
 // ajax func to handel all call to php
