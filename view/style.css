@@ -114,3 +114,33 @@ h1,h3{
 	box-sizing: default;
 	-webkit-box-sizing: default;
 }
+
+.line label, .line p{
+	display: inline-block;
+}
+
+.line label {
+	margin-right: 10px;
+}
+
+#budget-information {
+	border-style: solid;
+	border-width: 2px;
+	padding: 10px;
+	margin: 10px;
+	margin-top: 5px;
+}
+
+#info-label, #budget-information {
+	margin-left: 10px;
+}
+
+#info-label {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+
+.button-div {
+	padding-top: 5%;
+}
