@@ -3,7 +3,7 @@ require 'selenium-webdriver'
 driver = Selenium::WebDriver.for :firefox
 
 Given(/^user is on login page$/) do
-	driver.get("http://localhost/login.html")
+	driver.get("https://localhost/login.html")
 	#wait = Selenium::WebDriver::Wait.new(:timeout => 10)
 	#wait.until {driver.title.downcase.start_with? "login"}
 	#expect(page).to have_selector('login-box')
@@ -24,7 +24,7 @@ end
 Then(/^the page should redirect to dashboard$/) do
 	driver.find_element(:id, "login-submit").click
 	currentURL = driver.current_url
-	expect(currentURL).to eq("http://localhost/index.html")
+	expect(currentURL).to eq("https://localhost/index.html")
 	driver.find_element(:id, "logout").click
 
 end

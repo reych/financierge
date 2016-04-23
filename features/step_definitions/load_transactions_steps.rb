@@ -4,13 +4,13 @@ driver = Selenium::WebDriver.for :firefox
 
 Given(/^nothing is yet displayed in the transaction box$/) do |table|
     #when user first signs in transaction module is empty
-    driver.navigate.to("http://localhost/login.html")
+    driver.navigate.to("https://localhost/login.html")
     @userCredentials = table.rows_hash
     driver.find_element(:id, "login-username").send_keys(@userCredentials['username'])
     driver.find_element(:id, "login-password").send_keys(@userCredentials['password'])
     driver.find_element(:id, "login-submit").click
     currentURL = driver.current_url
-    expect(currentURL).to eq("http://localhost/index.html")
+    expect(currentURL).to eq("https://localhost/index.html")
 end
 
 When(/^the user clicks on Checking$/) do
@@ -42,7 +42,7 @@ Given(/^there is already an account displayed in the transactions widget$/) do |
     # driver.find_element(:id, "login-password").send_keys(@userCredentials['password'])
     # driver.find_element(:id, "login-submit").click
     currentURL = driver.current_url
-    expect(currentURL).to eq("http://localhost/index.html")
+    expect(currentURL).to eq("https://localhost/index.html")
 
     # driver.find_element(:id, "fileToUpload").send_keys("/Users/zhongyag/Developer/financierge/resources/Data.csv")
     # driver.find_element(:id, "upload-button").click
