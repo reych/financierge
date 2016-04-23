@@ -3,15 +3,15 @@ include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
 // include("../../model/Network.php");
 // include("../../model/vendor/autoload.php");
-use Parse\ParseClient;
-use Parse\ParseException;
-use Parse\ParseObject;
-use Parse\ParseQuery;
-use Parse\ParseUser;
-
-date_default_timezone_set("America/Los_Angeles");
-session_start();
-ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
+// use Parse\ParseClient;
+// use Parse\ParseException;
+// use Parse\ParseObject;
+// use Parse\ParseQuery;
+// use Parse\ParseUser;
+//
+// date_default_timezone_set("America/Los_Angeles");
+// session_start();
+// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
