@@ -47,8 +47,8 @@ if ($funcName == "uploadCSV") {
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
 } else if ($funcName == "getBudgetInformation"){
-	$catName = $_POST["category_input"];
-	$month = $_POST["month_input"];
+	$catName = $_GET["category_input"];
+	$month = $_GET["month_input"];
 	getBudgetInformation($catName, $month);
 }
 
@@ -133,20 +133,20 @@ function uploadCSV($fileName){
 				$newTrans->category = $ctgry;
 				if (substr($isAsst, 0, 4 ) === "true") {
 					$newTrans->isAsset = true;
-				
+
 				} else {
 					$newTrans->isAsset = false;
 				}
 
 				// if the array contains the account name as a key already:
 				if (array_key_exists($acntName, $allNewTransactions)) {
-					// push the new Transaction object into the 
+					// push the new Transaction object into the
 					// array held at the account name key
 					array_push($allNewTransactions[$acntName], $newTrans);
-				// the array doesn't yet have any transactions for 
+				// the array doesn't yet have any transactions for
 				// this account to add
 				} else {
-					// create a new array to hold all of the transactions 
+					// create a new array to hold all of the transactions
 					// for this particular account
 					$tempArr = array();
 					// add the first transaction to this array
@@ -164,12 +164,12 @@ function uploadCSV($fileName){
 				}
 				// add transaction to asset array
 				array_push($transactionsByCategory[$ctgry], $newTrans);
-				
+
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
 
-		// array with keys of categories with values of arrays of 
+		// array with keys of categories with values of arrays of
 		// transactions (assets and liabilities)
 		Network::addTransToCategories($transactionsByCategory);
 

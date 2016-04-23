@@ -171,6 +171,16 @@ function logoutController() {
     window.location = "login.html";
 }
 
+function getBudget(catName, monthYear) {
+    var arguments = '&category_input=' + catName + '&month_input='
+                    + monthYear;
+    var result = phpRequest('getBudgetInformation', arguments);
+    var resultInArr = result.split('_');
+    if (resultInArr.length = 2) {
+        // document.getElementById('id').
+    }
+}
+
 // ajax func to handel all call to php
 function phpRequest(funcName, arguments, usrName, passWrd) {
     return jQuery.ajax({
