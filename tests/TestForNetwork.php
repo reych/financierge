@@ -6,9 +6,9 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 	// tests if the user can login
 	function testLoginUser() {
 		$user = Network::loginUser("asdf", "asd");
-		$this->assertNull($user); 
+		$this->assertNull($user);
 		$user = Network::loginUser("test3", "t3");
-		$this->assertNotNull($user); 
+		$this->assertNotNull($user);
 		Network::logoutUser();
 	}
 
@@ -61,7 +61,7 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 	}
 
 	function testAddTransactionsToAccounts() {
-		
+
 		//set up data in required format using transaction objects
 		//there will be two transactions
 		$acntName = "Savings";
@@ -121,7 +121,6 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 		$this->assertNull($result);
 		Network::logoutUser();
 	}
-	
 
 	// tests if the user can delete an account
 	function testDeleteAccount(){
@@ -131,6 +130,31 @@ class NetworkClassTest extends PHPUnit_Framework_TestCase {
 		$result = Network::deleteAccount("asdf");
 		$this->assertNotTrue($result);
 		Network::logoutUser();
+	}
+
+	// tests adding transactions for a particular category
+	function testAddTransactionsToCategories(){
+		Network::addTransToCategories($transByCatagory);
+
+	}
+
+	// tests if the user has a budget set for a particular category and month
+	function testGetBudgetAmount(){
+		Network::getBudgetAmount($categoryName, $monthYear);
+
+	}
+
+	// tests if the user has transactions for a particular category
+	// within date a range
+	function testGetTransactionsForCategorytWithinDates(){
+		Network::getTransactionsForCategorytWithinDates($catName, $startDate, $endDate);
+
+	}
+
+	// tests if the user can set a new budget for a particular month and category
+	function testSetBudget(){
+		Network::setBudget($categoryName, $monthYear, $newBudget);
+
 	}
 }
 //phpunit --coverage-html report testForNetwork.php --whitelist ../model/Network.php

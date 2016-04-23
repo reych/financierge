@@ -211,7 +211,7 @@ class Network {
 		return false;
 	}
 
-	
+
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
 	static function getTransactionsForAccount($name) {
@@ -282,7 +282,6 @@ class Network {
 	// this function takes in an array that maps catagory names as keys to arrays
 	// of Transaction objects as values.
 	static function addTransToCategories($transByCatagory) {
-
 
 	}
 
