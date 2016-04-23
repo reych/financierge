@@ -211,12 +211,7 @@ class Network {
 		return false;
 	}
 
-	// this function takes in an array that maps catagory names as keys to arrays
-	// of Transaction objects as values.
-	static function addTransToCategories($transByCatagory) {
-
-
-	}
+	
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
 	static function getTransactionsForAccount($name) {
@@ -282,6 +277,13 @@ class Network {
 			echo $error->getMessage();
 		}
 		return NULL;
+	}
+
+	// this function takes in an array that maps catagory names as keys to arrays
+	// of Transaction objects as values.
+	static function addTransToCategories($transByCatagory) {
+
+
 	}
 
 	//returns the budget amount from the budget table by category name AND month/year
