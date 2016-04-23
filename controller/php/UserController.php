@@ -47,8 +47,8 @@ if ($funcName == "uploadCSV") {
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
 } else if ($funcName == "getBudgetInformation"){
-	$catName = $_GET["category_input"];
-	$month = $_GET["month_input"];
+	$catName = $_POST["category_input"];
+	$month = $_POST["month_input"];
 	getBudgetInformation($catName, $month);
 }
 
@@ -518,8 +518,8 @@ function getBudgetInformation($categoryName, $monthYear){
 	}
 
 	//get the first and last day of the month
-	$startDate = new DateTime("01/".$startDate);
-	//$endDate = 
+	$startDate = new DateTime("01/". $startDate);
+	$endDate = new DateTime("31/". $startDate);
 
 	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
 
