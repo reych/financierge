@@ -46,6 +46,10 @@ if ($funcName == "uploadCSV") {
     logout();
 } else if($funcName == "getBaseData") {
 	getBaseDataForGraph();
+} else if ($funcName == "getBudgetInformation"){
+	$catName = $_GET["category_input"];
+	$month = $_GET["month_input"];
+	getBudgetInformation($catName, $month);
 }
 
 // logs user into our Parse database. Accepts a username and password as strings
@@ -459,7 +463,6 @@ function calculateDailyValues($transactionsArray) {
 	return $compressedArray;
 }
 
-
 //compares two strings, returns the lesser of the two
 function returnLower($val1, $val2) {
 	$val = strcmp($val1, $val2);
@@ -480,5 +483,37 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 	}
 	$resultString .= PHP_EOL;
 	return $resultString;
+}
+
+
+function getBudgetInformation($categoryName, $monthYear){
+
+	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
+
+	//calculate date
+
+	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
+
+	$amountSpent = 0;
+	$success =  "FAIL";
+	if($transactions != NULL){
+		foreach ($transactions as $transaction) {
+			$isAsset = $transaction->get("isAsset");
+			$amount = $transaction->get("amount");
+
+			if($isAsset){
+				//check if it is negative or positive
+
+			} else {
+				//check if it is negative or positive
+
+			}
+		}
+		$success = "SUCCESS";
+	}
+
+
+	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
+	return $success;
 }
 ?>
