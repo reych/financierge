@@ -68,7 +68,7 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		/*
 		now test with a user that actually has an account
 		in the database: "christdv"
-		Expected succes on real name "Checking" and 
+		Expected succes on real name "Checking" and
 		failure on "asf"
 		*/
 		logout();
@@ -99,6 +99,20 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, "FALSE");
 	}
 
+	public function testGetBudgetInformation() {
+		login("edgarlug", "ed");
+		$result = getBudgetInformation("test", "2016/01");
+		$this->assertEquals($result, 0);
+
+		//make sure edgarlug has this budget object so it returns the amount 50
+		$result = getBudgetInformation("food", "2016/01");
+		$this->assertEquals($result, 50);
+	}
+
+	public function testSetBudget(){
+		setBudget("test", "2016/02", 100);
+		logout();
+	}
 }
 
 /*

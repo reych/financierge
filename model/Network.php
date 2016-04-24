@@ -114,7 +114,7 @@ class Network {
 		return false;
 	}
 
-	// Network::addTransactionToAccount(name: string, date: DateTime, principe: string, amount: number, category: string)
+	// Network::addTransactionToAccount(name: string, date: DateTime, principe: string, amount: number, category: string, isAsset: bool)
 	// returns true or false
 	static function addTransactionToAccount($name, $date, $principle, $amount, $category, $isAsset) {
 		try {
@@ -211,7 +211,7 @@ class Network {
 		return false;
 	}
 
-	
+
 	// Network::getTransactionsForAccount(name: string)
 	// returns array of Parse objects or NULL
 	static function getTransactionsForAccount($name) {
@@ -279,29 +279,79 @@ class Network {
 		return NULL;
 	}
 
-	// this function takes in an array that maps catagory names as keys to arrays
+	// this function takes in an array that maps category names as keys to arrays
 	// of Transaction objects as values.
-	static function addTransToCategories($transByCatagory) {
+	static function addTransactionsToCategories($transByCategory) {
+		try {
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
 
-
+				return true;
+			}
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+		}
+		return false;
 	}
 
 	//returns the budget amount from the budget table by category name AND month/year
 	//if the particular row is not in the table (database) return 0
-	static function getBudgetAmount($categoryName, $monthYear){
-
+	static function getAmountForBudget($categoryName, $monthYear) {
+		try {
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$budgets = $currentUser->get("budgets");
+				for ($i = 0; $i < count($budgets); $i++) {
+					$budgets[$i]->fetch();
+					if (strcmp($budgets[$i]->get("category"), $categoryName) == 0) {
+						$month = $budgets[$i]->get("month");
+						if ($month["mon"] == $monthYear["mon"] && $month["year"] == $monthYear["year"]) {
+							$amount = $budgets[$i]->get("amount");
+							return $amount;
+						}
+					}
+				}
+			}
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+		}
+		return 0;
 	}
 
 	//returns an array of transaction objects from the transactions_by_category table
 	//within the dates provided. If no transactions for the given categoryName or dates,
 	//return NULL
-	static function getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate){
-
+	static function getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate) {
+		try {
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				
+				return true;
+			}
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+		}
+		return false;
 	}
 
 	//creates new row in budget table with giving information
-	static function setBudget($categoryName, $monthYear, $newBudget) {
-
+	static function addBudget($categoryName, $monthYear, $newBudget) {
+		try {
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$budget = new ParseObject("Budget");
+				$budget->set("category", $categoryName);
+				$budget->set("month", $monthYear);
+				$budget->set("amount", $newBudget);
+				$budget->save();
+				$budgets = $currentUser->get("budgets");
+				$budgets[] = $budget;
+				$currentUser->set("budgets", $budgets);
+				return true;
+			}
+		} catch (ParseException $error) {
+			echo $error->getMessage();
+		}
+		return false;
 	}
-}
 ?>
