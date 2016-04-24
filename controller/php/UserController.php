@@ -167,7 +167,7 @@ function uploadCSV($fileName){
 
 		// array with keys of categories with values of arrays of
 		// transactions (assets and liabilities)
-		Network::addTransToCategories($transactionsByCategory);
+		Network::addTransactionsToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
