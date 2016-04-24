@@ -281,11 +281,24 @@ class Network {
 
 	// this function takes in an array that maps category names as keys to arrays
 	// of Transaction objects as values.
-	static function addTransactionsToCategories($transByCategory) {
+	static function addTransactionsToCategories($transactionsByCategory) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
-
+				$categories = $currentUser->get("categories");
+				foreach ($transactionsByCategory as $category => $transactions) {
+					if (array_key_exists($category, $categories)) {
+						$currentTransactions = $categories[$category];
+						for ($i = 0; $i < count($transactions); $i++) {
+							$currentTransactions[] = $transactions[$i];
+						}
+						$categories[$category] = $currentTransactions;
+					} else {
+						$categories[$category] = $transactions;
+					}
+				}
+				$currentUser->set("categories", $categories);
+				$currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -305,6 +318,8 @@ class Network {
 					$budgets[$i]->fetch();
 					if (strcmp($budgets[$i]->get("category"), $categoryName) == 0) {
 						$month = $budgets[$i]->get("month");
+						// $monthYear = getdate($monthYear);
+						// $month = getdate($month);  // uncomment if function does not work
 						if ($month["mon"] == $monthYear["mon"] && $month["year"] == $monthYear["year"]) {
 							$amount = $budgets[$i]->get("amount");
 							return $amount;
@@ -347,6 +362,7 @@ class Network {
 				$budgets = $currentUser->get("budgets");
 				$budgets[] = $budget;
 				$currentUser->set("budgets", $budgets);
+				$currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -354,4 +370,5 @@ class Network {
 		}
 		return false;
 	}
+}
 ?>
