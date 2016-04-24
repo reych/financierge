@@ -514,10 +514,10 @@ function getBudgetInformation($categoryName, $monthYear){
 	}
 
 	//get the first and last day of the month
-	$startDate = new DateTime($startDate . '-01');
-	$endDate = new DateTime($startDate . '-31');
+	$startDate = new DateTime($monthYear . '-01');
+	$endDate = new DateTime($monthYear . '-31');
 
-	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
+	$budgetAmount = Network::getAmountForBudget($categoryName, $monthYear);
 
 	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
@@ -544,6 +544,6 @@ function getBudgetInformation($categoryName, $monthYear){
 
 function setBudget($categoryName, $monthYear, $newBudget) {
 	$monthYear = new DateTime($monthYear . '-31');
-	Network::setBudget($categoryName, $monthYear, $newBudget);
+	Network::addBudget($categoryName, $monthYear, $newBudget);
 }
 ?>

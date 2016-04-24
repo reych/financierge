@@ -175,13 +175,13 @@ function getBudget() {
 
 
     var catName = document.getElementById('category-input').value;
-    var monhthYear = document.getElementById('month-input').value;
+    var monthYear = document.getElementById('month-input').value;
 
-    // var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
-    // var result = phpRequest('getBudgetInformation', arguments);
-    // var resultInArr = result.split('_');
+    var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
+    var result = phpRequest('getBudgetInformation', arguments);
+    var resultInArr = result.split('_');
 
-    var resultInArr = [100,100];
+    // var resultInArr = [100,100];
 
     if (resultInArr.length = 2) {
         document.getElementById('category').innerHTML = catName;
