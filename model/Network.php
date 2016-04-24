@@ -257,8 +257,8 @@ class Network {
 						}
 						// creates a transaction query for fetching transactions that match the criteria below
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $start);
-						$transactionQuery->lessThanOrEqualTo("date", $end);
+						$transactionQuery->greaterThanOrEqualTo("date", $end);
+						$transactionQuery->lessThanOrEqualTo("date", $start);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						// determines how the transactions should be sorted once fetched
 						$amt = strlen("amount");
@@ -348,8 +348,8 @@ class Network {
 							$transactionIDs[] = $transactions[$i]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $startDate);
-						$transactionQuery->lessThanOrEqualTo("date", $endDate);
+						$transactionQuery->greaterThanOrEqualTo("date", $endDate);
+						$transactionQuery->lessThanOrEqualTo("date", $startDate);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->descending("date");
 						$transactions = $transactionQuery->find();
