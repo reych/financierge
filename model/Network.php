@@ -405,7 +405,7 @@ class Network {
 					$budgets = array();
 				}
 				$budgets[] = $budget;
-				$currentUser->set("budgets", $budgets);
+				$currentUser->setArray("budgets", $budgets);
 				$currentUser->save();
 				return true;
 			}
