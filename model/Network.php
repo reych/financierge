@@ -290,7 +290,14 @@ class Network {
 					if (array_key_exists($category, $categories)) {
 						$currentTransactions = $categories[$category];
 						for ($i = 0; $i < count($transactions); $i++) {
-							$currentTransactions[] = $transactions[$i];
+							$transaction = new ParseObject("Transaction");
+							$transaction->set("date", $transactions[$i]->date);
+							$transaction->set("principle", $transactions[$i]->principle);
+							$transaction->set("amount", $transactions[$i]->amount);
+							$transaction->set("category", $transactions[$i]->category);
+							$transaction->set("isAnAsset", $transactions[$i]->isAsset);
+							$transaction->save();
+							$currentTransactions[] = $transaction;
 						}
 						$categories[$category] = $currentTransactions;
 					} else {
