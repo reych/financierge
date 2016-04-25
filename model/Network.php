@@ -287,7 +287,7 @@ class Network {
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				foreach ($transactionsByCategory as $category => $transactions) {
-					if (array_key_exists($category, $categories)) {
+					if (array_key_exists($category, $categories) && $categories) {
 						$currentTransactions = $categories[$category];
 						for ($i = 0; $i < count($transactions); $i++) {
 							$transaction = new ParseObject("Transaction");
@@ -304,7 +304,7 @@ class Network {
 						$categories[$category] = $transactions;
 					}
 				}
-				$currentUser->set("categories", $categories);
+				$currentUser->setAssociativeArray("categories", $categories);
 				$currentUser->save();
 				return true;
 			}
