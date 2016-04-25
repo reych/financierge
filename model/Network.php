@@ -201,7 +201,7 @@ class Network {
 							if (array_key_exists($ctgry, $transactionsByCategory)) {
 								// add it
 								array_push($transactionsByCategory[$ctgry], $transaction);
-								
+
 							} else {
 								$tempArr = array();
 
@@ -216,13 +216,13 @@ class Network {
 						// $actualAccount->setArray("transactions", $currentAccountTransactions);
 					}
 				}
-				
+
 
 				$currentUser->setArray("accounts", $accounts);
-				
-				// somewhere down here we need to go through the 
-				// array holding catagory names as keys and arrays 
-				// of parse transaction objects as values and add 
+
+				// somewhere down here we need to go through the
+				// array holding catagory names as keys and arrays
+				// of parse transaction objects as values and add
 				// them to the appropriate place in parse
 				Network::addTransactionsToCategories($transactionsByCategory);
 				$currentUser->save();
@@ -401,6 +401,9 @@ class Network {
 				$budget->set("amount", $newBudget);
 				$budget->save();
 				$budgets = $currentUser->get("budgets");
+				if($budgets == NULL){
+					$budgets = array();
+				}
 				$budgets[] = $budget;
 				$currentUser->set("budgets", $budgets);
 				$currentUser->save();
@@ -416,7 +419,5 @@ class Network {
 // Network::loginUser("christdv@usc.edu", "christdv");
 // $categories = array("Food"=>array("one", "two"), "Drinks"=>array("three", "four"));
 // Network::addTransactionsToCategories($categories);
-
-
 
 ?>
