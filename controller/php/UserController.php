@@ -518,7 +518,9 @@ function getBudgetInformation($categoryName, $monthYear){
 
 	//get the first and last day of the month
 	$startDate = new DateTime($monthYear . '-01');
-	$endDate = new DateTime($monthYear . '-31');
+	$endDate = clone $startDate;
+	$endDate->modify("+1 month");
+	$endDate->modify("-1 day");
 
 	$budgetAmount = Network::getAmountForBudget($categoryName, $monthYear);
 
