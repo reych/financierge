@@ -286,27 +286,29 @@ class Network {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
-				foreach ($transactionsByCategory as $category => $transactions) {
-					if (array_key_exists($category, $categories) && $categories) {
-						$currentTransactions = $categories[$category];
-						for ($i = 0; $i < count($transactions); $i++) {
-							$transaction = new ParseObject("Transaction");
-							$transaction->set("date", $transactions[$i]->date);
-							$transaction->set("principle", $transactions[$i]->principle);
-							$transaction->set("amount", $transactions[$i]->amount);
-							$transaction->set("category", $transactions[$i]->category);
-							$transaction->set("isAnAsset", $transactions[$i]->isAsset);
-							$transaction->save();
-							$currentTransactions[] = $transaction;
+				if ($categories) {
+					foreach ($transactionsByCategory as $category => $transactions) {
+						if (array_key_exists($category, $categories)) {
+							$currentTransactions = $categories[$category];
+							for ($i = 0; $i < count($transactions); $i++) {
+								$transaction = new ParseObject("Transaction");
+								$transaction->set("date", $transactions[$i]->date);
+								$transaction->set("principle", $transactions[$i]->principle);
+								$transaction->set("amount", $transactions[$i]->amount);
+								$transaction->set("category", $transactions[$i]->category);
+								$transaction->set("isAnAsset", $transactions[$i]->isAsset);
+								$transaction->save();
+								$currentTransactions[] = $transaction;
+							}
+							$categories[$category] = $currentTransactions;
+						} else {
+							$categories[$category] = $transactions;
 						}
-						$categories[$category] = $currentTransactions;
-					} else {
-						$categories[$category] = $transactions;
 					}
+					$currentUser->setArray("categories", $categories);
+					$currentUser->save();
+					return true;
 				}
-				$currentUser->setAssociativeArray("categories", $categories);
-				$currentUser->save();
-				return true;
 			}
 		} catch (ParseException $error) {
 			echo $error->getMessage();
