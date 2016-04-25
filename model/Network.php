@@ -219,11 +219,13 @@ class Network {
 				
 
 				$currentUser->setArray("accounts", $accounts);
-				$currentUser->save();
+				
 				// somewhere down here we need to go through the 
 				// array holding catagory names as keys and arrays 
 				// of parse transaction objects as values and add 
 				// them to the appropriate place in parse
+				Network::addTransactionsToCategories($transactionsByCategory);
+				$currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -315,11 +317,13 @@ class Network {
 						}
 						$categories[$category] = $currentTransactions;
 					} else {
+						$categories = array();
 						$categories[$category] = $transactions;
 					}
 				}
-				$currentUser->setAssociativeArray("categories", $categories);
-				$currentUser->save();
+
+				$currentUser->setArray("categories", $categories);
+				// $currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -409,9 +413,9 @@ class Network {
 	}
 }
 
-Network::loginUser("christdv@usc.edu", "christdv");
-$categories = array("Food"=>array("one", "two"), "Drinks"=>array("three", "four"));
-Network::addTransactionsToCategories($categories);
+// Network::loginUser("christdv@usc.edu", "christdv");
+// $categories = array("Food"=>array("one", "two"), "Drinks"=>array("three", "four"));
+// Network::addTransactionsToCategories($categories);
 
 
 

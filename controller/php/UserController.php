@@ -1,8 +1,8 @@
 <?php
-// include("/home/teamh/financierge/model/Network.php");
-// include("/home/teamh/financierge/model/vendor/autoload.php");
-include("../../model/Network.php");
-include("../../model/vendor/autoload.php");
+include("/home/teamh/financierge/model/Network.php");
+include("/home/teamh/financierge/model/vendor/autoload.php");
+// include("../../model/Network.php");
+// include("../../model/vendor/autoload.php");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -170,7 +170,7 @@ function uploadCSV($fileName){
 
 		// array with keys of categories with values of arrays of
 		// transactions (assets and liabilities)
-		Network::addTransactionsToCategories($transactionsByCategory);
+		// Network::addTransactionsToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';

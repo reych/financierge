@@ -87,7 +87,7 @@ function logInController() {
     // UserController throught phpRequest and save the login result string to
     // var result
     var result = phpRequest('login', '', usrName, passWrd);
-
+    
     // check content of result if success, redirect to index
     if (result == 'SUCCESS') {
         window.location = "index.html";
