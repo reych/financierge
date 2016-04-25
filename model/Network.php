@@ -393,19 +393,18 @@ class Network {
 	//creates new row in budget table with giving information
 	static function addBudget($categoryName, $monthYear, $newBudget) {
 		try {
+			// creates an account and saves it in the Account table on Parse
+			$budget = new ParseObject("Budget");
+			$budget->set("category", $categoryName);
+			$budget->set("month", $monthYear);
+			$budget->set("amount", $newBudget);
+			$budget->save();
+			// adds the account to the accounts array for the user and saves it in the User table on Parse
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
-				$budget = new ParseObject("Budget");
-				$budget->set("category", $categoryName);
-				$budget->set("month", $monthYear);
-				$budget->set("amount", $newBudget);
-				$budget->save();
 				$budgets = $currentUser->get("budgets");
-				if($budgets == NULL){
-					$budgets = array();
-				}
 				$budgets[] = $budget;
-				$currentUser->setArray("budgets", $budgets);
+				$currentUser->setArray("accounts", $budget);
 				$currentUser->save();
 				return true;
 			}
