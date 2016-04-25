@@ -151,7 +151,9 @@ class Network {
 
 	// take in an associative array with account names as keys and all transactions to be added to that particular account as an array as the value
 	static function addTransactionsToAccounts($newTransactions) {
-		
+
+		$transactionsByCategory = array();
+
 		try {
 
 			// add transaction to specified account in accounts array for current user and save it in User table
@@ -194,6 +196,19 @@ class Network {
 							$transaction->save();
 
 							$currentAccountTransactions[] = $transaction;
+
+							$ctgry = $newTransForAccount[$j]->category;
+							if (array_key_exists($ctgry, $transactionsByCategory)) {
+								// add it
+								array_push($transactionsByCategory[$ctgry], $transaction);
+								
+							} else {
+								$tempArr = array();
+
+								$transactionsByCategory[$ctgry] = $tempArr;
+								// add transaction to asset array
+								array_push($transactionsByCategory[$ctgry], $transaction);
+							}
 						}
 
 
@@ -201,8 +216,14 @@ class Network {
 						// $actualAccount->setArray("transactions", $currentAccountTransactions);
 					}
 				}
+				
+
 				$currentUser->setArray("accounts", $accounts);
 				$currentUser->save();
+				// somewhere down here we need to go through the 
+				// array holding catagory names as keys and arrays 
+				// of parse transaction objects as values and add 
+				// them to the appropriate place in parse
 				return true;
 			}
 		} catch (ParseException $error) {
