@@ -151,7 +151,7 @@ class Network {
 
 	// take in an associative array with account names as keys and all transactions to be added to that particular account as an array as the value
 	static function addTransactionsToAccounts($newTransactions) {
-
+		
 		try {
 
 			// add transaction to specified account in accounts array for current user and save it in User table

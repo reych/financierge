@@ -152,14 +152,17 @@ function uploadCSV($fileName){
 				}
 
 				// the category does not yet exist in our liability array
-				if (!array_key_exists($ctgry, $transactionsByCategory)) {
+				if (array_key_exists($ctgry, $transactionsByCategory)) {
 					// add it
+					array_push($transactionsByCategory[$ctgry], $newTrans);
+					
+				} else {
 					$tempArr = array();
 
 					$transactionsByCategory[$ctgry] = $tempArr;
+					// add transaction to asset array
+					array_push($transactionsByCategory[$ctgry], $newTrans);
 				}
-				// add transaction to asset array
-				array_push($transactionsByCategory[$ctgry], $newTrans);
 
 			}
 		}
