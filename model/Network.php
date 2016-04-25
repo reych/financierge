@@ -308,17 +308,10 @@ class Network {
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				foreach ($transactionsByCategory as $category => $transactions) {
-					if (array_key_exists($category, $categories) && $categories) {
+					if (array_key_exists($category, $categories)) {
 						$currentTransactions = $categories[$category];
 						for ($i = 0; $i < count($transactions); $i++) {
-							$transaction = new ParseObject("Transaction");
-							$transaction->set("date", $transactions[$i]->date);
-							$transaction->set("principle", $transactions[$i]->principle);
-							$transaction->set("amount", $transactions[$i]->amount);
-							$transaction->set("category", $transactions[$i]->category);
-							$transaction->set("isAnAsset", $transactions[$i]->isAsset);
-							$transaction->save();
-							$currentTransactions[] = $transaction;
+							$currentTransactions[] = $transactions[$i];
 						}
 						$categories[$category] = $currentTransactions;
 					} else {
@@ -415,4 +408,11 @@ class Network {
 		return false;
 	}
 }
+
+Network::loginUser("christdv@usc.edu", "christdv");
+$categories = array("Food"=>array("one", "two"), "Drinks"=>array("three", "four"));
+Network::addTransactionsToCategories($categories);
+
+
+
 ?>
