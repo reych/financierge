@@ -340,24 +340,20 @@ class Network {
 		// return 100;
 		try {
 			$currentUser = ParseUser::getCurrentUser();
-
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
 				// echo print_r($budgets) . "asdfasf ";
-				// echo count($budgets) . " ";
 				for ($i = 0; $i < count($budgets); $i++) {
 					$budgets[$i]->fetch();
 					if (strcmp($budgets[$i]->get("category"), $categoryName) == 0) {
-						// echo "cat equal \n";
 						$month = $budgets[$i]->get("month");
 
-						if ($month->format('Y-m') == $monthYear) {
+						if ($month->format('Y-m') == $monthYear->format('Y-m')) {
+
 							$amount = $budgets[$i]->get("amount");
 							// echo $amount;
 							return $amount;
 						}
-
-
 					}
 				}
 			}
