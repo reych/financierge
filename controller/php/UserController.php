@@ -436,6 +436,8 @@ function getBaseDataForGraph() {
 	$baseDataString = $formattedNetworth . $formattedAssets . $formattedLiabilities . $accountGraphData;
 
 	echo $baseDataString;
+	// writeToFile($transAssets, "assets");
+	// writeToFile($transLiabilities, "liabilities");
 	return "SUCCESS";
 }
 
@@ -526,6 +528,7 @@ function getBudgetInformation($categoryName, $monthYear){
 		$success = "SUCCESS";
 	}
 
+	// $amountSpent = getAmountSpent($categoryName, $monthYear);
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
 	return $success;
@@ -537,5 +540,49 @@ function setBudget($categoryName, $monthYear, $newBudget) {
 	$result = $monthYear->format('Y-m-d H:i:s');
 	// echo $categoryName." ".$result." ".$newBudget;
 	echo Network::addBudget($categoryName, $monthYear, floatval($newBudget));
+}
+
+function writeToFile($arrayToWrite, $typeInStr) {
+	$cacheStr = "";
+	foreach ($arrayToWrite as $trans) {
+		$cacheStr .= $typeInStr . "_" . $trans->get('date')->format("Y-m-d") . "_" . $trans->get("amount") . "_" . $trans->get("category") . "|";
+
+	}
+	file_put_contents("../../" . $typeInStr  . ".txt", $cacheStr);
+}
+
+function getAmountSpent($categoryName, $monthYear) {
+	$amountSpent = 0;
+
+	$cachedStr = file_get_contents("../../assets.txt");
+	$cachedTransArray = explode('|', $cachedStr);
+	$cachedStr = file_get_contents("../../liabilities.txt");
+	$cachedTransArray = array_merge($cachedTransArray, explode('|', $cachedStr));
+	foreach ($cachedTransArray as $cachedTrans) {
+	    $cachedTransInfoArray = explode('_', $cachedTrans);
+	    // assets_2016-03-28_-1_leisure
+	    // --0--  -----1---- 2- ---3---
+	    // echo $cachedTrans . "";
+	    // echo $cachedTransInfoArray[3] . " ";
+	    if (count($cachedTransInfoArray) > 1 && withInDateRange($cachedTransInfoArray[1], $monthYear) && $cachedTransInfoArray[3] == $categoryName) {
+	        if($cachedTransInfoArray[0] == "assets"){
+	            $amountSpent -= $cachedTransInfoArray[2];
+	        } else {
+	            $amountSpent += $cachedTransInfoArray[2];
+	        }
+	    }
+
+
+	}
+	// print_r($cachedTransArray);
+	return $amountSpent;
+
+
+}
+
+function withInDateRange($transTime, $desiredTime) {
+	 $transTime =  substr($transTime, 0, -3);
+	//  echo $transTime . " " . $desiredTime;
+	 return $transTime == $desiredTime;
 }
 ?>

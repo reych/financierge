@@ -4,3 +4,13 @@ resources/zhongyag_test.csv
 resources/zhongyag_lib_test.csv
 
 tests/report/**
+
+controller/php/cache.txt
+
+cache.txt
+
+assets.txt
+
+liabilities.txt
+
+test.php

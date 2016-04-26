@@ -187,7 +187,8 @@ function getBudget() {
     var resultInArr = result.split('_');
 
     // var resultInArr = [100,100];
-
+    resultInArr[0] = parseFloat(resultInArr[0]);
+    resultInArr[1] = parseFloat(resultInArr[1]);
     if (resultInArr.length == 2) {
         document.getElementById('category').innerHTML = catName;
         document.getElementById('amount-spent').innerHTML = resultInArr[1];
@@ -214,10 +215,10 @@ function setBudget() {
     var newBudget = document.getElementById('set-budget').value;
     document.getElementById('set-budget').value = "";
     var amountSpent = document.getElementById('amount-spent').innerHTML;
-
+    amountSpent = parseFloat(amountSpent);
     document.getElementById('budget').innerHTML = newBudget;
 
-
+    // alert(newBudget  + " " + amountSpent);
     if (newBudget > amountSpent + 10) {
         document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
         document.getElementById('budget').setAttribute("style", "color:#32CD32");
