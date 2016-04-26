@@ -292,9 +292,10 @@ class Network {
 							$transactionQuery->ascending($sort);
 						}
 						$transactions = $transactionQuery->find();
-						for ($i = 0; $i < count($transactions); $i++) {
-							echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d");
-						}
+						// UNCOMMENT THE LINES BELOW TO TEST
+						// for ($i = 0; $i < count($transactions); $i++) {
+						// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d") . "\n";
+						// }
 						return $transactions;
 					}
 				}
@@ -370,7 +371,6 @@ class Network {
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				foreach ($categories as $category => $transactions) {
-					// if (substr( $category, 0, count($categoryName )) === $categoryName) {
 					if (strcmp($category, $categoryName) == 0) {
 						$transactionIDs = [];
 						for ($i = 0; $i < count($transactions); $i++) {
@@ -419,8 +419,9 @@ class Network {
 	}
 }
 
+// UNCOMMENT THE LINES BELOW TO TEST
 // Network::loginUser("renachen@usc.edu", "rc");
-// $start = new DateTime("2016-03-01");
-// $end = new DateTime("2016-03-30");
+// $start = new DateTime("2016-02-01");
+// $end = new DateTime("2016-02-30");
 // $transactions = Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
 ?>
