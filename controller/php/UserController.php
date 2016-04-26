@@ -150,27 +150,9 @@ function uploadCSV($fileName){
 					// add this array to the array holding all transactions
 					$allNewTransactions[$acntName] = $tempArr;
 				}
-
-				// the category does not yet exist in our liability array
-				if (array_key_exists($ctgry, $transactionsByCategory)) {
-					// add it
-					array_push($transactionsByCategory[$ctgry], $newTrans);
-					
-				} else {
-					$tempArr = array();
-
-					$transactionsByCategory[$ctgry] = $tempArr;
-					// add transaction to asset array
-					array_push($transactionsByCategory[$ctgry], $newTrans);
-				}
-
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
-
-		// array with keys of categories with values of arrays of
-		// transactions (assets and liabilities)
-		// Network::addTransactionsToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
