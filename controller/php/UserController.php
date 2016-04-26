@@ -509,7 +509,7 @@ function getBudgetInformation($categoryName, $monthYear){
 	// echo $budgetAmount;
 	// return;
 
-	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
+	// $transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
 	$amountSpent = 0;
 	$success =  "FAIL";
