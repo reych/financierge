@@ -336,25 +336,32 @@ class Network {
 	//returns the budget amount from the budget table by category name AND month/year
 	//if the particular row is not in the table (database) return 0
 	static function getAmountForBudget($categoryName, $monthYear) {
+		// return 100;
 		try {
 			$currentUser = ParseUser::getCurrentUser();
+			
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
+				// echo print_r($budgets) . "asdfasf ";
+				// echo count($budgets) . " ";
 				for ($i = 0; $i < count($budgets); $i++) {
 					$budgets[$i]->fetch();
 					if (strcmp($budgets[$i]->get("category"), $categoryName) == 0) {
+						// echo "cat equal \n";
 						$month = $budgets[$i]->get("month");
-						// $monthYear = getdate($monthYear);
-						// $month = getdate($month);  // uncomment if function does not work
-						if ($month["mon"] == $monthYear["mon"] && $month["year"] == $monthYear["year"]) {
+						
+						if ($month->format('Y-m') == $monthYear) {
 							$amount = $budgets[$i]->get("amount");
+							// echo $amount;
 							return $amount;
 						}
+						
+
 					}
 				}
 			}
 		} catch (ParseException $error) {
-			echo $error->getMessage();
+			echo "error cauth: " . $error->getMessage();
 		}
 		return 0;
 	}
@@ -384,7 +391,7 @@ class Network {
 						// UNCOMMENT BELOW TO TEST
 						// echo $category . "\n";
 						// for ($i = 0; $i < count($transactions); $i++) {
-						// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d");
+						// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d") . "\n";
 						// }
 						return $transactions;
 					}
@@ -400,21 +407,39 @@ class Network {
 	//creates new row in budget table with giving information
 	static function addBudget($categoryName, $monthYear, $newBudget) {
 		try {
-			// creates an account and saves it in the Account table on Parse
-			$budget = new ParseObject("Budget");
-			$budget->set("category", $categoryName);
-			$budget->set("month", $monthYear);
-			$budget->set("amount", $newBudget);
-			$budget->save();
+
 			// adds the account to the accounts array for the user and saves it in the User table on Parse
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
+				// echo $categoryName . " " . $monthYear->format('Y-m') . " ";
 				$budgets = $currentUser->get("budgets");
+				// echo count($budgets) . " ";
+				// echo print_r($budgets);
+				if ($budgets) {
+					foreach ($budgets as $singleBudget) {
+						$singleBudget->fetch();
+						// echo $singleBudget->get("category") . " " . $singleBudget->get("month")->format('Y-m');
+						if (strcmp($singleBudget->get("category"), $categoryName) == 0) {
+							if ($singleBudget->get("month")->format('Y-m') == $monthYear->format('Y-m')) {
+								$singleBudget->set("amount", $newBudget);
+								$singleBudget->save();
+								return true;
+							}
+						}
+					}
+				}
+
+				$budget = new ParseObject("Budget");
+				$budget->set("category", $categoryName);
+				$budget->set("month", $monthYear);
+				$budget->set("amount", $newBudget);
+				$budget->save();
 				$budgets[] = $budget;
 				$currentUser->setArray("budgets", $budgets);
 				$currentUser->save();
-				return true;
+
 			}
+
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}

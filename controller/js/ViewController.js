@@ -87,7 +87,9 @@ function logInController() {
     // UserController throught phpRequest and save the login result string to
     // var result
     var result = phpRequest('login', '', usrName, passWrd);
-    
+
+    // alert(result);
+
     // check content of result if success, redirect to index
     if (result == 'SUCCESS') {
         window.location = "index.html";
@@ -179,6 +181,9 @@ function getBudget() {
 
     var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
     var result = phpRequest('getBudgetInformation', arguments);
+    
+    // alert(result);
+    // return;
     var resultInArr = result.split('_');
 
     // var resultInArr = [100,100];
@@ -211,7 +216,7 @@ function setBudget() {
     var amountSpent = document.getElementById('amount-spent').innerHTML;
 
     document.getElementById('budget').innerHTML = newBudget;
-   
+
 
     if (newBudget > amountSpent + 10) {
         document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
@@ -233,8 +238,8 @@ function setBudget() {
     var arguments = '&category_input=' + catName + '&month_input=' + monthYear + '&newBudget=' + newBudget;
 
 
-    phpRequest("setBudget", arguments); // var chumble = 
-    // alert(chumble);
+    var result = phpRequest("setBudget", arguments); // var chumble =
+    // document.getElementById('category').innerHTML = result;
 }
 
 // ajax func to handel all call to php
