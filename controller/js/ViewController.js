@@ -182,7 +182,7 @@ function getBudget() {
     var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
     var result = phpRequest('getBudgetInformation', arguments);
 
-    // alert(result);
+    //alert(result);
     // return;
     var resultInArr = result.split('_');
 

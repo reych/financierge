@@ -90,6 +90,7 @@ class Network {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$accounts = $currentUser->get("accounts");
+				$categories = $currentUser->get("categories");
 				for ($i = 0; $i < count($accounts); $i++) {
 					// must call fetch in order to convert the account from Parse pointer to Parse object
 					$accounts[$i]->fetch();
@@ -97,6 +98,8 @@ class Network {
 						$transactions = $accounts[$i]->get("transactions");
 						for ($k = 0; $k < count($transactions); $k++) {
 							// deletes each transaction for the account in the Transaction table on Parse
+							//$category = $transactions[$i]->get("category");
+
 							$transactions[$k]->destroy();
 						}
 						// deletes the account in the Account table on Parse
