@@ -163,7 +163,7 @@ class Network {
 
 				// for each account that the user has
 				for ($i = 0; $i < count($accounts); $i++) {
-					$accountQuery = new ParseQuery("Account");
+					//$accountQuery = new ParseQuery("Account");
 					// get the actual account (just had reference, not actual object)
 					// $actualAccount = $accountQuery->get($accounts[$i]);//->fetch();
 					$accounts[$i]->fetch();
@@ -219,7 +219,7 @@ class Network {
 				// of parse transaction objects as values and add
 				// them to the appropriate place in parse
 				Network::addTransactionsToCategories($transactionsByCategory);
-				$currentUser->save();
+				//$currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -303,30 +303,45 @@ class Network {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
-				foreach ($transactionsByCategory as $category => $transactions) {
-					if ($categories == NULL || count($categories) == 0) {
+				if ($categories == NULL || count($categories) == 0) {
+					echo "transactionsByCategory has " . count($transactionsByCategory) . " elements". "\n";
+					$categories = array();
+					foreach ($transactionsByCategory as $category => $transactions) {
+						echo $category;
 						$newCategory = new ParseObject("Category");
 						$newCategory->set("category", $category);
 						$newCategory->setArray("transactions", $transactions);
 						$newCategory->save();
-						$categories = array();
 						$categories[] = $newCategory;
-					} else {
+					}
+				} else {
+					foreach ($transactionsByCategory as $category => $transactions) {
 						for ($i = 0; $i < count($categories); $i++) {
-							$category[$i]->fetch();
+							$categories[$i]->fetch();
 							if (strcmp($categories[$i]->get("category"), $category) == 0) {
 								$currentTransactions = $categories[$i]->get("transactions");
+								//$transactions = $transactionsByCategory[$categoryName];
 								for ($k = 0; $k < count($transactions); $k++) {
 									$currentTransactions[] = $transactions[$k];
 								}
 								$categories[$i]->set("transactions", $currentTransactions);
+								unset($transactionsByCategory[$category]);
 							}
 						}
 					}
-					$currentUser->setArray("categories", $categories);
-					$currentUser->save();
-					return true;
+					if(count($transactionsByCategory) > 0){
+						foreach ($transactionsByCategory as $category => $transactions) {
+							$newCategory = new ParseObject("Category");
+							$newCategory->set("category", $category);
+							$newCategory->setArray("transactions", $transactions);
+							$newCategory->save();
+							$categories[] = $newCategory;
+						}
+					}
 				}
+				$currentUser->setArray("categories", $categories);
+				$currentUser->save();
+				return true;
 			}
 		} catch (ParseException $error) {
 			echo $error->getMessage();
@@ -393,12 +408,12 @@ class Network {
 						return $transactions;
 					}
 				}
-				return true;
+				//return true;
 			}
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
-		return false;
+		return NULL;
 	}
 
 	//creates new row in budget table with giving information
@@ -450,16 +465,16 @@ class Network {
 // $transaction1->set("date", new DateTime("2016-03-15"));
 // $transaction1->set("principle", "TEST 1");
 // $transaction1->set("amount", 1024);
-// $transaction1->set("category", "food");
+// $transaction1->set("category", "work");
 // $transaction1->set("isAnAsset", true);
 // $transaction2 = new ParseObject("Transaction");
 // $transaction2->set("date", new DateTime("2016-03-23"));
 // $transaction2->set("principle", "TEST 2");
 // $transaction2->set("amount", 1024);
-// $transaction2->set("category", "food");
+// $transaction2->set("category", "leisure");
 // $transaction2->set("isAnAsset", true);
 // $transaction3 = new ParseObject("Transaction");
-// $transaction3->set("date", new DateTime("2016-04-30"));
+// $transaction3->set("date", new DateTime("2016-03-26"));
 // $transaction3->set("principle", "TEST 3");
 // $transaction3->set("amount", 1024);
 // $transaction3->set("category", "food");
@@ -471,6 +486,8 @@ class Network {
 // $start = new DateTime("2016-03-01");
 // $end = new DateTime("2016-03-30");
 // Network::getTransactionsForCategoryWithinDates("food", $start, $end);
+// Network::getTransactionsForCategoryWithinDates("work", $start, $end);
+// Network::getTransactionsForCategoryWithinDates("leisure", $start, $end);
 // Network::logoutUser();
 
 // Network::loginUser("renachen@usc.edu", "rc");

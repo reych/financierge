@@ -1,8 +1,8 @@
 <?php
-include("/home/teamh/financierge/model/Network.php");
-include("/home/teamh/financierge/model/vendor/autoload.php");
-// include("../../model/Network.php");
-// include("../../model/vendor/autoload.php");
+// include("/home/teamh/financierge/model/Network.php");
+// include("/home/teamh/financierge/model/vendor/autoload.php");
+include("../../model/Network.php");
+include("../../model/vendor/autoload.php");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -257,7 +257,6 @@ function userLoggedIn() {
 	}
 }
 
-
 // will return nothing if the acocunt doesn't have any transactions.
 // $acctName takes a string as the account name and the $acctTrans
 // takes an array of Parse transaction objects associated with the
@@ -509,7 +508,7 @@ function getBudgetInformation($categoryName, $monthYear){
 	// echo $budgetAmount;
 	// return;
 
-	// $transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
+	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
 	$amountSpent = 0;
 	$success =  "FAIL";
