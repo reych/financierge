@@ -199,13 +199,13 @@ class Network {
 							$ctgry = $newTransForAccount[$j]->category;
 							if (array_key_exists($ctgry, $transactionsByCategory)) {
 								// add it
-								$transactionsByCategory[$ctgry] = $transaction;
+								array_push($transactionsByCategory[$ctgry], $transaction);
 
 							} else {
 
 								$transactionsByCategory[$ctgry] = array();
 								// add transaction to asset array
-								$transactionsByCategory[$ctgry] = $transaction;
+								array_push($transactionsByCategory[$ctgry], $transaction);
 							}
 						}
 
@@ -213,10 +213,7 @@ class Network {
 						// $actualAccount->setArray("transactions", $currentAccountTransactions);
 					}
 				}
-
-
 				$currentUser->setArray("accounts", $accounts);
-
 				// somewhere down here we need to go through the
 				// array holding catagory names as keys and arrays
 				// of parse transaction objects as values and add
@@ -306,28 +303,31 @@ class Network {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
-				if (!isset($categories)) {
-					$currentUser->setAssociativeArray("categories", $transactionsByCategory);
-				} else {
-					foreach ($transactionsByCategory as $category => $transactions) {
-						if (array_key_exists($category, $categories)) {
-							$currentTransactions = $categories[$category];
-							for ($i = 0; $i < count($transactions); $i++) {
-								$currentTransactions[] = $transactions[$i];
+				foreach ($transactionsByCategory as $category => $transactions) {
+					if ($categories == NULL || count($categories) == 0) {
+						$newCategory = new ParseObject("Category");
+						$newCategory->set("category", $category); 
+						$newCategory->setArray("transactions", $transactions); 
+						$newCategory->save();
+						$categories = array();
+						$categories[] = $newCategory;
+					} else {
+						for ($i = 0; $i < count($categories); $i++) {
+							if (strcmp($categories[$i]->get("category"), $category) == 0) {
+								$currentTransactions = $categories[$i]->get("transactions");
+								for ($k = 0; $k < count($transactions); $k++) {
+									$currentTransactions[] = $transactions[$k];
+								}
+								$categories[$i]->set("transactions", $currentTransactions);
 							}
-							$categories[$category] = $currentTransactions;
-						} else {
-							$categories = array();
-							$categories[$category] = $transactions;
 						}
 					}
-					$currentUser->setAssociativeArray("categories", $categories);
+					$currentUser->setArray("categories", $categories);
+					$currentUser->save();
+					return true;
 				}
-				//$currentUser->save();
-				return true;
 			}
 		} catch (ParseException $error) {
-			echo "hello";
 			echo $error->getMessage();
 		}
 		return false;
@@ -362,16 +362,18 @@ class Network {
 	//returns an array of transaction objects from the transactions_by_category table
 	//within the dates provided. If no transactions for the given categoryName or dates,
 	//return NULL
-	static function getTransactionsForCategoryWithinDates($name, $start, $end) {
+	static function getTransactionsForCategoryWithinDates($category, $start, $end) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
-				foreach ($categories as $category => $transactions) {
-					if (strcmp($category, $name) == 0) {
+				for ($i = 0; $i < count($categories); $i++) {
+					$categories[$i]->fetch();
+					$transactions = $categories[$i]->get("transactions");
+					if (strcmp($categories[$i]->get("category"), $category) == 0) {
 						$transactionIDs = [];
-						for ($i = 0; $i < count($transactions); $i++) {
-							$transactionIDs[] = $transactions[$i]->getObjectId();
+						for ($k = 0; $k < count($transactions); $k++) {
+							$transactionIDs[] = $transactions[$k]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
 						$transactionQuery->greaterThanOrEqualTo("date", $start);
@@ -380,10 +382,10 @@ class Network {
 						$transactionQuery->descending("date");
 						$transactions = $transactionQuery->find();
 						// UNCOMMENT BELOW TO TEST
-						echo $category . "\n";
-						for ($i = 0; $i < count($transactions); $i++) {
-							echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d");
-						}
+						// echo $category . "\n";
+						// for ($i = 0; $i < count($transactions); $i++) {
+						// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d");
+						// }
 						return $transactions;
 					}
 				}
@@ -421,32 +423,33 @@ class Network {
 }
 
 // UNCOMMENT THE LINES BELOW TO TEST
-Network::loginUser("christdv@usc.edu", "christdv");
-$transaction1 = new ParseObject("Transaction");
-$transaction1->set("date", new DateTime("2016-03-30"));
-$transaction1->set("principle", "TEST 1");
-$transaction1->set("amount", 1024);
-$transaction1->set("category", "food");
-$transaction1->set("isAnAsset", true);
-$transaction2 = new ParseObject("Transaction");
-$transaction2->set("date", new DateTime("2016-02-30"));
-$transaction2->set("principle", "TEST 2");
-$transaction2->set("amount", 1024);
-$transaction2->set("category", "food");
-$transaction2->set("isAnAsset", true);
-$transaction3 = new ParseObject("Transaction");
-$transaction3->set("date", new DateTime("2016-04-30"));
-$transaction3->set("principle", "TEST 3");
-$transaction3->set("amount", 1024);
-$transaction3->set("category", "food");
-$transaction3->set("isAnAsset", true);
-$trans = array($transaction1, $transaction2, $transaction3);
-$arr = array("Checkinggggg" => $trans);
-Network::addTransactionsToAccounts($arr);
-$start = new DateTime("2016-02-01");
-$end = new DateTime("2016-02-30");
-Network::getTransactionsForCategoryWithinDates("food", $start, $end);
-Network::logoutUser();
+// Network::loginUser("christdv@usc.edu", "christdv");
+// $transaction1 = new ParseObject("Transaction");
+// $transaction1->set("date", new DateTime("2016-03-15"));
+// $transaction1->set("principle", "TEST 1");
+// $transaction1->set("amount", 1024);
+// $transaction1->set("category", "food");
+// $transaction1->set("isAnAsset", true);
+// $transaction2 = new ParseObject("Transaction");
+// $transaction2->set("date", new DateTime("2016-03-23"));
+// $transaction2->set("principle", "TEST 2");
+// $transaction2->set("amount", 1024);
+// $transaction2->set("category", "food");
+// $transaction2->set("isAnAsset", true);
+// $transaction3 = new ParseObject("Transaction");
+// $transaction3->set("date", new DateTime("2016-04-30"));
+// $transaction3->set("principle", "TEST 3");
+// $transaction3->set("amount", 1024);
+// $transaction3->set("category", "food");
+// $transaction3->set("isAnAsset", true);
+// $trans = array($transaction1, $transaction2, $transaction3);
+// $arr = array("Checkinggggg" => $trans);
+// //Network::addAccount("Checkinggggg", true);
+// //Network::addTransactionsToAccounts($arr);
+// $start = new DateTime("2016-03-01");
+// $end = new DateTime("2016-03-30");
+// Network::getTransactionsForCategoryWithinDates("food", $start, $end);
+// Network::logoutUser();
 
 // Network::loginUser("renachen@usc.edu", "rc");
 // $start = new DateTime("2016-02-01");
