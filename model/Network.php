@@ -292,10 +292,6 @@ class Network {
 							$transactionQuery->ascending($sort);
 						}
 						$transactions = $transactionQuery->find();
-						// UNCOMMENT THE LINES BELOW TO TEST
-						// for ($i = 0; $i < count($transactions); $i++) {
-						// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d") . "\n";
-						// }
 						return $transactions;
 					}
 				}
@@ -313,21 +309,24 @@ class Network {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
-				foreach ($transactionsByCategory as $category => $transactions) {
-					if (array_key_exists($category, $categories)) {
-						$currentTransactions = $categories[$category];
-						for ($i = 0; $i < count($transactions); $i++) {
-							$currentTransactions[] = $transactions[$i];
+				if (!isset($categories)) {
+					$currentUser->setAssociativeArray("categories", $transactionsByCategory);
+				} else {
+					foreach ($transactionsByCategory as $category => $transactions) {
+						if (array_key_exists($category, $categories)) {
+							$currentTransactions = $categories[$category];
+							for ($i = 0; $i < count($transactions); $i++) {
+								$currentTransactions[] = $transactions[$i];
+							}
+							$categories[$category] = $currentTransactions;
+						} else {
+							$categories = array();
+							$categories[$category] = $transactions;
 						}
-						$categories[$category] = $currentTransactions;
-					} else {
-						$categories = array();
-						$categories[$category] = $transactions;
 					}
+					$currentUser->setAssociativeArray("categories", $categories);
 				}
-
-				$currentUser->setArray("categories", $categories);
-				// $currentUser->save();
+				$currentUser->save();
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -365,27 +364,26 @@ class Network {
 	//returns an array of transaction objects from the transactions_by_category table
 	//within the dates provided. If no transactions for the given categoryName or dates,
 	//return NULL
-	static function getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate) {
+	static function getTransactionsForCategoryWithinDates($name, $start, $end) {
 		try {
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				foreach ($categories as $category => $transactions) {
-					if (strcmp($category, $categoryName) == 0) {
+					if (strcmp($category, $name) == 0) {
 						$transactionIDs = [];
 						for ($i = 0; $i < count($transactions); $i++) {
 							$transactionIDs[] = $transactions[$i]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $startDate);
-						$transactionQuery->lessThanOrEqualTo("date", $endDate);
+						$transactionQuery->greaterThanOrEqualTo("date", $start);
+						$transactionQuery->lessThanOrEqualTo("date", $end);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->descending("date");
 						$transactions = $transactionQuery->find();
 						return $transactions;
 					}
 				}
-
 				return true;
 			}
 		} catch (ParseException $error) {
@@ -423,5 +421,9 @@ class Network {
 // Network::loginUser("renachen@usc.edu", "rc");
 // $start = new DateTime("2016-02-01");
 // $end = new DateTime("2016-02-30");
-// $transactions = Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
+// //$transactions = Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
+// $transactions = Network::getTransactionsForCategoryWithinDates("food", $start, $end);
+// for ($i = 0; $i < count($transactions); $i++) {
+// 	echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d") . "\n";
+// }
 ?>
