@@ -548,16 +548,21 @@ function writeToFile($arrayToWrite, $typeInStr) {
 		$cacheStr .= $typeInStr . "_" . $trans->get('date')->format("Y-m-d") . "_" . $trans->get("amount") . "_" . $trans->get("category") . "|";
 
 	}
-	file_put_contents("../../" . $typeInStr  . ".txt", $cacheStr);
+	$pass = 'guessmyPW';
+	$method = 'aes256';
+	file_put_contents("../../" . $typeInStr  . ".txt", openssl_encrypt($cacheStr, $method, $pass));
 }
 
 function getAmountSpent($categoryName, $monthYear) {
 	$amountSpent = 0;
 
+	$pass = 'guessmyPW';
+	$method = 'aes256';
+
 	$cachedStr = file_get_contents("../../assets.txt");
-	$cachedTransArray = explode('|', $cachedStr);
+	$cachedTransArray = explode('|', openssl_decrypt($cachedStr, $method, $pass));
 	$cachedStr = file_get_contents("../../liabilities.txt");
-	$cachedTransArray = array_merge($cachedTransArray, explode('|', $cachedStr));
+	$cachedTransArray = array_merge($cachedTransArray, explode('|', openssl_decrypt($cachedStr, $method, $pass)));
 	foreach ($cachedTransArray as $cachedTrans) {
 	    $cachedTransInfoArray = explode('_', $cachedTrans);
 	    // assets_2016-03-28_-1_leisure
