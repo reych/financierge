@@ -335,8 +335,24 @@ class Network {
 	//returns the budget amount from the budget table by category name AND month/year
 	//if the particular row is not in the table (database) return 0
 	static function getAmountForBudget($categoryName, $monthYear) {
+		// return 100;
 		try {
 			$currentUser = ParseUser::getCurrentUser();
+			// $budgets = $currentUser->get("budgets");
+			// $budgetIDs = [];
+			// foreach ($budgets as $budget) {
+			// 	$budgetIDs[] = $budget->getObjectId();
+			// }
+			// $budgetQuery = new ParseQuery("Budget");
+			// $budgetQuery->equalTo("month", $monthYear);
+			// $budgetQuery->containedIn("objectID", $budgetIDs);
+			// $budget = $budgetQuery->find();
+			// //$val = $budget[0]->get("amount");
+			// if ($budget) {
+
+			// 	return 150;//$val;
+			// }
+			// return 0;
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
 				for ($i = 0; $i < count($budgets); $i++) {
@@ -394,6 +410,30 @@ class Network {
 	//creates new row in budget table with giving information
 	static function addBudget($categoryName, $monthYear, $newBudget) {
 		try {
+
+			//find out if this category/date combination exists for a budget in parse
+			// if it does, set it's new amount.
+			$inputDateString = date_format($monthYear, 'Y-m-d');
+			$currentUser = ParseUser::getCurrentUser();
+			if ($currentUser) {
+				$budgets = $currentUser->get("budgets");
+				for ($i = 0; $i < count($budgets); $i++) {
+					$budgets[$i]->fetch();
+					$date = $budgets[$i]->get("month");
+					$name = $budgets[$i]->get("category");
+					
+					$thisDateString = date_format($date, 'Y-m-d');
+					if (substr($categoryName, 0, strlen($name)) === $name 
+						&& substr($inputDateString, 0, strlen($thisDateString)) === $thisDateString) {
+
+						$budgets[$i]->set("amount", $newBudget);
+						$currentUser->save();
+						return true;
+					}
+				}
+			}
+			// if it doesn't, do what's below:
+
 			// creates an account and saves it in the Account table on Parse
 			$budget = new ParseObject("Budget");
 			$budget->set("category", $categoryName);
@@ -401,7 +441,6 @@ class Network {
 			$budget->set("amount", $newBudget);
 			$budget->save();
 			// adds the account to the accounts array for the user and saves it in the User table on Parse
-			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
 				$budgets[] = $budget;
@@ -409,6 +448,7 @@ class Network {
 				$currentUser->save();
 				return true;
 			}
+
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}

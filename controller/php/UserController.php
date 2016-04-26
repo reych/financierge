@@ -504,8 +504,10 @@ function getBudgetInformation($categoryName, $monthYear){
 	$endDate->modify("+1 month");
 	$endDate->modify("-1 day");
 
-	$budgetAmount = Network::getAmountForBudget($categoryName, $monthYear);
+	$budgetAmount = Network::getAmountForBudget($categoryName, $startDate);
 
+	// echo $budgetAmount;
+	// return;
 	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
 	$amountSpent = 0;
