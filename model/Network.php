@@ -426,7 +426,7 @@ class Network {
 				if ($budgets) {
 					foreach ($budgets as $singleBudget) {
 						$singleBudget->fetch();
-						echo $singleBudget->get("category") . " " . $singleBudget->get("month")->format('Y-m');
+						// echo $singleBudget->get("category") . " " . $singleBudget->get("month")->format('Y-m');
 						if (strcmp($singleBudget->get("category"), $categoryName) == 0) {
 							if ($singleBudget->get("month")->format('Y-m') == $monthYear->format('Y-m')) {
 								$singleBudget->set("amount", $newBudget);
@@ -455,32 +455,32 @@ class Network {
 }
 
 // UNCOMMENT THE LINES BELOW TO TEST
-Network::loginUser("christdv@usc.edu", "christdv");
-$transaction1 = new ParseObject("Transaction");
-$transaction1->set("date", new DateTime("2016-03-30"));
-$transaction1->set("principle", "TEST 1");
-$transaction1->set("amount", 1024);
-$transaction1->set("category", "food");
-$transaction1->set("isAnAsset", true);
-$transaction2 = new ParseObject("Transaction");
-$transaction2->set("date", new DateTime("2016-02-30"));
-$transaction2->set("principle", "TEST 2");
-$transaction2->set("amount", 1024);
-$transaction2->set("category", "food");
-$transaction2->set("isAnAsset", true);
-$transaction3 = new ParseObject("Transaction");
-$transaction3->set("date", new DateTime("2016-04-30"));
-$transaction3->set("principle", "TEST 3");
-$transaction3->set("amount", 1024);
-$transaction3->set("category", "food");
-$transaction3->set("isAnAsset", true);
-$trans = array($transaction1, $transaction2, $transaction3);
-$arr = array("Checkinggggg" => $trans);
-Network::addTransactionsToAccounts($arr);
-$start = new DateTime("2016-02-01");
-$end = new DateTime("2016-02-30");
-Network::getTransactionsForCategoryWithinDates("food", $start, $end);
-Network::logoutUser();
+// Network::loginUser("christdv@usc.edu", "christdv");
+// $transaction1 = new ParseObject("Transaction");
+// $transaction1->set("date", new DateTime("2016-03-30"));
+// $transaction1->set("principle", "TEST 1");
+// $transaction1->set("amount", 1024);
+// $transaction1->set("category", "food");
+// $transaction1->set("isAnAsset", true);
+// $transaction2 = new ParseObject("Transaction");
+// $transaction2->set("date", new DateTime("2016-02-30"));
+// $transaction2->set("principle", "TEST 2");
+// $transaction2->set("amount", 1024);
+// $transaction2->set("category", "food");
+// $transaction2->set("isAnAsset", true);
+// $transaction3 = new ParseObject("Transaction");
+// $transaction3->set("date", new DateTime("2016-04-30"));
+// $transaction3->set("principle", "TEST 3");
+// $transaction3->set("amount", 1024);
+// $transaction3->set("category", "food");
+// $transaction3->set("isAnAsset", true);
+// $trans = array($transaction1, $transaction2, $transaction3);
+// $arr = array("Checkinggggg" => $trans);
+// Network::addTransactionsToAccounts($arr);
+// $start = new DateTime("2016-02-01");
+// $end = new DateTime("2016-02-30");
+// Network::getTransactionsForCategoryWithinDates("food", $start, $end);
+// Network::logoutUser();
 
 // Network::loginUser("renachen@usc.edu", "rc");
 // $start = new DateTime("2016-02-01");

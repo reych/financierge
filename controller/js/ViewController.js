@@ -88,6 +88,8 @@ function logInController() {
     // var result
     var result = phpRequest('login', '', usrName, passWrd);
 
+    // alert(result);
+
     // check content of result if success, redirect to index
     if (result == 'SUCCESS') {
         window.location = "index.html";
