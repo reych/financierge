@@ -506,23 +506,26 @@ function getBudgetInformation($categoryName, $monthYear){
 
 	$budgetAmount = Network::getAmountForBudget($categoryName, $monthYear);
 
+	// echo $budgetAmount;
+	// return;
+
 	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
 
 	$amountSpent = 0;
 	$success =  "FAIL";
-	if ($transactions != NULL) {
-		foreach ($transactions as $transaction) {
-			$isAsset = $transaction->get("isAsset");
-			$amount = floatval($transaction->get("amount"));
-
-			if($isAsset){
-				$amountSpent -= $amount;
-			} else {
-				$amountSpent += $amount;
-			}
-		}
-		$success = "SUCCESS";
-	}
+	// if ($transactions != NULL) {
+	// 	foreach ($transactions as $transaction) {
+	// 		$isAsset = $transaction->get("isAsset");
+	// 		$amount = floatval($transaction->get("amount"));
+	//
+	// 		if($isAsset){
+	// 			$amountSpent -= $amount;
+	// 		} else {
+	// 			$amountSpent += $amount;
+	// 		}
+	// 	}
+	// 	$success = "SUCCESS";
+	// }
 
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
@@ -534,6 +537,6 @@ function setBudget($categoryName, $monthYear, $newBudget) {
 	$monthYear = new DateTime($monthYear . '-01');
 	$result = $monthYear->format('Y-m-d H:i:s');
 	// echo $categoryName." ".$result." ".$newBudget;
-	Network::addBudget($categoryName, $monthYear, floatval($newBudget));
+	echo Network::addBudget($categoryName, $monthYear, floatval($newBudget));
 }
 ?>
