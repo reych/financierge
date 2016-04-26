@@ -367,6 +367,7 @@ class Network {
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				foreach ($categories as $category => $transactions) {
+					// if (substr( $category, 0, count($categoryName )) === $categoryName) {
 					if (strcmp($category, $categoryName) == 0) {
 						$transactionIDs = [];
 						for ($i = 0; $i < count($transactions); $i++) {
@@ -394,18 +395,17 @@ class Network {
 	static function addBudget($categoryName, $monthYear, $newBudget) {
 		try {
 			// creates an account and saves it in the Account table on Parse
-			$time = new DateTime($monthYear);
 			$budget = new ParseObject("Budget");
 			$budget->set("category", $categoryName);
-			$budget->set("month", $time);
-			$budget->set("amount", floatval($newBudget));
+			$budget->set("month", $monthYear);
+			$budget->set("amount", $newBudget);
 			$budget->save();
 			// adds the account to the accounts array for the user and saves it in the User table on Parse
 			$currentUser = ParseUser::getCurrentUser();
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
 				$budgets[] = $budget;
-				$currentUser->setArray("accounts", $budgets);
+				$currentUser->setArray("budgets", $budgets);
 				$currentUser->save();
 				return true;
 			}

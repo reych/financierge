@@ -513,7 +513,7 @@ function getBudgetInformation($categoryName, $monthYear){
 	if ($transactions != NULL) {
 		foreach ($transactions as $transaction) {
 			$isAsset = $transaction->get("isAsset");
-			$amount = $transaction->get("amount");
+			$amount = floatval($transaction->get("amount"));
 
 			if($isAsset){
 				$amountSpent -= $amount;
@@ -530,8 +530,10 @@ function getBudgetInformation($categoryName, $monthYear){
 }
 
 function setBudget($categoryName, $monthYear, $newBudget) {
-	echo $categoryName." ".$monthYear." ".$newBudget;
+
 	$monthYear = new DateTime($monthYear . '-01');
-	Network::addBudget($categoryName, $monthYear, $newBudget);
+	$result = $monthYear->format('Y-m-d H:i:s');
+	// echo $categoryName." ".$result." ".$newBudget;
+	Network::addBudget($categoryName, $monthYear, floatval($newBudget));
 }
 ?>

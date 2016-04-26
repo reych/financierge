@@ -233,8 +233,8 @@ function setBudget() {
     var arguments = '&category_input=' + catName + '&month_input=' + monthYear + '&newBudget=' + newBudget;
 
 
-    var chumble = phpRequest("setBudget", arguments);
-    alert(chumble);
+    phpRequest("setBudget", arguments); // var chumble = 
+    // alert(chumble);
 }
 
 // ajax func to handel all call to php
