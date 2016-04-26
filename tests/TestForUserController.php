@@ -135,11 +135,11 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetBudget(){
-		setBudget("test", "2016-01", 50);
+		setBudget("food", "2016-03", 50);
 	}
 
 	public function testGetBudgetAfterSet(){
-		$result = getBudgetInformation("test", "2016-01");
+		$result = getBudgetInformation("food", "2016-03");
 		$this->assertEquals($result, "SUCCESS");
 	}
 

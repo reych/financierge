@@ -1,8 +1,8 @@
 <?php
-// include("/home/teamh/financierge/model/Network.php");
-// include("/home/teamh/financierge/model/vendor/autoload.php");
-include("../../model/Network.php");
-include("../../model/vendor/autoload.php");
+include("/home/teamh/financierge/model/Network.php");
+include("/home/teamh/financierge/model/vendor/autoload.php");
+// include("../../model/Network.php");
+// include("../../model/vendor/autoload.php");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -496,10 +496,6 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 function getBudgetInformation($categoryName, $monthYear){
 
 	$success =  "FAIL";
-	if ($monthYear == NULL || $monthYear == "") {
-		return $success;
-	}
-
 	//get the first and last day of the month
 	$startDate = new DateTime($monthYear . '-01');
 	$endDate = clone $startDate;
@@ -542,6 +538,7 @@ function setBudget($categoryName, $monthYear, $newBudget) {
 	echo Network::addBudget($categoryName, $monthYear, floatval($newBudget));
 }
 
+/*
 function writeToFile($arrayToWrite, $typeInStr) {
 	$cacheStr = "";
 	foreach ($arrayToWrite as $trans) {
@@ -590,4 +587,5 @@ function withInDateRange($transTime, $desiredTime) {
 	//  echo $transTime . " " . $desiredTime;
 	 return $transTime == $desiredTime;
 }
+*/
 ?>

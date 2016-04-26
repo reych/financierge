@@ -309,7 +309,7 @@ class Network {
 			if ($currentUser) {
 				$categories = $currentUser->get("categories");
 				if ($categories == NULL || count($categories) == 0) {
-					echo "transactionsByCategory has " . count($transactionsByCategory) . " elements". "\n";
+					// echo "transactionsByCategory has " . count($transactionsByCategory) . " elements". "\n";
 					$categories = array();
 					foreach ($transactionsByCategory as $category => $transactions) {
 						echo $category;
@@ -329,7 +329,7 @@ class Network {
 								for ($k = 0; $k < count($transactions); $k++) {
 									$currentTransactions[] = $transactions[$k];
 								}
-								$categories[$i]->set("transactions", $currentTransactions);
+								$categories[$i]->setArray("transactions", $currentTransactions);
 								unset($transactionsByCategory[$category]);
 							}
 						}
