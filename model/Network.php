@@ -280,8 +280,8 @@ class Network {
 						}
 						// creates a transaction query for fetching transactions that match the criteria below
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $end);
-						$transactionQuery->lessThanOrEqualTo("date", $start);
+						$transactionQuery->greaterThanOrEqualTo("date", $start);
+						$transactionQuery->lessThanOrEqualTo("date", $end);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						// determines how the transactions should be sorted once fetched
 						$amt = strlen("amount");
@@ -292,6 +292,9 @@ class Network {
 							$transactionQuery->ascending($sort);
 						}
 						$transactions = $transactionQuery->find();
+						for ($i = 0; $i < count($transactions); $i++) {
+							echo $transactions[$i]->get("principle") . " -> " . $transactions[$i]->get("date")->format("Y-m-d");
+						}
 						return $transactions;
 					}
 				}
@@ -374,8 +377,8 @@ class Network {
 							$transactionIDs[] = $transactions[$i]->getObjectId();
 						}
 						$transactionQuery = new ParseQuery("Transaction");
-						$transactionQuery->greaterThanOrEqualTo("date", $endDate);
-						$transactionQuery->lessThanOrEqualTo("date", $startDate);
+						$transactionQuery->greaterThanOrEqualTo("date", $startDate);
+						$transactionQuery->lessThanOrEqualTo("date", $endDate);
 						$transactionQuery->containedIn("objectId", $transactionIDs);
 						$transactionQuery->descending("date");
 						$transactions = $transactionQuery->find();
@@ -416,8 +419,8 @@ class Network {
 	}
 }
 
-// Network::loginUser("christdv@usc.edu", "christdv");
-// $categories = array("Food"=>array("one", "two"), "Drinks"=>array("three", "four"));
-// Network::addTransactionsToCategories($categories);
-
+// Network::loginUser("renachen@usc.edu", "rc");
+// $start = new DateTime("2016-03-01");
+// $end = new DateTime("2016-03-30");
+// $transactions = Network::getTransactionsForAccountWithinDates("Checking", $start, $end, "date");
 ?>
