@@ -306,13 +306,14 @@ class Network {
 				foreach ($transactionsByCategory as $category => $transactions) {
 					if ($categories == NULL || count($categories) == 0) {
 						$newCategory = new ParseObject("Category");
-						$newCategory->set("category", $category); 
-						$newCategory->setArray("transactions", $transactions); 
+						$newCategory->set("category", $category);
+						$newCategory->setArray("transactions", $transactions);
 						$newCategory->save();
 						$categories = array();
 						$categories[] = $newCategory;
 					} else {
 						for ($i = 0; $i < count($categories); $i++) {
+							$category[$i]->fetch();
 							if (strcmp($categories[$i]->get("category"), $category) == 0) {
 								$currentTransactions = $categories[$i]->get("transactions");
 								for ($k = 0; $k < count($transactions); $k++) {
@@ -339,7 +340,7 @@ class Network {
 		// return 100;
 		try {
 			$currentUser = ParseUser::getCurrentUser();
-			
+
 			if ($currentUser) {
 				$budgets = $currentUser->get("budgets");
 				// echo print_r($budgets) . "asdfasf ";
@@ -349,13 +350,13 @@ class Network {
 					if (strcmp($budgets[$i]->get("category"), $categoryName) == 0) {
 						// echo "cat equal \n";
 						$month = $budgets[$i]->get("month");
-						
+
 						if ($month->format('Y-m') == $monthYear) {
 							$amount = $budgets[$i]->get("amount");
 							// echo $amount;
 							return $amount;
 						}
-						
+
 
 					}
 				}
@@ -469,8 +470,8 @@ class Network {
 // $transaction3->set("isAnAsset", true);
 // $trans = array($transaction1, $transaction2, $transaction3);
 // $arr = array("Checkinggggg" => $trans);
-// //Network::addAccount("Checkinggggg", true);
-// //Network::addTransactionsToAccounts($arr);
+// Network::addAccount("Checkinggggg", true);
+// Network::addTransactionsToAccounts($arr);
 // $start = new DateTime("2016-03-01");
 // $end = new DateTime("2016-03-30");
 // Network::getTransactionsForCategoryWithinDates("food", $start, $end);
