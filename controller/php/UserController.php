@@ -510,7 +510,7 @@ function getBudgetInformation($categoryName, $monthYear){
 
 	$amountSpent = 0;
 	$success =  "FAIL";
-	if($transactions != NULL){
+	if ($transactions != NULL) {
 		foreach ($transactions as $transaction) {
 			$isAsset = $transaction->get("isAsset");
 			$amount = $transaction->get("amount");
@@ -530,7 +530,8 @@ function getBudgetInformation($categoryName, $monthYear){
 }
 
 function setBudget($categoryName, $monthYear, $newBudget) {
-	$monthYear = new DateTime($monthYear . '-31');
+	echo $categoryName." ".$monthYear." ".$newBudget;
+	$monthYear = new DateTime($monthYear . '-01');
 	Network::addBudget($categoryName, $monthYear, $newBudget);
 }
 ?>

@@ -183,21 +183,22 @@ function getBudget() {
 
     // var resultInArr = [100,100];
 
-    if (resultInArr.length = 2) {
+    if (resultInArr.length == 2) {
         document.getElementById('category').innerHTML = catName;
         document.getElementById('amount-spent').innerHTML = resultInArr[1];
         document.getElementById('budget').innerHTML = resultInArr[0];
+        console.log('new budget: '+resultInArr[0] +'\n');
+        console.log('amount spent: '+resultInArr[1] +'\n');
 
-        if (resultInArr[0] > resultInArr[1]) {
+        if (resultInArr[0] > resultInArr[1] + 10) {
             document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
             document.getElementById('budget').setAttribute("style", "color:#32CD32");
-        } else if (resultInArr[0] < resultInArr[1]) {
-            document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
-            document.getElementById('budget').setAttribute("style", "color:#DC143C");
-        } else {
-
+        } else if (resultInArr[0] > resultInArr[1]) {
             document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
             document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+        } else {
+            document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+            document.getElementById('budget').setAttribute("style", "color:#DC143C");
         }
         document.getElementById('set-budget-btn').disabled = false;
     }
@@ -210,16 +211,21 @@ function setBudget() {
     var amountSpent = document.getElementById('amount-spent').innerHTML;
 
     document.getElementById('budget').innerHTML = newBudget;
+   
 
-    if (newBudget > amountSpent) {
+    if (newBudget > amountSpent + 10) {
         document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
         document.getElementById('budget').setAttribute("style", "color:#32CD32");
-    } else if (newBudget < amountSpent) {
-        document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
-        document.getElementById('budget').setAttribute("style", "color:#DC143C");
-    } else {
+    } else if (newBudget >= amountSpent) {
         document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
         document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+        // document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+        // document.getElementById('budget').setAttribute("style", "color:#DC143C");
+    } else {
+        document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+        document.getElementById('budget').setAttribute("style", "color:#DC143C");
+        // document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+        // document.getElementById('budget').setAttribute("style", "color:#FDFF00");
     }
 
     var catName = document.getElementById('category-input').value;
@@ -227,7 +233,8 @@ function setBudget() {
     var arguments = '&category_input=' + catName + '&month_input=' + monthYear + '&newBudget=' + newBudget;
 
 
-    phpRequest("setBudget", arguments);
+    var chumble = phpRequest("setBudget", arguments);
+    alert(chumble);
 }
 
 // ajax func to handel all call to php
