@@ -495,7 +495,13 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 
 function getBudgetInformation($categoryName, $monthYear){
 
-	$success =  "FAIL";
+	$success = "FAIL";
+	if( ($categoryName == "" || $categoryName == NULL)||($monthYear == "" || $monthYear == NULL) ){
+		$budgetAmount = 0;
+		$amountSpent = 0;
+		echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
+		return $success;
+	}
 	//get the first and last day of the month
 	$startDate = new DateTime($monthYear . '-01');
 	$endDate = clone $startDate;

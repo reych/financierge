@@ -125,10 +125,9 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		logout();
 	}
 
-
 	public function testGetBudgetInformation() {
 		login("test4", "t4");
-		$file_path11 = "home/teamh/financierge/resources/JeffsData.csv";
+		$file_path11 = "../resources/JeffsData.csv";
 		uploadCSV($file_path11);
 		$result = getBudgetInformation("test", "2016-01");
 		$this->assertEquals($result, "FAIL");
@@ -143,11 +142,42 @@ class UserControllerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, "SUCCESS");
 	}
 
+	public function testNoDateProvidedForBudgetInfoShouldReturnZero(){
+		$result = getBudgetInformation("food", "");
+		$this->assertEquals($result, "FAIL");
+
+		$result = getBudgetInformation("food", NULL);
+		$this->assertEquals($result, "FAIL");
+	}
+
+	public function testNoCategoryProvidedForBudgetInfoShouldReturnZero(){
+		$result = getBudgetInformation("", "2016-03");
+		$this->assertEquals($result, "FAIL");
+
+		$result = getBudgetInformation(NULL, "2016-03");
+		$this->assertEquals($result, "FAIL");
+	}
+
+	public function testNoEndDateProvidedForGraphIntervalShouldReturnNull(){
+
+	}
+
+	public function testBudgetIsResetedInRealTime(){
+		$result = getBudgetInformation("food", "2016-03");
+		$this->assertEquals($result, "SUCCESS");
+
+		setBudget("food", "2016-03", 50);
+
+		$result = getBudgetInformation("food", "2016-03");
+		$this->assertEquals($result, "SUCCESS");
+
+
+	}
 
 	public function testLogout() {
 
 		//clear database before login out, for testing purposes
-		$file_path12 = "/home/teamh/financierge/resources/deleteall.csv";
+		$file_path12 = "../resources/deleteall.csv";
 		$result = uploadCSV($file_path12);
 		echo "database cleared" . "\n";
 		$result = logout();

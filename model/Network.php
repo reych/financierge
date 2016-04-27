@@ -378,7 +378,7 @@ class Network {
 				}
 			}
 		} catch (ParseException $error) {
-			echo "error cauth: " . $error->getMessage();
+			echo "error caugth: " . $error->getMessage();
 		}
 		return 0;
 	}
