@@ -88,6 +88,8 @@ function logInController() {
     // var result
     var result = phpRequest('login', '', usrName, passWrd);
 
+    // alert(result);
+
     // check content of result if success, redirect to index
     if (result == 'SUCCESS') {
         window.location = "index.html";
@@ -171,14 +173,74 @@ function logoutController() {
     window.location = "login.html";
 }
 
-function getBudget(catName, monthYear) {
-    var arguments = '&category_input=' + catName + '&month_input='
-                    + monthYear;
+function getBudget() {
+
+
+    var catName = document.getElementById('category-input').value;
+    var monthYear = document.getElementById('month-input').value;
+
+    var arguments = '&category_input=' + catName + '&month_input=' + monthYear;
     var result = phpRequest('getBudgetInformation', arguments);
+
+    //alert(result);
+    // return;
     var resultInArr = result.split('_');
-    if (resultInArr.length = 2) {
-        // document.getElementById('id').
+
+    // var resultInArr = [100,100];
+    resultInArr[0] = parseFloat(resultInArr[0]);
+    resultInArr[1] = parseFloat(resultInArr[1]);
+    if (resultInArr.length == 2) {
+        document.getElementById('category').innerHTML = catName;
+        document.getElementById('amount-spent').innerHTML = resultInArr[1];
+        document.getElementById('budget').innerHTML = resultInArr[0];
+        console.log('new budget: '+resultInArr[0] +'\n');
+        console.log('amount spent: '+resultInArr[1] +'\n');
+
+        if (resultInArr[0] > resultInArr[1] + 10) {
+            document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
+            document.getElementById('budget').setAttribute("style", "color:#32CD32");
+        } else if (resultInArr[0] > resultInArr[1]) {
+            document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+            document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+        } else {
+            document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+            document.getElementById('budget').setAttribute("style", "color:#DC143C");
+        }
+        document.getElementById('set-budget-btn').disabled = false;
     }
+}
+
+function setBudget() {
+
+    var newBudget = document.getElementById('set-budget').value;
+    document.getElementById('set-budget').value = "";
+    var amountSpent = document.getElementById('amount-spent').innerHTML;
+    amountSpent = parseFloat(amountSpent);
+    document.getElementById('budget').innerHTML = newBudget;
+
+    // alert(newBudget  + " " + amountSpent);
+    if (newBudget > amountSpent + 10) {
+        document.getElementById('amount-spent').setAttribute("style", "color:#32CD32");
+        document.getElementById('budget').setAttribute("style", "color:#32CD32");
+    } else if (newBudget >= amountSpent) {
+        document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+        document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+        // document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+        // document.getElementById('budget').setAttribute("style", "color:#DC143C");
+    } else {
+        document.getElementById('amount-spent').setAttribute("style", "color:#DC143C");
+        document.getElementById('budget').setAttribute("style", "color:#DC143C");
+        // document.getElementById('amount-spent').setAttribute("style", "color:#FDFF00");
+        // document.getElementById('budget').setAttribute("style", "color:#FDFF00");
+    }
+
+    var catName = document.getElementById('category-input').value;
+    var monthYear = document.getElementById('month-input').value;
+    var arguments = '&category_input=' + catName + '&month_input=' + monthYear + '&newBudget=' + newBudget;
+
+
+    var result = phpRequest("setBudget", arguments); // var chumble =
+    // document.getElementById('category').innerHTML = result;
 }
 
 // ajax func to handel all call to php

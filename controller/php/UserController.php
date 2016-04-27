@@ -3,15 +3,6 @@ include("/home/teamh/financierge/model/Network.php");
 include("/home/teamh/financierge/model/vendor/autoload.php");
 // include("../../model/Network.php");
 // include("../../model/vendor/autoload.php");
-// use Parse\ParseClient;
-// use Parse\ParseException;
-// use Parse\ParseObject;
-// use Parse\ParseQuery;
-// use Parse\ParseUser;
-//
-// date_default_timezone_set("America/Los_Angeles");
-// session_start();
-// ParseClient::initialize("9DwkUswTSJOLVi7dkRJxDQNbwHSDlQx3NTdXz5B0", "6HFMDcw8aRr9O7TJ3Pw8YOWbecrdiMuAPEL3OXia", "IdmvCVEBYygkFTRmxOwUvSxtnXwlaGDF9ndq5URq");
 
 ////////This section of the code will only be accessed when
 //called from the HTML, this part handles the request from
@@ -50,6 +41,11 @@ if ($funcName == "uploadCSV") {
 	$catName = $_GET["category_input"];
 	$month = $_GET["month_input"];
 	getBudgetInformation($catName, $month);
+} else if ($funcName == "setBudget") {
+	$catName = $_GET["category_input"];
+	$month = $_GET["month_input"];
+	$newBudget = $_GET["newBudget"];
+	setBudget($catName, $month, $newBudget);
 }
 
 // logs user into our Parse database. Accepts a username and password as strings
@@ -154,24 +150,9 @@ function uploadCSV($fileName){
 					// add this array to the array holding all transactions
 					$allNewTransactions[$acntName] = $tempArr;
 				}
-
-				// the category does not yet exist in our liability array
-				if (!array_key_exists($ctgry, $transactionsByCategory)) {
-					// add it
-					$tempArr = array();
-
-					$transactionsByCategory[$ctgry] = $tempArr;
-				}
-				// add transaction to asset array
-				array_push($transactionsByCategory[$ctgry], $newTrans);
-
 			}
 		}
 		Network::addTransactionsToAccounts($allNewTransactions);
-
-		// array with keys of categories with values of arrays of
-		// transactions (assets and liabilities)
-		Network::addTransToCategories($transactionsByCategory);
 
         echo '<script language="javascript">';
         echo 'window.location.assign("../../index.html");';
@@ -275,7 +256,6 @@ function userLoggedIn() {
 		return "FALSE";
 	}
 }
-
 
 // will return nothing if the acocunt doesn't have any transactions.
 // $acctName takes a string as the account name and the $acctTrans
@@ -456,6 +436,8 @@ function getBaseDataForGraph() {
 	$baseDataString = $formattedNetworth . $formattedAssets . $formattedLiabilities . $accountGraphData;
 
 	echo $baseDataString;
+	// writeToFile($transAssets, "assets");
+	// writeToFile($transLiabilities, "liabilities");
 	return "SUCCESS";
 }
 
@@ -513,24 +495,25 @@ function formatGraphDataToString($name, $dailyValuesAssocArray){
 
 function getBudgetInformation($categoryName, $monthYear){
 
-	if ($monthYear == NULL || $monthYear == "") {
-		//Dont allow this in the front end!
-	}
-
+	$success =  "FAIL";
 	//get the first and last day of the month
-	$startDate = new DateTime("01/". $startDate);
-	$endDate = new DateTime("31/". $startDate);
+	$startDate = new DateTime($monthYear . '-01');
+	$endDate = clone $startDate;
+	$endDate->modify("+1 month");
+	$endDate->modify("-1 day");
 
-	$budgetAmount = Network::getBudgetAmount($categoryName, $monthYear);
+	$budgetAmount = Network::getAmountForBudget($categoryName, $startDate);
 
-	$transactions = Network::getTransactionsForCategorytWithinDates($categoryName, $startDate, $endDate);
+	// echo $budgetAmount;
+	// return;
+
+	$transactions = Network::getTransactionsForCategoryWithinDates($categoryName, $startDate, $endDate);
 
 	$amountSpent = 0;
-	$success =  "FAIL";
-	if($transactions != NULL){
+	if ($transactions != NULL) {
 		foreach ($transactions as $transaction) {
 			$isAsset = $transaction->get("isAsset");
-			$amount = $transaction->get("amount");
+			$amount = floatval($transaction->get("amount"));
 
 			if($isAsset){
 				$amountSpent -= $amount;
@@ -541,8 +524,68 @@ function getBudgetInformation($categoryName, $monthYear){
 		$success = "SUCCESS";
 	}
 
+	// $amountSpent = getAmountSpent($categoryName, $monthYear);
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
 	return $success;
 }
+
+function setBudget($categoryName, $monthYear, $newBudget) {
+
+	$monthYear = new DateTime($monthYear . '-01');
+	$result = $monthYear->format('Y-m-d H:i:s');
+	// echo $categoryName." ".$result." ".$newBudget;
+	echo Network::addBudget($categoryName, $monthYear, floatval($newBudget));
+}
+
+/*
+function writeToFile($arrayToWrite, $typeInStr) {
+	$cacheStr = "";
+	foreach ($arrayToWrite as $trans) {
+		$cacheStr .= $typeInStr . "_" . $trans->get('date')->format("Y-m-d") . "_" . $trans->get("amount") . "_" . $trans->get("category") . "|";
+
+	}
+	$pass = 'guessmyPW';
+	$method = 'aes256';
+	file_put_contents("../../" . $typeInStr  . ".txt", openssl_encrypt($cacheStr, $method, $pass));
+}
+
+function getAmountSpent($categoryName, $monthYear) {
+	$amountSpent = 0;
+
+	$pass = 'guessmyPW';
+	$method = 'aes256';
+
+	$cachedStr = file_get_contents("../../assets.txt");
+	$cachedTransArray = explode('|', openssl_decrypt($cachedStr, $method, $pass));
+	$cachedStr = file_get_contents("../../liabilities.txt");
+	$cachedTransArray = array_merge($cachedTransArray, explode('|', openssl_decrypt($cachedStr, $method, $pass)));
+	foreach ($cachedTransArray as $cachedTrans) {
+	    $cachedTransInfoArray = explode('_', $cachedTrans);
+	    // assets_2016-03-28_-1_leisure
+	    // --0--  -----1---- 2- ---3---
+	    // echo $cachedTrans . "";
+	    // echo $cachedTransInfoArray[3] . " ";
+	    if (count($cachedTransInfoArray) > 1 && withInDateRange($cachedTransInfoArray[1], $monthYear) && $cachedTransInfoArray[3] == $categoryName) {
+	        if($cachedTransInfoArray[0] == "assets"){
+	            $amountSpent -= $cachedTransInfoArray[2];
+	        } else {
+	            $amountSpent += $cachedTransInfoArray[2];
+	        }
+	    }
+
+
+	}
+	// print_r($cachedTransArray);
+	return $amountSpent;
+
+
+}
+
+function withInDateRange($transTime, $desiredTime) {
+	 $transTime =  substr($transTime, 0, -3);
+	//  echo $transTime . " " . $desiredTime;
+	 return $transTime == $desiredTime;
+}
+*/
 ?>
