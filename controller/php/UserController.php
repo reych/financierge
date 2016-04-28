@@ -436,8 +436,8 @@ function getBaseDataForGraph() {
 	$baseDataString = $formattedNetworth . $formattedAssets . $formattedLiabilities . $accountGraphData;
 
 	echo $baseDataString;
-	// writeToFile($transAssets, "assets");
-	// writeToFile($transLiabilities, "liabilities");
+	writeToFile($transAssets, "assets");
+	writeToFile($transLiabilities, "liabilities");
 	return "SUCCESS";
 }
 
@@ -513,8 +513,8 @@ function getBudgetInformation($categoryName, $monthYear){
 	// echo $budgetAmount;
 	// return;
 
-	$transactions = Network::getTransactionsForCategoryWithinDates($categoryName, $startDate, $endDate);
-
+	// $transactions = Network::getTransactionsForCategoryWithinDates($categoryName, $startDate, $endDate);
+	/*
 	$amountSpent = 0;
 	if ($transactions != NULL) {
 		foreach ($transactions as $transaction) {
@@ -529,7 +529,8 @@ function getBudgetInformation($categoryName, $monthYear){
 		}
 		$success = "SUCCESS";
 	}
-	// $amountSpent = getAmountSpent($categoryName, $monthYear);
+	*/
+	$amountSpent = getAmountSpent($categoryName, $monthYear);
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
 	return $success;
@@ -543,7 +544,6 @@ function setBudget($categoryName, $monthYear, $newBudget) {
 	echo Network::addBudget($categoryName, $monthYear, floatval($newBudget));
 }
 
-/*
 function writeToFile($arrayToWrite, $typeInStr) {
 	$cacheStr = "";
 	foreach ($arrayToWrite as $trans) {
@@ -593,5 +593,5 @@ function withInDateRange($transTime, $desiredTime) {
 	//  echo $transTime . " " . $desiredTime;
 	 return $transTime == $desiredTime;
 }
-*/
+
 ?>
