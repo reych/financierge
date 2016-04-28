@@ -529,7 +529,6 @@ function getBudgetInformation($categoryName, $monthYear){
 		}
 		$success = "SUCCESS";
 	}
-
 	// $amountSpent = getAmountSpent($categoryName, $monthYear);
 
 	echo $budgetAmount . "_" . $amountSpent . PHP_EOL;
@@ -551,21 +550,22 @@ function writeToFile($arrayToWrite, $typeInStr) {
 		$cacheStr .= $typeInStr . "_" . $trans->get('date')->format("Y-m-d") . "_" . $trans->get("amount") . "_" . $trans->get("category") . "|";
 
 	}
+	$iv = "1234567812345678";
 	$pass = 'guessmyPW';
 	$method = 'aes256';
-	file_put_contents("../../" . $typeInStr  . ".txt", openssl_encrypt($cacheStr, $method, $pass));
+	file_put_contents("../../" . $typeInStr  . ".txt", openssl_encrypt($cacheStr, $method, $pass, true, $iv));
 }
 
 function getAmountSpent($categoryName, $monthYear) {
 	$amountSpent = 0;
-
+	$iv = "1234567812345678";
 	$pass = 'guessmyPW';
 	$method = 'aes256';
 
 	$cachedStr = file_get_contents("../../assets.txt");
-	$cachedTransArray = explode('|', openssl_decrypt($cachedStr, $method, $pass));
+	$cachedTransArray = explode('|', openssl_decrypt($cachedStr, $method, $pass, true, $iv));
 	$cachedStr = file_get_contents("../../liabilities.txt");
-	$cachedTransArray = array_merge($cachedTransArray, explode('|', openssl_decrypt($cachedStr, $method, $pass)));
+	$cachedTransArray = array_merge($cachedTransArray, explode('|', openssl_decrypt($cachedStr, $method, $pass, true, $iv)));
 	foreach ($cachedTransArray as $cachedTrans) {
 	    $cachedTransInfoArray = explode('_', $cachedTrans);
 	    // assets_2016-03-28_-1_leisure

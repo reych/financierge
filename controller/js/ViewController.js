@@ -146,7 +146,7 @@ function sortTransactions(sortType){
     if(selectedTabs[0] !== undefined && selectedTabs[0] != undefined) {
         var accountName = selectedTabs[0].id.substring(4);
         if(isValidSortType(sortType)){
-            var arguments = '&accName=' + accountName + '&sortType=' + sortType;
+            var arguments = '&accName=' + accountName + '&sortType=' + sortType + '&startDate=&endDate=';
             var result = phpRequest('getTransactionsForList', arguments);
             var contentID = 'content-'+accountName;
             var contentDiv = document.getElementById(contentID);
