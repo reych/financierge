@@ -295,6 +295,9 @@ function getBaseDataForGraph() {
 	$transAssets = array();
 	$transLiabilities = array();
 
+	writeToFile($transAssets, "assets");
+	writeToFile($transLiabilities, "liabilities");
+
 	$accountGraphData = "";
 
 	//Getting liability and asset arrays for transactions

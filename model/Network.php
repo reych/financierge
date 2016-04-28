@@ -460,7 +460,7 @@ class Network {
 		} catch (ParseException $error) {
 			echo $error->getMessage();
 		}
-		return false;
+		return true;
 	}
 }
 
